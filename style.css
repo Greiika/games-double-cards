@@ -1,0 +1,266 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.game-header {
+    padding: 0 25px;
+    margin-top: 25px;
+}
+
+.game-home {
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px;
+    background-color: bisque;
+    width: 100px;
+    height: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease-in;
+}
+
+.game-home:hover {
+    background-color: burlywood;
+    transition: all 0.3s ease-in;
+}
+
+/* help */
+
+.main-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #424245;
+}
+
+.help {
+    position: absolute;
+    left: calc(50% - 420px);
+    top: calc(50% - 140px);
+    background-color: burlywood;
+    width: 100px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding: 15px;
+    cursor: pointer;
+}
+
+.active {
+    transition: all 0.5s;
+    box-shadow: 0px 10px 10px green;
+}
+
+.game-box {
+    width: 100%;
+    height: 70px;
+    background-color: cadetblue;
+    border-radius: 10px;
+    transition: all 0.5s;
+    box-shadow: 0px .5px 20.0px .5px rgba(0, 0, 0, 1);
+}
+
+.game-box:hover {
+    transition: all 0.5s;
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
+}
+
+.game-box:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+.game-placeholder {    
+}
+
+.game-placeholder:hover {
+}
+
+.game-multiplierX2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+}
+
+.game-img {
+    border-radius: 10px;
+}
+
+
+/* double cards */
+
+.game-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+
+}
+
+.card {
+    width: 100px;
+    height: 150px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.card.shake {
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(-13px);
+    }
+    40% {
+        transform: translateX(13px);
+    }
+    60% {
+        transform: translateX(-8px);
+    }
+    80% {
+        transform: translateX(8);
+    }
+}
+
+.card-img {
+    border-radius: 10px;
+    box-shadow: 0.3px 0.3px 0.3px 0.3px rgba(0, 0, 0, 0.1);
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s linear;
+    user-select: none;
+    pointer-events: none;
+}
+
+.card-front,
+.card-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: burlywood;
+    border-radius: 10px;
+    font-size: 50px;
+    color: white;
+    box-shadow: 0.02em 0.02em 0.02em 0.02em rgba(0, 0, 0, 0.1);
+    user-select: none;
+    pointer-events: none;
+}
+
+.card.visible .card-inner{
+    transform: rotateY(-180deg);
+}
+
+.card-back {
+    transform: rotateY(-180deg);
+    background-color: cornflowerblue;
+}
+
+
+/*  */
+
+.game-text {
+    color: aliceblue;
+    font-size: 22px;
+}
+.count {
+}
+
+
+/* arrows */
+
+.game-arrows {
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+.game-arrow {
+    transition: all 0.5s ease;
+    border: none;
+    background-color: blanchedalmond;
+    border-radius: 50px;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+    width: 220px;
+}
+.arrow-prev {
+
+}
+
+.arrow-prev,
+.arrow-next {
+    
+}
+
+.arrow-prev:hover,
+.arrow-next:hover  {
+    background-color: burlywood;
+}
+
+.arrow-next {
+}
+
+
+
+/* home */
+
+.game-header {
+}
+.game-home {
+}
+.game-link {
+}
+
+
+
+.home-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(26, 26, 87);
+    color: aliceblue;
+    min-height: 100vh;
+}
+
+.game-new,
+.game-continueб
+.game-other-games {
+    width: 200px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(26, 95, 26);
+    cursor: pointer;
+    border-radius: 50px;
+}
+
+.game-new {
+}
+
+.game-continue {
+    cursor: pointer;
+    margin-top: 25px;
+}

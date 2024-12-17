@@ -1,0 +1,1 @@
+let magnicBoard = document.querySelector('.game-board');
