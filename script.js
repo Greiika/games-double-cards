@@ -8,7 +8,7 @@ let parentCard = document.querySelector('.game-wrapper');
 let clickItem = document.querySelectorAll('.card');
 
 function doubleCard(arr) {
-
+    
     let ArrImgBack = [];
     let count = 1;
 
