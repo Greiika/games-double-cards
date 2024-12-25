@@ -3,17 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>games double cards 1.0</title>
+    <title>games double cards 1.7.1</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <div class="container">
             <div class="game-header">
-                <div class="game-home">
-                    <a href="home.html" class="game-link">
-                        <h2>HOME</h2>
-                    </a>
+                <a class="game-link" href="home.html" >
+                    <div class="game-home">
+                        <h2>Главная страница</h2>
+                    </div>
+                </a>
+
+                <div class="game-title">
+                    <h1>Double Cards</h1>
+                </div>
+
+                <div class="game-wallet wallet">
+                    <div class="wallet-logo"><img src="img/wallet/sota.jpg" alt=""></div>
+                    <div class="wallet-honeycomb">1000</div>
                 </div>
             </div>
         </div>
@@ -22,20 +31,24 @@
         <div class="container">
             <div class="main-wrapper">
                 <div class="help">
-                    <div class="game-placeholder game-box" > <img class="game-img" src="img/placeholderImg.jpg" alt=""></div>
-                    <div class="game-multiplierX2 game-box">X2</div>
+                    <div class="game-placeholder game-box" > <img class="game-img" src="img/help/placeholderImg.jpg" alt=""> <div class="game-priceBtn placeholder"><p class="game-price">100</p></div></div>
+                    <div class="game-multiplierX2 game-box"> <p>X2</p> <div class="game-priceBtn multiplierX2"><p class="game-price">500</p></div></div>
                     <!-- <div class="game-text game-box"></div> -->
                 </div>
 
-                <div class="game-text"><span class="count">1</span> Уровень</div>
+                <div class="wrapper">
+                    <div class="game-text"><span class="count">1</span> Уровень</div>
     
-                <div class="game-wrapper">
+                    <div class="game-wrapper">
 
+                    </div>
+                    <div class="game-arrows">
+                        <button class="game-arrow arrow-next">следующий уровень</button>
+                    </div>
                 </div>
-                <div class="game-arrows">
-                    <!-- <button class="game-arrow arrow-prev">предыдущий уровень</button> -->
-                    <button class="game-arrow arrow-next">следующий уровень</button>
-                </div>
+
+
+                <div class="elementID"></div>
             </div>
         </div>
     </main>
