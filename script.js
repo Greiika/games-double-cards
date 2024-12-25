@@ -6,7 +6,8 @@ import imgBackVierUndZwanZig from './arrImgs/arrImgBackVierUndZwanZig.js';
 
 let parentCard = document.querySelector('.game-wrapper');
 let clickItem = document.querySelectorAll('.card');
-let walletBalance = document.querySelector('.wallet-honeycomb');
+let walletBalance = document.querySelector('.balance');
+let walletHoneycomb = document.querySelector('.wallet-honeycomb');
 
 // background
 
@@ -99,7 +100,7 @@ function matchCards(img1, img2) {
         index = matchedCard;
 
         if (index) {
-            if (walletBalance.classList.contains('numX2')) {
+            if (walletHoneycomb.classList.contains('numX2')) {
                 setNum = honeyComb * matchedCard;
                 getNumX2(setNum);
             } else {
@@ -197,9 +198,10 @@ let hint = document.querySelector('.placeholder');
 hint.addEventListener('click', hintCard);
 
 function hintCard(e) {
-    let clickHint = e.target
+    let clickHint = e.target;
+    let childClickHint = clickHint.getElementsByClassName('game-price');
     let img1, img2;
-    getBalance(clickHint)
+    getBalance(childClickHint[0])
     for (let item of clickItem) {
         if (item.classList.contains('visible') ) {
             let cardsImg = document.querySelectorAll('.card');
@@ -208,12 +210,12 @@ function hintCard(e) {
                 img2 = elem.querySelector('img').src;
                 if (img1 == img2) {
                     if (!elem.classList.contains('visible')) {
-                        elem.childNodes[0].classList.add('active');
+                        elem.childNodes[0].classList.add('activeCard');
                         elem.childNodes[0].style.cssText = 'transition: all 0.5s';
-                        
                     }
                     setTimeout (() => {
-                        elem.childNodes[0].classList.remove('active');
+                        elem.childNodes[0].classList.remove('activeCard');
+                        elem.childNodes[0].style.cssText = 'transition: all 0.5s';
                         elem.childNodes[0].style.cssText = '';
                     }, 2000)
                 };
@@ -265,17 +267,15 @@ let sumHoneyComb;
 multiplierX2.addEventListener('click', numX2Card);
 
 function numX2Card(e) {
-    walletBalance.classList.add('numX2');
-    // if (walletBalance.classList.contains('numX2')) {
-    //     console.log('true')
-    //     let span = document.createElement('span');
-    //     span.innerHTML = 'X2';
-    //     span.style.marginLeft = '10px'
-    //     span.style.fontSize = '18px';
-    //     walletBalance.append(span);
-    // }
+    walletHoneycomb.classList.add('numX2');
+    if (walletHoneycomb.childNodes[1].classList.contains('x2')) {
+        walletHoneycomb.childNodes[1].classList.add('activeX2');
+    }
     let clickNumX2 = e.target;
-    getBalance(clickNumX2);
+    console.log(clickNumX2)
+    let childclickNumX2 = clickNumX2.getElementsByClassName('game-price');
+    console.log(childclickNumX2[0])
+    getBalance(childclickNumX2[0]);
     timerX2();
 };
 
@@ -313,8 +313,8 @@ function timerX2() {
         flagTimer = true;
     };
     
+    div.innerHTML = `0:${second--}`
     setTimeout(() => {
-        div.innerHTML = `0:${--second}`
         if (second < 10) {
             div.innerHTML = `0:0${second}`
         };
@@ -322,7 +322,8 @@ function timerX2() {
             timerX2()
         } else if (second == 0) {
             div.style.display = 'none';
-            walletBalance.classList.remove('numX2');
+            walletHoneycomb.childNodes[1].classList.remove('activeX2');
+            walletHoneycomb.classList.remove('numX2');
         };
     }, 1000);   
 };
