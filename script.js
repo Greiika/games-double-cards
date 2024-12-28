@@ -8,6 +8,7 @@ let parentCard = document.querySelector('.game-wrapper');
 let clickItem = document.querySelectorAll('.card');
 let walletBalance = document.querySelector('.balance');
 let walletHoneycomb = document.querySelector('.wallet-honeycomb');
+let shadowLevelUp = document.querySelector('.game-shadow');  
 
 // background
 
@@ -16,6 +17,55 @@ bodyBg.style.backgroundImage = 'url(img/bg/bgCardUp-1.jpg)';
 bodyBg.style.backgroundRepeat = 'no-repeat';
 bodyBg.style.backgroundSize = 'cover';
 
+
+// balance
+
+function addingApoint(str) {
+    let strNum = String(str);
+    if (strNum.length == 4) {
+       return walletBalance.innerHTML = strNum[0] + '.' + strNum.slice(1);
+    } else {
+        walletBalance.innerHTML = strNum;
+    };
+
+    if (strNum.length == 5) {
+       walletBalance.textContent = strNum.slice(0,2) + '.' + strNum.slice(2);
+    } else {
+        walletBalance.innerHTML = strNum;
+    };
+
+    if (strNum.length == 6) {
+       return walletBalance.textContent = strNum.slice(0,3) + '.' + strNum.slice(3);
+    } else {
+
+    };
+
+    if (strNum.length == 7) {
+        return walletBalance.textContent = strNum[0] + '.' + strNum.slice(1, 4) + '.' + strNum.slice(1, 4);
+    } else {
+
+    };
+}
+addingApoint(walletBalance.innerHTML);
+
+// let ms = 10000;
+// let step = 1;
+
+// function numAnim(num) {
+//     let balance = document.querySelector('.balance');
+//     let n = 0;
+//     let time = Math.round(ms / (num / step))
+//     console.log(time)
+//     let interval = setInterval(() => {
+//         n = n + step;
+//         if (n == num) {
+//             clearInterval(interval)
+//         }
+//         balance.innerHTML = n;
+//     }, time)
+// }
+
+// numAnim(1000)
 
 let honeyComb = 10; 
 
@@ -94,7 +144,8 @@ function matchCards(img1, img2) {
     let countCard = 0;
     let resultNum, getNum, setNum;
     let index = 0;
-    let balance = Number(walletBalance.innerHTML);
+    let getBalance = walletBalance.innerHTML;
+    let balance = Number(getBalance.split('.').join(''));
     if (img1 == img2) {
         matchedCard++;
         index = matchedCard;
@@ -105,7 +156,7 @@ function matchCards(img1, img2) {
                 getNumX2(setNum);
             } else {
                 getNum = balance + (honeyComb * matchedCard);
-                walletBalance.innerHTML = getNum;
+                addingApoint(getNum);
             }
         }
 
@@ -115,7 +166,9 @@ function matchCards(img1, img2) {
         }
 
         if (matchedCard == resultNum) {
-
+            if (shadowLevelUp.classList.contains('game-shadow')) {
+                shadowLevelUp.classList.add('activeShadow');
+            }
             setTimeout(() => {
                 shuffleCard();
             }, 1000);
@@ -169,20 +222,24 @@ function levelUp () {
         countLevel.innerHTML =  ++level;
         parentCard.innerHTML = '';
         if (level == 2 ) {
+            shadowLevelUp.classList.remove('activeShadow');
             doubleCard(imgBackSechZehn);
         };
 
         if (level == 3 ) {
+            shadowLevelUp.classList.remove('activeShadow');
             parentCard.style.cssText = 'grid-template-columns: repeat(6, 1fr)';
             doubleCard(imgBackVierUndZwanZig);
         };
 
         if (level == 4 ) {
+            shadowLevelUp.classList.remove('activeShadow');
             parentCard.style.cssText = 'grid-template-columns: repeat(8, 1fr)';
             doubleCard(imgBackZweiUndDreiSig);
         };
 
         if (level == 5 ) {
+            shadowLevelUp.classList.remove('activeShadow');
             parentCard.style.cssText = 'grid-template-columns: repeat(10, 1fr)';
             doubleCard(imgBackVierZig);
         };
@@ -231,17 +288,16 @@ let numPrice, getNumPrice;
 
 function getBalance(price) {
     numPrice = Number(price.innerHTML);
-    let balance = Number(walletBalance.innerHTML);
+    let getBalance = walletBalance.innerHTML;
+    let balance = Number(getBalance.split('.').join(''));
     let parent = price.parentElement;
     for (let item of clickItem) {
         if (item.classList.contains('visible') && balance >= numPrice ) {
             getNumPrice = balance - numPrice;
-            walletBalance.innerHTML = getNumPrice;
-            return walletBalance.innerHTML = getNumPrice;
+            addingApoint(getNumPrice);
         } else if (parent.classList.contains('multiplierX2') && balance >= numPrice ) {
             getNumPrice = balance - numPrice;
-            walletBalance.innerHTML = getNumPrice;
-            return walletBalance.innerHTML = getNumPrice;
+            addingApoint(getNumPrice);
         } else if (balance <= 0) {
             walletBalance.style.color = 'red', 
             walletBalance.innerHTML = '0';
@@ -272,16 +328,17 @@ function numX2Card(e) {
         walletHoneycomb.childNodes[1].classList.add('activeX2');
     }
     let clickNumX2 = e.target;
-    console.log(clickNumX2)
     let childclickNumX2 = clickNumX2.getElementsByClassName('game-price');
-    console.log(childclickNumX2[0])
     getBalance(childclickNumX2[0]);
     timerX2();
 };
 
 function getNumX2(num) {
     sumHoneyComb = num * 2;
-    walletBalance.innerHTML = Number(walletBalance.innerHTML) + sumHoneyComb;
+    let getBalance = walletBalance.innerHTML;
+    let balance = Number(getBalance.split('.').join(''));
+    let summaX2 = balance + sumHoneyComb;
+    addingApoint(summaX2);
 };
 
 
@@ -313,8 +370,9 @@ function timerX2() {
         flagTimer = true;
     };
     
-    div.innerHTML = `0:${second--}`
+    
     setTimeout(() => {
+        div.innerHTML = `0:${second--}`
         if (second < 10) {
             div.innerHTML = `0:0${second}`
         };
