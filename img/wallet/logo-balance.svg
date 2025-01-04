@@ -1,0 +1,21 @@
+<svg width="30" height="30" viewBox="0 0 31 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="31" height="30" fill='none'/>
+<line x1="13.5938" y1="9.06978" x2="5.18362" y2="9.06978" stroke="#F1BF33" stroke-width="1"/>
+<line y1="-1.5" x2="8.41521" y2="-1.5" transform="matrix(-0.499969 -0.866043 0.865978 -0.500083 17.799 14.8592)" stroke="#F1BF33" stroke-width="1"/>
+<line y1="-1.5" x2="8.41054" y2="-1.5" transform="matrix(0.499969 -0.866043 0.865977 0.500083 13.594 22.1438)" stroke="#F1BF33" stroke-width="1"/>
+<line x1="5.18362" y1="20.6486" x2="13.5938" y2="20.6486" stroke="#F1BF33" stroke-width="1"/>
+<line x1="2.27758" y1="14.1092" x2="6.48293" y2="21.393" stroke="#F1BF33" stroke-width="1"/>
+<line y1="-1.5" x2="8.41054" y2="-1.5" transform="matrix(-0.499969 0.866043 -0.865978 -0.500084 5.18228 7.57455)" stroke="#F1BF33" stroke-width="1"/>
+<line x1="26.7721" y1="16.6395" x2="18.3619" y2="16.6395" stroke="#F1BF33" stroke-width="1"/>
+<line y1="-1.5" x2="8.41521" y2="-1.5" transform="matrix(-0.499969 -0.866043 0.865978 -0.500083 30.9773 22.429)" stroke="#F1BF33" stroke-width="1"/>
+<line y1="-1.5" x2="8.41054" y2="-1.5" transform="matrix(0.499969 -0.866043 0.865977 0.500083 26.7722 29.7136)" stroke="#F1BF33" stroke-width="1"/>
+<line x1="18.3619" y1="28.2184" x2="26.7721" y2="28.2184" stroke="#F1BF33" stroke-width="1"/>
+<line x1="15.4559" y1="21.679" x2="19.6612" y2="28.9628" stroke="#F1BF33" stroke-width="1"/>
+<line y1="-1.5" x2="8.41054" y2="-1.5" transform="matrix(-0.499969 0.866043 -0.865978 -0.500084 18.3606 15.1443)" stroke="#F1BF33" stroke-width="1"/>
+<line x1="26.7721" y1="1.5" x2="18.3619" y2="1.5" stroke="#F1BF33" stroke-width="1"/>
+<line y1="-1.5" x2="8.41521" y2="-1.5" transform="matrix(-0.499969 -0.866043 0.865978 -0.500083 30.9773 7.28941)" stroke="#F1BF33" stroke-width="1"/>
+<line y1="-1.5" x2="8.41054" y2="-1.5" transform="matrix(0.499969 -0.866043 0.865977 0.500083 26.7722 14.574)" stroke="#F1BF33" stroke-width="1"/>
+<line x1="18.3619" y1="13.0788" x2="26.7721" y2="13.0788" stroke="#F1BF33" stroke-width="1"/>
+<line x1="15.4559" y1="6.53943" x2="19.6612" y2="13.8233" stroke="#F1BF33" stroke-width="1"/>
+<line y1="-1.5" x2="8.41054" y2="-1.5" transform="matrix(-0.499969 0.866043 -0.865978 -0.500084 18.3606 0.004776)" stroke="#F1BF33" stroke-width="1"/>
+</svg>

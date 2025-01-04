@@ -8,18 +8,172 @@
 </head>
 <body>
     <div class="home-page">
-        <div class="game-new"><a class="link" href="index.html">Новая игра</a></div>
+        <div class="home-header">
+            
+            <div class="home-title game-title">
+                <h1>Мини игры</h1>
+            </div>
+
+            <div class="game-wallet wallet home-wallet">
+                <div class="wallet-logo"><img src="img/wallet/logo-balance-2.svg" alt=""></div>
+                <div class="wallet-honeycomb"><p class="balance">10000</p><p class="x2">x2</p></div>
+            </div>
+            <!-- <div class="test">0</div> -->
+        </div>
+        <div class="game-new"><a class="link" href="index.html" target="_self">Новая игра</a></div>
         <div class="game-continue"><a class="link" href="#">Продолжить игру</a></div>
-        <div class="game-other-games"><a class="link" href="#">Другие игры</a></div>
+        <div class="game-other-games"> <div class="game-shadow shadow">В разработке</div> <a class="link" href="#">Другие игры</a></div>
 
         <div class="game-schop">
-            <button>Магазин</button>
+            <button class="schopBtn">Магазин</button>
         </div>
     </div>
     
     <div class="modal-schop">
+        <div class="modal-header">
+            <div class="game-wallet wallet home-wallet modal-wallet ">
+                <div class="wallet-logo"><img src="img/wallet/logo-balance-2.svg" alt=""></div>
+                <div class="wallet-honeycomb"><p class="balance">10000</p></div>
+            </div>
+            <h1 class="modal-title">Магазин</h1>
+            <div class="close">
+                <span></span>
+            </div>
+        </div>
         
-        <div class="close"></div>
+        <div class="modal-content">
+            <div class="modal-catalog">
+                <div class="modal-filter filter">
+                    <div class="filter-items">
+                        <div class="filter-item activeFilter" data-itemid='all'>Все</div>
+                        <div class="filter-item" data-itemid='vier'>4</div>
+                        <div class="filter-item" data-itemid='acht'>8</div>
+                        <div class="filter-item" data-itemid='zwolf'>12</div>
+                        <div class="filter-item" data-itemid='sechzehn'>16</div>
+                        <div class="filter-item" data-itemid='zwanzig'>20</div>
+                    </div>
+                </div>
+                <div class="modal-games ">
+                    <div class="modal-items">
+                        <div class="modal-game activeGame" data-gamesName='fаindApairForTheCard'>Найдите пару для карточки</div>
+                        <div class="modal-game" data-gamesName="gameZwei">2</div>
+                        <div class="modal-game" data-gamesName="gameDrei">3</div>
+                        <div class="modal-game" data-gamesName="gameVier">4</div>
+                        <div class="modal-game" data-gamesName="gameFunf">5</div>
+                    </div>
+                </div>
+                <div class="modal-cards">
+                    <div class="modal-gameEins fаindApairForTheCard">
+                        <div class="modal-card vier">
+                            <div class="card-title">Набор карт из 4-x пар</div>
+                            <div class="modal-preview-img">
+                                <img src="img/moda-img/fuerImg.jpg" alt="4 img">
+                            </div>
+                            <div class="modal-btn">
+                                <div class="modal-shadow"></div>
+                                <div class="modal-price buyPriceImg">100</div>
+                            </div>
+                        </div>
+                        <div class="modal-card vier">
+                            <div class="card-title">Набор карт из 4-x пар</div>
+                            <div class="modal-preview-img">
+                                <img src="img/moda-img/fuerImg.jpg" alt="4 img">
+                            </div>
+                            <div class="modal-btn">
+                                <div class="modal-shadow"></div>
+                                <div class="modal-price buyPriceImg">100</div>
+                            </div>
+                        </div>
+                        <div class="modal-card acht">
+                            <div class="card-title">Набор карт из 8-x пар</div>
+                            <div class="modal-preview-img">
+                                <img src="img/moda-img/fuerImg.jpg" alt="4 img">
+                            </div>
+                            <div class="modal-btn">
+                                <div class="modal-shadow"></div>
+                                <div class="modal-price buyPriceImg">500</div>
+                            </div>
+                        </div>
+                        <div class="modal-card acht">
+                            <div class="card-title">Набор карт из 8-x пар</div>
+                            <div class="modal-preview-img">
+                                <img src="img/moda-img/fuerImg.jpg" alt="4 img">
+                            </div>
+                            <div class="modal-btn">
+                                <div class="modal-shadow"></div>
+                                <div class="modal-price buyPriceImg">500</div>
+                            </div>
+                        </div>
+                        <div class="modal-card zwolf">
+                            <div class="card-title">Набор карт из 12-x пар</div>
+                            <div class="modal-preview-img">
+                                <img src="img/moda-img/fuerImg.jpg" alt="4 img">
+                            </div>
+                            <div class="modal-btn">
+                                <div class="modal-shadow"></div>
+                                <div class="modal-price buyPriceImg">1000</div>
+                            </div>
+                        </div>
+                        <div class="modal-card zwolf">
+                            <div class="card-title">Набор карт из 12-x пар</div>
+                            <div class="modal-preview-img">
+                                <img src="img/moda-img/fuerImg.jpg" alt="4 img">
+                            </div>
+                            <div class="modal-btn">
+                                <div class="modal-shadow"></div>
+                                <div class="modal-price buyPriceImg">1000</div>
+                            </div>
+                        </div>
+                        <div class="modal-card sechzehn">
+                            <div class="card-title">Набор карт из 16-x пар</div>
+                            <div class="modal-preview-img">
+                                <img src="img/moda-img/fuerImg.jpg" alt="4 img">
+                            </div>
+                            <div class="modal-btn">
+                                <div class="modal-shadow"></div>
+                                <div class="modal-price buyPriceImg">2500</div>
+                            </div>
+                        </div>
+                        <div class="modal-card sechzehn">
+                            <div class="card-title">Набор карт из 16-x пар</div>
+                            <div class="modal-preview-img">
+                                <img src="img/moda-img/fuerImg.jpg" alt="4 img">
+                            </div>
+                            <div class="modal-btn">
+                                <div class="modal-shadow"></div>
+                                <div class="modal-price buyPriceImg">2500</div>
+                            </div>
+                        </div>
+                        <div class="modal-card zwanzig">
+                            <div class="card-title">Набор карт из 20-x пар</div>
+                            <div class="modal-preview-img">
+                                <img src="img/moda-img/fuerImg.jpg" alt="4 img">
+                            </div>
+                            <div class="modal-btn">
+                                <div class="modal-shadow"></div>
+                                <div class="modal-price buyPriceImg">5000</div>
+                            </div>
+                        </div>
+                        <div class="modal-card zwanzig">
+                            <div class="card-title">Набор карт из 20-x пар</div>
+                            <div class="modal-preview-img">
+                                <img src="img/moda-img/fuerImg.jpg" alt="4 img">
+                            </div>
+                            <div class="modal-btn">
+                                <div class="modal-shadow"></div>
+                                <div class="modal-price buyPriceImg">5000</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-gameZwei gameZwei">2 игра</div>
+                    <div class="modal-gameDrei gameDrei">3 игра</div>
+                    <div class="modal-gameVier gameVier">4 игра</div>
+                    <div class="modal-gameFunf gameFunf">5 игра</div>
+                </div>
+            </div>
+        </div>
+
     </div>
+    <script type="module" src="modal.js"></script>
 </body>
 </html>

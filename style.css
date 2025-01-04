@@ -74,7 +74,8 @@ header {
     border-radius: 50px;
     background-color: bisque;
     padding: 0 10px;
-    width: 200px;
+    max-width: 200px;
+    width: 100%;
     height: 30px;
     user-select: none;
     transition: all 0.3s ease-in;
@@ -90,13 +91,10 @@ header {
 }
 
 
-
-.game-wallet {
+.wallet {
     padding: 0px 10px 0px 0px;
 }
-.wallet-logo > img {
-    border-radius: 50%;
-}
+
 .wallet-honeycomb {
     margin-left: 10px;
     display: flex;
@@ -304,9 +302,12 @@ header {
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.5s linear;
-    user-select: none;
-    pointer-events: none;
+    border: 1px outset white;
+    border-radius: 10px;
 }
+/* .card-inner:first-child {
+    pointer-events: none;
+} */
 
 .card-front,
 .card-back {
@@ -317,13 +318,23 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: burlywood;
     border-radius: 10px;
     font-size: 50px;
     color: white;
     box-shadow: 0.02em 0.02em 0.02em 0.02em rgba(0, 0, 0, 0.1);
-    user-select: none;
-    pointer-events: none;
+}
+
+.card-front {
+    transition: background-color .6s ease;
+    background: url('img/frontCard-img/bgSota-2.png');
+}
+
+.card-front > img {
+    border-radius: 10px;
+}
+
+.card-front:hover {
+    background-color: green;
 }
 
 .card.visible .card-inner{
@@ -358,7 +369,8 @@ header {
     position: relative;
 }
 
-.game-shadow {
+.game-shadow.activeShadow{
+    display: block;
     background-color: rgb(66, 66, 69, .7);
     position: absolute;
     z-index: 10;
@@ -369,13 +381,13 @@ header {
     border-radius: 50px;
 }
 
-.game-shadow.activeShadow {
+.game-shadow {
     display: none;
 }
 
 .game-arrow {
     transition: all 0.5s ease;
-    border: none;
+    border: 2px outset white;
     background-color: blanchedalmond;
     border-radius: 50px;
     font-size: 20px;
@@ -402,14 +414,11 @@ header {
 .game-link {
 }
 
-
-
 .home-page {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    background-color: rgb(29, 78, 50);
     color: aliceblue;
     min-height: 100vh;
     border-radius: 50px;
@@ -432,10 +441,58 @@ header {
     cursor: pointer;
     border-radius: 50px;
     margin-top: 15px;
+    border: 2px outset green;
+    transition: all 1s ease;
 }
 
-.game-new {
-    margin-top: 0;
+.game-new:hover,
+.game-continue:hover,
+.game-other-games:hover,
+.game-schop:hover {
+    border: 2px inset green;
+}
+
+.game-other-games {
+    position: relative;
+}
+
+.game-other-games {
+    z-index: -1;
+    border: none;
+    cursor: default;
+}
+
+.game-other-games:hover {
+    border: none;
+    cursor: default;
+}
+
+.shadow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: italic;
+}
+
+.home-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.home-title {
+    color: white;
+    margin-bottom: 20px;
+}
+
+.home-wallet {
+    border: 2px outset green;
+    background-color: rgb(26, 95, 26);
+    color: white;
+    width: 130px;
+    justify-content: space-between;
+
 }
 
 .link {
@@ -477,12 +534,258 @@ header {
     border: 1px solid white;
 } */
 
+.game-schop {
+}
 
 .game-schop button{
     color: white;
+    width: 100%;
+    height: 100%;
+    font-size: inherit;
+}
 
-}
 .modal-schop {
+    display: none;
 }
+
+.modal-schop.active {
+    display: block;
+    background-color: white;
+    width: 700px;
+    max-height: 720px;
+    min-height: 530px;
+    position: absolute;
+    top: calc(50% - 350px);
+    left: calc(50% - 350px);
+    border: 5px double green;
+    border-radius: 15px;
+}
+
+.modal-header {
+    display:grid;
+    align-items: center;
+    grid-template-columns: auto 1fr 40px;
+    padding: 0 10px;
+    height: 50px;
+    border-bottom: 3px double green;
+}
+
+.modal-wallet {
+    height: 40px;
+    border-radius: 10px;
+    padding: 0px 10px;
+}
+
+.modal-title {
+    font-size: 24px;
+    text-align: center;
+    color: #424245;
+}
+
 .close {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    cursor: pointer;
+    border-left: 3px double green;
+}
+
+
+.close::after,
+.close::before {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    left: calc(50% - 15px);
+    top: calc(50% - 1.5px);
+    background-color: orangered;
+    border-radius: 50%;
+    transition: transform 0.5s ease;
+}
+
+.close::after {
+    transform: rotate(45deg) scale(1);
+}
+
+.close::before {
+    transform: rotate(135deg) scale(1);
+}
+
+.close:hover::after {
+    transform: rotate(225deg) scale(1.15);
+}
+
+.close:hover::before {
+    transform: rotate(315deg) scale(1.15);
+}
+
+.modal-content {
+}
+
+.modal-catalog {
+    display: grid;
+    grid-template-areas: "filter filter filter" "games cards cards" "games cards cards";
+}
+.modal-cards {
+    grid-area: cards;
+}
+.modal-gameEins {
+    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 15px 15px;
+}
+.modal-card {
+    max-width: 120px;
+    width: 100%;
+    border: 1px solid green;
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: 1fr;
+    border-radius: 10px;
+}
+
+.modal-card.activeModalCard {
+    display: grid;
+}
+
+.modal-card.none {
+    display: none;
+}
+.noneItem {
+    display: none;
+}
+
+.modal-card.activeGame {
+    display: grid;
+}
+
+.card-title {
+    border-bottom: 1px solid green;
+    text-align: center;
+    padding: 5px;
+    background-color: #0d8f2e;
+    color: white;
+    border-radius: 8px 8px 0px 0px;
+}
+
+.modal-preview-img img{
+    object-fit: contain;
+    width: 100px;
+    height: 100%;
+}
+
+
+.modal-btn {
+    position: relative;
+}
+
+.modal-price {
+    border-top: 1px solid green;
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+    background-color: #0d8f2e;
+    color: white;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    border-radius: 0 0 8px 8px;
+}
+
+.modal-shadow.activeShadow{
+    display: block;
+    background-color: rgb(66, 66, 69, .7);
+    position: absolute;
+    z-index: 10;
+    top: 0px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: green;
+    border-radius: 0 0 8px 8px;
+}
+
+.modal-price:hover {
+    background: transparent;
+    color: green;
+}
+
+.modal-filter {
+    border: 1px solid;
+    grid-area: filter;
+}
+.filter {
+    padding: 5px;
+}
+.filter-items {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+}
+.filter-item {
+    padding: 5px 0px;
+    border: 1px solid;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+.filter-item.activeFilter {
+    background-color: #0d8f2e;
+    color: white;
+    border: 1px solid #0d8f2e;
+}
+.filter-item:hover {
+    display: block;
+    transform: scale(1,1);
+    background-color: #0d8f2e;
+    color: white;
+    border: 1px solid #0d8f2e;
+}
+.modal-games {
+    border: 1px solid;
+    grid-area: games;
+    height: 220px;
+}
+.modal-items {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    justify-content: space-between;
+    padding: 5px;
+    
+}
+.modal-game {
+    border: 1px solid green;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.7s ease;
+}
+
+.modal-game:hover {
+    background-color: #0d8f2e;
+    color: white;
+}
+
+.modal-game.activeGame {
+    background-color: #0d8f2e;
+    color: white;
+}
+
+.modal-gameEins,
+.modal-gameZwei,
+.modal-gameDrei,
+.modal-gameVier,
+.modal-gameFunf {
+}
+
+
+/* album */
+
+.album {
+}
+.album-wrapper {
+}
+.album-catalog {
 }

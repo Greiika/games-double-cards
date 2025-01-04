@@ -4,6 +4,7 @@ import imgBackVierUndZwanZig from './arrImgs/arrImgBackVierUndZwanZig.js';
 // import imgBackZweiUndDreiSig from './arrImgs/arrImgBackZweiUndDreiSig.js';
 // import imgBackVierZig from './arrImgs/arrImgBackVierZig.js';
 
+
 let parentCard = document.querySelector('.game-wrapper');
 let clickItem = document.querySelectorAll('.card');
 let walletBalance = document.querySelector('.balance');
@@ -12,10 +13,14 @@ let shadowLevelUp = document.querySelector('.game-shadow');
 
 // background
 
-let bodyBg = document.querySelector('body');
-bodyBg.style.backgroundImage = 'url(img/bg/bgCardUp-1.jpg)';
-bodyBg.style.backgroundRepeat = 'no-repeat';
-bodyBg.style.backgroundSize = 'cover';
+function getBackground (img) {
+    let bodyBg = document.querySelector('body');
+    bodyBg.style.backgroundImage = `url(${img})`;
+    bodyBg.style.backgroundRepeat = 'no-repeat';
+    bodyBg.style.backgroundSize = 'cover';
+}
+
+getBackground('img/bg/bgCardUp-1.jpg')
 
 
 // balance
@@ -24,48 +29,56 @@ function addingApoint(str) {
     let strNum = String(str);
     if (strNum.length == 4) {
        return walletBalance.innerHTML = strNum[0] + '.' + strNum.slice(1);
-    } else {
-        walletBalance.innerHTML = strNum;
+    } else if (strNum.length == 3) {
+       return walletBalance.innerHTML = strNum;
     };
 
     if (strNum.length == 5) {
-       walletBalance.textContent = strNum.slice(0,2) + '.' + strNum.slice(2);
-    } else {
-        walletBalance.innerHTML = strNum;
+       return walletBalance.textContent = strNum.slice(0,2) + '.' + strNum.slice(2);
+    } else if (strNum.length == 3) {
+        return walletBalance.innerHTML = strNum;
     };
 
     if (strNum.length == 6) {
        return walletBalance.textContent = strNum.slice(0,3) + '.' + strNum.slice(3);
-    } else {
-
+    } else if (strNum.length == 3) {
+       return walletBalance.innerHTML = strNum;
     };
 
     if (strNum.length == 7) {
         return walletBalance.textContent = strNum[0] + '.' + strNum.slice(1, 4) + '.' + strNum.slice(1, 4);
-    } else {
-
+    } else if (strNum.length == 3) {
+       return walletBalance.innerHTML = strNum;
     };
 }
 addingApoint(walletBalance.innerHTML);
 
-// let ms = 10000;
-// let step = 1;
+// animation balance
 
-// function numAnim(num) {
-//     let balance = document.querySelector('.balance');
-//     let n = 0;
-//     let time = Math.round(ms / (num / step))
-//     console.log(time)
-//     let interval = setInterval(() => {
-//         n = n + step;
-//         if (n == num) {
-//             clearInterval(interval)
-//         }
-//         balance.innerHTML = n;
-//     }, time)
-// }
+function getNumberBalance(str) {
+    let getBalance = str.innerHTML; // поолучем значения баланса 
+    let balance = Number(getBalance.split('.').join('')); // преобразуем баланс к читаему значению
+    return balance; // возвращаем баланс в виде числа
+}
 
-// numAnim(1000)
+
+function animateNumber(start, end, duration = 100) {
+    console.log(start, end)
+    if (start === end) return;
+    let range = end - start;
+    let current = start;
+    let increment = end > start? 1 : -1;
+    let stepTime = Math.abs(Math.floor(duration / range));
+    let timer = setInterval(function() {
+        current += increment;
+        addingApoint(current);
+        if (current == end) {
+            clearInterval(timer);
+        }
+    }, stepTime);
+}
+
+
 
 let honeyComb = 10; 
 
@@ -84,7 +97,6 @@ function doubleCard(arr) {
     let RandomImg = ArrImgBack.sort(() => (Math.random() > .5) ? 2 : -1);
 
     for (let i = 0; i < ArrImgBack.length; i++) {
-        // count = i;
         let card = document.createElement('div');
         card.className = 'card';
 
@@ -123,51 +135,51 @@ let disableDeck = false;
 
 function clickCard(e) {
     let clickedCard = e.target;
-
-    if (clickedCard != cardOne && !disableDeck) {
-        clickedCard.classList.add('visible');
+    let parent = clickedCard.closest('div.card-inner');
+    let parentCardImg = parent.parentElement;
+    if (parentCardImg != cardOne && !disableDeck) {
+        parentCardImg.classList.add('visible');
         if (!cardOne) {
-            return (cardOne = clickedCard);
+            return (cardOne = parentCardImg);
         }
     
-        cardTwo = clickedCard;
+        cardTwo = parentCardImg;
         disableDeck = true;
 
         cardOneImg = cardOne.querySelector('img').src,
         cardTwoImg = cardTwo.querySelector('img').src;
-        matchCards(cardOneImg, cardTwoImg);
+        console.log(cardOneImg, cardTwoImg)
+        matchCards(cardOneImg, cardTwoImg, getNumberBalance(walletBalance));
     };
 };
 
 
-function matchCards(img1, img2) {
+function matchCards(img1, img2, balance) {
     let countCard = 0;
     let resultNum, getNum, setNum;
     let index = 0;
-    let getBalance = walletBalance.innerHTML;
-    let balance = Number(getBalance.split('.').join(''));
     if (img1 == img2) {
         matchedCard++;
         index = matchedCard;
-
         if (index) {
             if (walletHoneycomb.classList.contains('numX2')) {
                 setNum = honeyComb * matchedCard;
                 getNumX2(setNum);
             } else {
                 getNum = balance + (honeyComb * matchedCard);
-                addingApoint(getNum);
-            }
-        }
-
+                animateNumber(balance , getNum);
+            };
+        };
         for (let i = 1; i <= clickItem.length; i++) {
             countCard = i;
             resultNum = countCard / 2;
         }
-
+        
         if (matchedCard == resultNum) {
+            console.log(matchedCard, resultNum)
             if (shadowLevelUp.classList.contains('game-shadow')) {
-                shadowLevelUp.classList.add('activeShadow');
+                shadowLevelUp.classList.remove('activeShadow');
+
             }
             setTimeout(() => {
                 shuffleCard();
@@ -221,27 +233,28 @@ function levelUp () {
     if (level < 5) {
         countLevel.innerHTML =  ++level;
         parentCard.innerHTML = '';
+        shadowLevelUp.classList.add('activeShadow');
         if (level == 2 ) {
-            shadowLevelUp.classList.remove('activeShadow');
             doubleCard(imgBackSechZehn);
+            // getBackground('img/bg/bgCardUp-2.jpg')
         };
 
         if (level == 3 ) {
-            shadowLevelUp.classList.remove('activeShadow');
             parentCard.style.cssText = 'grid-template-columns: repeat(6, 1fr)';
             doubleCard(imgBackVierUndZwanZig);
+            getBackground('img/bg/bgCardUp-3.jpg')
         };
 
         if (level == 4 ) {
-            shadowLevelUp.classList.remove('activeShadow');
             parentCard.style.cssText = 'grid-template-columns: repeat(8, 1fr)';
             doubleCard(imgBackZweiUndDreiSig);
+            // getBackground('img/bg/bgCardUp-4.jpg')
         };
 
         if (level == 5 ) {
-            shadowLevelUp.classList.remove('activeShadow');
             parentCard.style.cssText = 'grid-template-columns: repeat(10, 1fr)';
             doubleCard(imgBackVierZig);
+            // getBackground('img/bg/bgCardUp-5.jpg')
         };
     };
 };
@@ -258,7 +271,7 @@ function hintCard(e) {
     let clickHint = e.target;
     let childClickHint = clickHint.getElementsByClassName('game-price');
     let img1, img2;
-    getBalance(childClickHint[0])
+    getBalance(childClickHint[0], getNumberBalance(walletBalance));
     for (let item of clickItem) {
         if (item.classList.contains('visible') ) {
             let cardsImg = document.querySelectorAll('.card');
@@ -272,7 +285,6 @@ function hintCard(e) {
                     }
                     setTimeout (() => {
                         elem.childNodes[0].classList.remove('activeCard');
-                        elem.childNodes[0].style.cssText = 'transition: all 0.5s';
                         elem.childNodes[0].style.cssText = '';
                     }, 2000)
                 };
@@ -286,18 +298,16 @@ function hintCard(e) {
 
 let numPrice, getNumPrice;
 
-function getBalance(price) {
-    numPrice = Number(price.innerHTML);
-    let getBalance = walletBalance.innerHTML;
-    let balance = Number(getBalance.split('.').join(''));
-    let parent = price.parentElement;
+function getBalance(price, balance) {
+    numPrice = Number(price.innerHTML); // преобразуем стоимость буста из строки в число
+    let parent = price.parentElement; // получаем родительский элемент для нахождения класса
     for (let item of clickItem) {
-        if (item.classList.contains('visible') && balance >= numPrice ) {
-            getNumPrice = balance - numPrice;
-            addingApoint(getNumPrice);
+        if (item.classList.contains('visible') && balance >= numPrice ) { // проверяем есть ли данный класс у карточки и соотвествует ли баланс стоимости буста
+            getNumPrice = balance - numPrice; // вычитаем стоимость буста из баланса
+            animateNumber(balance, getNumPrice);
         } else if (parent.classList.contains('multiplierX2') && balance >= numPrice ) {
             getNumPrice = balance - numPrice;
-            addingApoint(getNumPrice);
+            animateNumber(balance, getNumPrice);
         } else if (balance <= 0) {
             walletBalance.style.color = 'red', 
             walletBalance.innerHTML = '0';
@@ -311,14 +321,13 @@ function getBalance(price) {
                 walletBalance.style.color = 'black';
             }, 200)
         };
-    };
+    };  
 };
 
 
 // multiplierX2
 
 let multiplierX2 = document.querySelector('.multiplierX2');
-let sumHoneyComb;
 
 multiplierX2.addEventListener('click', numX2Card);
 
@@ -329,16 +338,14 @@ function numX2Card(e) {
     }
     let clickNumX2 = e.target;
     let childclickNumX2 = clickNumX2.getElementsByClassName('game-price');
-    getBalance(childclickNumX2[0]);
+    getBalance(childclickNumX2[0], getNumberBalance(walletBalance));
     timerX2();
 };
 
 function getNumX2(num) {
-    sumHoneyComb = num * 2;
-    let getBalance = walletBalance.innerHTML;
-    let balance = Number(getBalance.split('.').join(''));
-    let summaX2 = balance + sumHoneyComb;
-    addingApoint(summaX2);
+    let sumHoneyComb = num * 2;
+    let summaX2 = getNumberBalance(walletBalance) + sumHoneyComb;
+    animateNumber(getNumberBalance(walletBalance), summaX2);
 };
 
 
@@ -373,9 +380,12 @@ function timerX2() {
     
     setTimeout(() => {
         div.innerHTML = `0:${second--}`
+        if (second == 10) {
+            div.innerHTML = `0:${second}`
+        };
         if (second < 10) {
             div.innerHTML = `0:0${second}`
-        };
+        }
         if (second > 0) {
             timerX2()
         } else if (second == 0) {
@@ -385,3 +395,5 @@ function timerX2() {
         };
     }, 1000);   
 };
+
+
