@@ -22,7 +22,7 @@ img {
 }
 
 img, svg {
-    min-width: 100%;
+    /* min-width: 100%; */
     height: auto;
 }
 
@@ -72,13 +72,14 @@ header {
     align-items: center;
     justify-content: start;
     border-radius: 50px;
-    background-color: bisque;
+    background-color: #39280f;
     padding: 0 10px;
     max-width: 200px;
     width: 100%;
     height: 30px;
     user-select: none;
     transition: all 0.3s ease-in;
+    color: white;
 }
 
 .game-link {
@@ -129,12 +130,13 @@ header {
 /* help */
 
 .main-wrapper {
-    margin-top: 25px;
     display: flex;
-    justify-content: center;
-    align-items: baseline;
+    max-width: 1078px;
+    width: 100%;
+    margin: 0 auto;
+    justify-content: space-evenly;
+    align-items: center;
     flex-direction: row;
-    min-height: 100vh;
 }
 
 .help {
@@ -146,7 +148,6 @@ header {
     align-items: center;
     flex-direction: column;
     padding: 15px;
-    margin-right: 50px;
     cursor: pointer;
 }
 
@@ -259,7 +260,7 @@ header {
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     margin-top: 20px;
-
+    margin: 0 10px 0 10px;
 }
 
 .card {
@@ -292,6 +293,9 @@ header {
 }
 
 .card-img {
+    object-fit: cover;
+    width: 100%;
+    height: auto;
     border-radius: 10px;
     box-shadow: 0.3px 0.3px 0.3px 0.3px rgba(0, 0, 0, 0.1);
 }
@@ -305,9 +309,6 @@ header {
     border: 1px outset white;
     border-radius: 10px;
 }
-/* .card-inner:first-child {
-    pointer-events: none;
-} */
 
 .card-front,
 .card-back {
@@ -353,6 +354,7 @@ header {
     color: aliceblue;
     font-size: 22px;
     margin-top: 25px;
+    margin-bottom: 15px;
 }
 .count.null {
     color: red;
@@ -373,7 +375,7 @@ header {
     display: block;
     background-color: rgb(66, 66, 69, .7);
     position: absolute;
-    z-index: 10;
+    z-index: 2;
     top: 0px;
     left: 0;
     width: 100%;
@@ -497,6 +499,11 @@ header {
 
 .link {
     color: white;
+    width: 100%;
+    height: 100%;
+    display: block;
+    align-content: center;
+    text-align: center;
 }
 
 
@@ -582,7 +589,8 @@ header {
     color: #424245;
 }
 
-.close {
+.close,
+.modal-box__close {
     width: 50px;
     height: 50px;
     position: relative;
@@ -590,9 +598,16 @@ header {
     border-left: 3px double green;
 }
 
+.modal-box__close {
+    border: none;
+}
+
+
 
 .close::after,
-.close::before {
+.modal-box__close::after,
+.close::before,
+.modal-box__close::before {
     content: '';
     position: absolute;
     width: 30px;
@@ -604,19 +619,30 @@ header {
     transition: transform 0.5s ease;
 }
 
-.close::after {
+.modal-box__close::after,
+.modal-box__close::before {
+    background-color: #424245;
+}
+
+/* #39280f */
+
+.close::after,
+.modal-box__close::after {
     transform: rotate(45deg) scale(1);
 }
 
-.close::before {
+.close::before,
+.modal-box__close::before {
     transform: rotate(135deg) scale(1);
 }
 
-.close:hover::after {
+.close:hover::after,
+.modal-box__close:hover::after {
     transform: rotate(225deg) scale(1.15);
 }
 
-.close:hover::before {
+.close:hover::before,
+.modal-box__close:hover::before {
     transform: rotate(315deg) scale(1.15);
 }
 
@@ -629,6 +655,7 @@ header {
 }
 .modal-cards {
     grid-area: cards;
+    border-left: 3px double green;
 }
 .modal-gameEins {
     flex-wrap: wrap;
@@ -712,8 +739,8 @@ header {
 }
 
 .modal-filter {
-    border: 1px solid;
     grid-area: filter;
+    border-bottom: 3px double green;
 }
 .filter {
     padding: 5px;
@@ -725,10 +752,11 @@ header {
 }
 .filter-item {
     padding: 5px 0px;
-    border: 1px solid;
+    border: 1px solid green;
     text-align: center;
     cursor: pointer;
     transition: all 0.5s ease;
+    border-radius: 10px;
 }
 .filter-item.activeFilter {
     background-color: #0d8f2e;
@@ -743,7 +771,6 @@ header {
     border: 1px solid #0d8f2e;
 }
 .modal-games {
-    border: 1px solid;
     grid-area: games;
     height: 220px;
 }
@@ -761,6 +788,7 @@ header {
     padding: 5px;
     cursor: pointer;
     transition: all 0.7s ease;
+    border-radius: 10px;
 }
 
 .modal-game:hover {
@@ -784,8 +812,170 @@ header {
 /* album */
 
 .album {
+    width: 100px;
+    height: 100px;
+    background-color: burlywood;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 10px;
 }
 .album-wrapper {
+    width: 100%;
+    height: 70px;
+    position: relative;
+    border-radius: 10px;
+    transition: box-shadow 0.5s ease, transform 0.5s ease;
+    box-shadow: 0px .1px 3px .1px rgba(0, 0, 0, 0.5);
+    transform: scale(1);
+    display: flex;
+    justify-content: center;
 }
-.album-catalog {
+
+.album-wrapper:hover {
+    box-shadow: 0px .1px 3px .1px rgba(0, 0, 0, 1);
+    transform: scale(1.05);
+}
+
+.album-wrapper > img {
+    min-width: 0;
+}
+
+/* modal album */
+
+.modal-album,
+.modal-box__imgs {
+    display: none;
+}
+
+.modal-album.activeAlbum,
+.modal-box__imgs.activeBoxImgs {
+    display: block;
+    max-width: 600px;
+    width: 100%;
+    background-color: rgb(66, 66, 69);
+    max-height: 720px;
+    min-height: 530px;
+    position: absolute;
+    top: calc(50% - 300px);
+    left: calc(50% - 300px);
+    border: 2px groove white;
+    border-radius: 15px;
+    padding: 20px;
+    z-index: 3;
+}
+
+.modal-box__imgs.activeBoxImgs {
+    padding: 0px;
+}
+
+.modal-box__header {
+    display: flex;
+    justify-content: end;
+    background-color: white;
+    border-radius: 14px 14px 0 0;
+    margin-bottom: 15px;
+    box-shadow: 0px 2px 10px;
+}
+
+.modal-album__wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    justify-items: center;
+}
+
+.modal-album__pocket {
+    position: relative;
+    max-width: 100px;
+    width: 100%;
+    max-height: 150px;
+    height: 100%;
+    border: 1px solid rgb(87, 87, 87,0.8);
+    border-radius: 10px;
+
+}
+
+.modal-pocket__preview {
+    transition: transform 0.5s ease;
+}
+
+.modal-pocket__preview:hover {
+    cursor: pointer;
+    transform:  translateY(-12px);
+}
+
+.modal-pocket__preview-img {
+    max-width: inherit;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.modal-pocket {
+    position: absolute;
+    bottom: 0;
+    width: inherit;
+    max-height: 75px;
+    height: 100%;
+    background-color: rgba(87, 87, 87, 0.7); 
+    border-radius: 0 0 10px 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    padding-bottom: 5px;
+}
+
+/* #575757 #39280f */
+
+.modal-pocket__btn {
+    width: 95px;
+    height: auto;
+    text-align: center;
+    color: rgb(0, 0, 0, 0.8);
+    border: 1px solid black;
+    background-color: bisque;
+    border-radius: 10px 10px;
+    padding: 5px;
+    cursor: pointer;
+    z-index: 4;
+    transition: all 0.5s ease;
+}
+
+.modal-pocket__btn:hover {
+    color: white;
+    background-color: #424245;
+    border: 1px solid white;
+}
+
+.modal-pocket__btn.activeBtn {
+    color: white;
+    background-color: #424245;
+    border: 1px solid white;
+}
+
+.modal-pocket::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: inherit;
+    height: inherit;
+    box-shadow: 0px -4px 4px #0000008e;
+}
+
+
+.modal-box__img {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    justify-items: center;
+    overflow: auto;
+    margin: 0 15px 15px;
 }

@@ -1,7 +1,7 @@
 import imgBackAcht from './arrImgs/arrImgAcht.js';
 import imgBackSechZehn from './arrImgs/arrImgSechZehn.js';
 import imgBackVierUndZwanZig from './arrImgs/arrImgBackVierUndZwanZig.js';
-// import imgBackZweiUndDreiSig from './arrImgs/arrImgBackZweiUndDreiSig.js';
+import imgBackZweiUndDreiSig from './arrImgs/arrImgBackZweiUndDreiSig.js';
 // import imgBackVierZig from './arrImgs/arrImgBackVierZig.js';
 
 
@@ -394,6 +394,127 @@ function timerX2() {
             walletHoneycomb.classList.remove('numX2');
         };
     }, 1000);   
+};
+
+
+// album 
+
+let album = document.querySelector('.album-wrapper');
+album.addEventListener('click', openAlbum);
+
+function openAlbum() {
+    let catalogImg = document.querySelector('.album-catalog');
+    catalogImg.classList.add('activeCatalog');
+    let modalAlbum = document.querySelector('.modal-album');
+    modalAlbum.classList.toggle('activeAlbum');
+}
+
+
+// modal-album
+
+let modalPreview = document.querySelectorAll('.modal-pocket__preview');
+modalPreview.forEach(preview => {
+    preview.addEventListener('click', previewImg);
+});
+
+let boxImg;
+function previewImg(e) {
+    let clickImg = e.target;
+    console.log(clickImg.dataset.arrimgs);
+    let boxImgs = document.querySelector('.modal-box__imgs');
+    boxImgs.classList.add('activeBoxImgs');
+    
+    let jsonVier = JSON.parse(localStorage.getItem('arrImgVier'));
+    let jsonAcht = JSON.parse(localStorage.getItem('arrImgAcht'));
+    // localStorage.clear()
+    let jsonZwolf = JSON.parse(localStorage.getItem('arrImgZwolf'));
+
+    let setImgs = new Set(jsonZwolf);
+
+    boxImg = document.querySelector('.modal-box__img');
+
+    setImgs.forEach(imgs => {
+        let img = document.createElement('img');
+        img.src = `img/${imgs}`;
+        boxImg.append(img);
+    });
+};
+
+// let jsonZwolf = JSON.parse(localStorage.getItem('arrImgZwolf'));
+    
+// let setImgs = new Set(jsonZwolf);
+
+// boxImg = document.querySelector('.modal-box__img');
+
+// setImgs.forEach(imgs => {
+//     let img = document.createElement('img');
+//     img.src = `img/${imgs}`;
+//     boxImg.append(img);
+// });
+
+
+// modal btn
+
+let previewBtns = document.querySelectorAll('.modal-pocket__btn');
+previewBtns.forEach(elemBtn => {
+    elemBtn.addEventListener('click', newImgCard) 
+})
+
+function newImgCard (e) {
+    let getBtn = e.target;
+    getBtn.textContent = 'активно';
+    getBtn.classList.add('activeBtn')
+    let modalArrImg = document.querySelector('.modal-box__img');
+    let beforeCardImg = document.querySelectorAll('.card-img');
+    let newArr = Array.from(beforeCardImg)
+    getBtn.removeEventListener('click', newImgCard)
+    // levelUp(doubleCard(imgBackZweiUndDreiSig))
+}
+
+
+
+// let jsonVier = JSON.parse(localStorage.getItem('arrImgVier'));
+
+// let previews = document.querySelectorAll('.modal-pocket__preview');
+// let newArr = Array.prototype.slice.call(previews);
+// let arrElem = [];
+// for (let elem of previews) {
+//     arrElem.push(elem.firstElementChild);
+// };
+
+// let getEinsIndex = arrElem.findIndex(elem => elem == null);
+// let removed;
+// if (getEinsIndex >= 1) {
+//     removed = arrElem.splice(getEinsIndex, 1);
+// }
+// console.log(removed, getEinsIndex)
+
+// newArr.forEach((preview, index) => {
+//     let img = document.createElement('img');
+//     img.classList.add('modal-pocket__preview-img');
+//     img.alt = 'preview img';
+//     if (!preview.firstElementChild && getEinsIndex == index) {
+//         preview.append(img);
+//     }
+//     img.src = `img/${jsonVier[2]}`;
+// })
+
+
+
+// modal close
+
+let boxClose = document.querySelector('.modal-box__close');
+let modalImgs = document.querySelector('.modal-box__imgs');
+boxClose.addEventListener('click', closeModal);
+
+function closeModal(e) {
+    if (modalImgs.classList.contains('activeBoxImgs')) {
+        modalImgs.classList.remove('activeBoxImgs');
+        // boxImg.innerHTML = '';
+        while(boxImg.firstChild) {
+            boxImg.removeChild(boxImg.firstChild);
+        }
+    };
 };
 
 

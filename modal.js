@@ -1,3 +1,9 @@
+import imgBackAcht from './arrImgs/arrImgAcht.js';
+import imgBackSechZehn from './arrImgs/arrImgSechZehn.js';
+import imgBackVierUndZwanZig from './arrImgs/arrImgBackVierUndZwanZig.js';
+import imgBackZweiUndDreiSig from './arrImgs/arrImgBackZweiUndDreiSig.js';
+
+
 let walletBalances = document.querySelectorAll('.balance');
 
 // background
@@ -152,6 +158,16 @@ function clickBuy(e) {
 
 // filter
 
+document.addEventListener("DOMContentLoaded", function() {
+    let cardsGame = document.querySelector('.modal-cards');
+    let childrens = cardsGame.children;
+    for (let elem of childrens) {
+        if (!elem.classList.contains('activeGame')) {
+            elem.classList.add('noneItem');
+        };
+    };
+});
+
 let filters = document.querySelector('.filter-items');
 filters.addEventListener('click', (e) => {
     let clickFilter = e.target;
@@ -193,11 +209,9 @@ function filterCard (id, thisElem) {
 
 
 let gameItems = document.querySelector('.modal-items');
-// if (elem.classList.contains('activeGame')) {
-//     elem.classList.add('noneItem');
-// }
 gameItems.addEventListener('click', (e) => {
     let clickGame = e.target;
+    console.log(clickGame.dataset)
     let gameItems = document.querySelectorAll('.modal-game');
     gameItems.forEach(gameItem => {
         if (gameItem.classList.contains('activeGame')) {
@@ -225,3 +239,65 @@ function gameItem(item, thisElem ) {
         };
     };
 };
+
+
+// localStorage
+
+let imgPrices = document.querySelectorAll('.modal-price');
+imgPrices.forEach(imgPrice => {
+    imgPrice.addEventListener('click', getArrImgs);
+});
+
+function getArrImgs (e) {
+    let arr = document.querySelectorAll('.modal-card');
+    arr.forEach(elem => {
+        if (elem.classList.contains('vier')) {
+            let localArrVier = [];
+            for (let obj of imgBackAcht) {
+                for (let elemObj in obj) {
+                    localArrVier.push(obj[elemObj]);
+                };
+            };
+        
+            let jsonStrVier = JSON.stringify(localArrVier);
+            localStorage.setItem('arrImgVier', jsonStrVier);
+        };
+
+        if (elem.classList.contains('acht')) {
+            let localArrAcht = [];
+            for (let obj of imgBackSechZehn) {
+                for (let elemObj in obj) {
+                    localArrAcht.push(obj[elemObj]);
+                };
+            };
+        
+            let jsonStrAcht = JSON.stringify(localArrAcht);
+            localStorage.setItem('arrImgAcht', jsonStrAcht);
+        };
+
+        if (elem.classList.contains('zwolf')) {
+            let localArrZwolf = [];
+            for (let obj of imgBackVierUndZwanZig) {
+                for (let elemObj in obj) {
+                    localArrZwolf.push(obj[elemObj]);
+                };
+            };
+        
+            let jsonStrZwolf = JSON.stringify(localArrZwolf);
+            localStorage.setItem('arrImgZwolf', jsonStrZwolf);
+        };
+
+        if (elem.classList.contains('sechzehn')) {
+            let localArrSechZehn = [];
+            for (let obj of imgBackZweiUndDreiSig) {
+                for (let elemObj in obj) {
+                    localArrSechZehn.push(obj[elemObj]);
+                };
+            };
+        
+            let jsonStrSechZehn = JSON.stringify(localArrSechZehn);
+            localStorage.setItem('arrImgSechZehn', jsonStrSechZehn);
+        };
+    });
+};
+
