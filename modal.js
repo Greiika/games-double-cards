@@ -47,7 +47,7 @@ function addingApoint(numBalance) {
 };
 
 let balance = JSON.parse(localStorage.getItem('balance'));
-addingApoint(balance);
+addingApoint(String(balance));
 
 function getNumberBalance(str) {
     let getBalance = str.innerHTML; // поолучем значения баланса 
