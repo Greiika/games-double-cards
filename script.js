@@ -44,7 +44,7 @@ function addingApoint(str) {
 let returnBalance = JSON.parse(localStorage.getItem('return-balance'));
 let balance = JSON.parse(localStorage.getItem('balance'));
 
-addingApoint(String(balance));
+addingApoint(balance);
 
 // animation balance
 
