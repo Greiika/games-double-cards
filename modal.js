@@ -1,7 +1,15 @@
-import imgBackAcht from './arrImgs/arrImgAcht.js';
-import imgBackSechZehn from './arrImgs/arrImgSechZehn.js';
-import imgBackVierUndZwanZig from './arrImgs/arrImgBackVierUndZwanZig.js';
-import imgBackZweiUndDreiSig from './arrImgs/arrImgBackZweiUndDreiSig.js';
+import imgBack8 from './arrImgs/arrImgBack8.js';
+import imgBack16 from './arrImgs/arrImgBack16.js';
+import imgBack24 from './arrImgs/arrImgBack24.js';
+import imgBack32 from './arrImgs/arrImgBack32.js';
+import imgBack40 from './arrImgs/arrImgBack40.js';
+
+import imgBack8V2 from './arrImgs/arrImgBack8V2.js';
+import imgBack16V2 from './arrImgs/arrImgBack16V2.js';
+import imgBack24V2 from './arrImgs/arrImgBack24V2.js';
+import imgBack32v2 from './arrImgs/arrImgBack32V2.js';
+import imgBack40v2 from './arrImgs/arrImgBack40V2.js';
+
 
 
 let walletBalances = document.querySelectorAll('.balance');
@@ -22,37 +30,24 @@ getBackground('img/bg/bgCardUp-1.jpg')
 function addingApoint(numBalance) {
     let strNum = String(numBalance);
     walletBalances.forEach((walletBalance) => {
-        if (strNum.length == 4) {
-            return walletBalance.textContent = `${strNum[0]}.${strNum.slice(1)}`;
-        } else if (strNum.length == 3) {
-            return walletBalance.textContent = strNum;
+        if (strNum.length <= 3) {
+            walletBalance.textContent = strNum;
+        } else if (strNum.length == 4) {
+            walletBalance.textContent = `${strNum[0]}.${strNum.slice(1)}`;
+        } else if (strNum.length == 5) {
+            walletBalance.textContent = `${strNum.slice(0,2)}.${strNum.slice(2)}`;
+        } else if (strNum.length == 6) {
+            walletBalance.textContent = `${strNum.slice(0,3)}.${strNum.slice(3)}`;
+        } else if (strNum.length == 7) {
+            walletBalance.textContent = `${strNum[0]}.${strNum.slice(1, 4)}.${strNum.slice(1, 4)}`;
         };
-
-        if (strNum.length == 5) {
-            return walletBalance.textContent = `${strNum.slice(0,2)}.${strNum.slice(2)}`;
-        } else if (strNum.length == 3) {
-            return walletBalance.innerHTML = strNum;
-        };
-
-        if (strNum.length == 6) {
-            return walletBalance.textContent = `${strNum.slice(0,3)}.${strNum.slice(3)}`;
-        } else if (strNum.length == 3) {
-            return walletBalance.innerHTML = strNum;
-        };
-
-        if (strNum.length == 7) {
-            return walletBalance.textContent = `${strNum[0]}.${strNum.slice(1, 4)}.${strNum.slice(1, 4)}`;
-        } else if (strNum.length == 3) {
-            return walletBalance.innerHTML = strNum;
-        };
+        let b = String(getNumberBalance(walletBalance));
+        localStorage.setItem('return-balance', b);
     });
 };
 
-walletBalances.forEach((walletBalance) => {
-    console.log(walletBalance)
-    addingApoint(walletBalance.innerHTML);
-});
-
+let balance = JSON.parse(localStorage.getItem('balance'));
+addingApoint(balance);
 
 function getNumberBalance(str) {
     let getBalance = str.innerHTML; // поолучем значения баланса 
@@ -101,28 +96,6 @@ function getBalance(price, balance) {
     });
 
 };
-
-// modal close
-
-let close = document.querySelector('.close');
-let modal = document.querySelector('.modal-schop');
-close.addEventListener('click', closeModal);
-
-function closeModal(e) {
-    if (modal.classList.contains('active')) {
-        modal.classList.remove('active');
-    };
-};
-
-let schopBtn = document.querySelector('.schopBtn');
-schopBtn.addEventListener('click', schop);
-
-function schop() { 
-    if (!modal.classList.contains('active')) {
-        modal.classList.add('active')
-    };
-};
-
 
 // modal buy price img
 
@@ -183,10 +156,10 @@ filters.addEventListener('click', (e) => {
 
 
 function filterCard (id, thisElem) {
-    let arrId = ['all', 'vier', 'acht', 'zwolf', 'sechzehn', 'zwanzig'];
+    console.log(id)
+    let arrId = ['all', 'vier', 'vierV2', 'acht', 'zwolf', 'sechzehn', 'zwanzig'];
     let elemId = arrId.find(elem => elem == id);
     if (id == elemId) {
-        console.log(id, elemId)
         thisElem.classList.add('activeFilter')
         let cards = document.querySelectorAll('.modal-card');
         cards.forEach(card => {
@@ -248,56 +221,68 @@ imgPrices.forEach(imgPrice => {
     imgPrice.addEventListener('click', getArrImgs);
 });
 
+let localArrCard = {
+    imgBack8: [],
+    imgBack16: [],
+    imgBack24: [],
+    imgBack32: [],
+    imgBack40: [],
+    imgBack8V2: [],
+    imgBack16V2: [],
+    imgBack24V2: [],
+    imgBack32V2: [],
+    imgBack40V2: [],
+};
+
 function getArrImgs (e) {
-    let arr = document.querySelectorAll('.modal-card');
-    arr.forEach(elem => {
-        if (elem.classList.contains('vier')) {
-            let localArrVier = [];
-            for (let obj of imgBackAcht) {
-                for (let elemObj in obj) {
-                    localArrVier.push(obj[elemObj]);
+    let buyCard = e.target.closest('.modal-card');
+    let datasetCard = buyCard.dataset.cardid;
+    let arrId = ['imgBack8', 'imgBack8V2', 'imgBack16', "imgBack16V2", 'imgBack24', "imgBack24V2", 'imgBack32',  "imgBack32V2", 'imgBack40', "imgBack40V2"];
+    let arrArrsImg = [imgBack8, imgBack8V2, imgBack16, imgBack16V2, imgBack24, imgBack24V2, imgBack32, imgBack32v2, imgBack40, imgBack40v2];
+    let getIdArr = arrId.findIndex(elemId => elemId == datasetCard);
+    arrArrsImg.forEach((arrImg, index) => {
+        if (getIdArr == index) {
+            Object.entries(localArrCard).forEach(([key, value]) =>  {
+                if (key == datasetCard) {
+                    value.push(getArrElem(arrImg));
                 };
-            };
-        
-            let jsonStrVier = JSON.stringify(localArrVier);
-            localStorage.setItem('arrImgVier', jsonStrVier);
-        };
-
-        if (elem.classList.contains('acht')) {
-            let localArrAcht = [];
-            for (let obj of imgBackSechZehn) {
-                for (let elemObj in obj) {
-                    localArrAcht.push(obj[elemObj]);
-                };
-            };
-        
-            let jsonStrAcht = JSON.stringify(localArrAcht);
-            localStorage.setItem('arrImgAcht', jsonStrAcht);
-        };
-
-        if (elem.classList.contains('zwolf')) {
-            let localArrZwolf = [];
-            for (let obj of imgBackVierUndZwanZig) {
-                for (let elemObj in obj) {
-                    localArrZwolf.push(obj[elemObj]);
-                };
-            };
-        
-            let jsonStrZwolf = JSON.stringify(localArrZwolf);
-            localStorage.setItem('arrImgZwolf', jsonStrZwolf);
-        };
-
-        if (elem.classList.contains('sechzehn')) {
-            let localArrSechZehn = [];
-            for (let obj of imgBackZweiUndDreiSig) {
-                for (let elemObj in obj) {
-                    localArrSechZehn.push(obj[elemObj]);
-                };
-            };
-        
-            let jsonStrSechZehn = JSON.stringify(localArrSechZehn);
-            localStorage.setItem('arrImgSechZehn', jsonStrSechZehn);
+            });
         };
     });
 };
 
+function getArrElem(arr) {
+    let arrImg = []
+    console.log(arrImg,arr)
+    for (let obj of arr) {
+        for (let elem in obj) {
+            arrImg.push(obj[elem]);
+        };
+    };
+    return arrImg;
+};
+
+
+// modal close
+
+let close = document.querySelector('.close');
+let modal = document.querySelector('.modal-schop');
+close.addEventListener('click', closeModal);
+
+function closeModal(e) {
+    if (modal.classList.contains('active')) {
+        modal.classList.remove('active');
+    };
+    let arrBuyImgCard = JSON.stringify(localArrCard);
+    console.log(arrBuyImgCard)
+    localStorage.setItem("shop-json", arrBuyImgCard)
+};
+
+let schopBtn = document.querySelector('.schopBtn');
+schopBtn.addEventListener('click', schop);
+
+function schop() { 
+    if (!modal.classList.contains('active')) {
+        modal.classList.add('active');
+    };
+};

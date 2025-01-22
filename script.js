@@ -1,8 +1,8 @@
-import imgBackAcht from './arrImgs/arrImgAcht.js';
-import imgBackSechZehn from './arrImgs/arrImgSechZehn.js';
-import imgBackVierUndZwanZig from './arrImgs/arrImgBackVierUndZwanZig.js';
-import imgBackZweiUndDreiSig from './arrImgs/arrImgBackZweiUndDreiSig.js';
-// import imgBackVierZig from './arrImgs/arrImgBackVierZig.js';
+import imgBack8 from './arrImgs/arrImgBack8.js';
+import imgBack16 from './arrImgs/arrImgBack16.js';
+import imgBack24 from './arrImgs/arrImgBack24.js';
+import imgBack32 from './arrImgs/arrImgBack32.js';
+import imgBack40 from './arrImgs/arrImgBack40.js';
 
 
 let parentCard = document.querySelector('.game-wrapper');
@@ -22,36 +22,29 @@ function getBackground (img) {
 
 getBackground('img/bg/bgCardUp-1.jpg')
 
-
 // balance
 
 function addingApoint(str) {
     let strNum = String(str);
-    if (strNum.length == 4) {
-       return walletBalance.innerHTML = strNum[0] + '.' + strNum.slice(1);
-    } else if (strNum.length == 3) {
-       return walletBalance.innerHTML = strNum;
+    if (strNum.length <= 3) {
+        walletBalance.innerHTML = strNum;
+    } else if (strNum.length == 4) {
+        walletBalance.innerHTML = strNum[0] + '.' + strNum.slice(1);
+    } else if (strNum.length == 5) {
+        walletBalance.textContent = strNum.slice(0,2) + '.' + strNum.slice(2);
+    } else if (strNum.length == 6) {
+       walletBalance.textContent = strNum.slice(0,3) + '.' + strNum.slice(3);
+    } else if (strNum.length == 7) {
+        walletBalance.textContent = strNum[0] + '.' + strNum.slice(1, 4) + '.' + strNum.slice(1, 4);
     };
+    let b = String(getNumberBalance(walletBalance))
+    localStorage.setItem('balance', b);
+};
 
-    if (strNum.length == 5) {
-       return walletBalance.textContent = strNum.slice(0,2) + '.' + strNum.slice(2);
-    } else if (strNum.length == 3) {
-        return walletBalance.innerHTML = strNum;
-    };
+let returnBalance = JSON.parse(localStorage.getItem('return-balance'));
+let balance = JSON.parse(localStorage.getItem('balance'));
 
-    if (strNum.length == 6) {
-       return walletBalance.textContent = strNum.slice(0,3) + '.' + strNum.slice(3);
-    } else if (strNum.length == 3) {
-       return walletBalance.innerHTML = strNum;
-    };
-
-    if (strNum.length == 7) {
-        return walletBalance.textContent = strNum[0] + '.' + strNum.slice(1, 4) + '.' + strNum.slice(1, 4);
-    } else if (strNum.length == 3) {
-       return walletBalance.innerHTML = strNum;
-    };
-}
-addingApoint(walletBalance.innerHTML);
+addingApoint(balance);
 
 // animation balance
 
@@ -59,7 +52,7 @@ function getNumberBalance(str) {
     let getBalance = str.innerHTML; // поолучем значения баланса 
     let balance = Number(getBalance.split('.').join('')); // преобразуем баланс к читаему значению
     return balance; // возвращаем баланс в виде числа
-}
+};
 
 
 function animateNumber(start, end, duration = 100) {
@@ -76,49 +69,53 @@ function animateNumber(start, end, duration = 100) {
             clearInterval(timer);
         }
     }, stepTime);
-}
+};
 
 
+let honeyComb = 10;
+let boxCards, newBoxCards; 
 
-let honeyComb = 10; 
-
-function doubleCard(arr) {
-
+function doubleCard(dataId, arr) {
     let ArrImgBack = [];
-
+    
     ArrImgBack.splice(0, ArrImgBack.length);
-
+    
     for (let obj of arr) {
         for (let item in obj) {
             ArrImgBack.push(obj[item]);
         };
     };
-
     let RandomImg = ArrImgBack.sort(() => (Math.random() > .5) ? 2 : -1);
 
+    let cards = document.createElement('div');
+    cards.classList.add('game-cards');
+    cards.dataset.cardsIndex = `${dataId}`;
+    
     for (let i = 0; i < ArrImgBack.length; i++) {
+
         let card = document.createElement('div');
-        card.className = 'card';
+        card.classList.add('card');
 
         let cardInner = document.createElement('div');
-        cardInner.className = 'card-inner';
+        cardInner.classList.add('card-inner');
 
         let cardFront = document.createElement('div');
         let cardBack = document.createElement('div');
         let cardBackImg = document.createElement('img');
 
-        cardFront.className = 'card-front';
-        cardBack.className = 'card-back';
-        cardBackImg.className = 'card-img';
+        cardFront.classList.add('card-front');
+        cardBack.classList.add('card-back');
+        cardBackImg.classList.add('card-img');
         cardBackImg.src = `img/${RandomImg[i]}`;
         
         card.appendChild(cardInner);
         cardInner.appendChild(cardFront);
         cardInner.appendChild(cardBack);
         cardBack.append(cardBackImg);
-        parentCard.appendChild(card);
+        cards.appendChild(card)
+        parentCard.append(cards);
     };
-
+    
     clickItem = document.querySelectorAll('.card');
 
     clickItem.forEach(elem => {
@@ -126,16 +123,30 @@ function doubleCard(arr) {
     });
 };
 
-doubleCard(imgBackAcht);
+let objArrImg = {
+    imgBack8: imgBack8,
+    imgBack16: imgBack16,
+    imgBack24: imgBack24,
+    imgBack32: imgBack32,
+    imgBack40: imgBack40,
+};
 
+Object.entries(objArrImg).forEach(([key, value]) => {
+    doubleCard(key, value);
+})
+
+let gameCards = document.querySelectorAll('.game-cards');
+let newGameCards = Array.from(gameCards);
 
 let matchedCard = 0;
+let allMatchedCard = 0; 
 let cardOne, cardTwo, cardOneImg, cardTwoImg;
 let disableDeck = false;
 
 function clickCard(e) {
     let clickedCard = e.target;
     let parent = clickedCard.closest('div.card-inner');
+    
     let parentCardImg = parent.parentElement;
     if (parentCardImg != cardOne && !disableDeck) {
         parentCardImg.classList.add('visible');
@@ -148,7 +159,6 @@ function clickCard(e) {
 
         cardOneImg = cardOne.querySelector('img').src,
         cardTwoImg = cardTwo.querySelector('img').src;
-        console.log(cardOneImg, cardTwoImg)
         matchCards(cardOneImg, cardTwoImg, getNumberBalance(walletBalance));
     };
 };
@@ -160,31 +170,35 @@ function matchCards(img1, img2, balance) {
     let index = 0;
     if (img1 == img2) {
         matchedCard++;
+        allMatchedCard++;
         index = matchedCard;
         if (index) {
             if (walletHoneycomb.classList.contains('numX2')) {
-                setNum = honeyComb * matchedCard;
+                setNum = honeyComb * allMatchedCard;
                 getNumX2(setNum);
             } else {
-                getNum = balance + (honeyComb * matchedCard);
+                getNum = balance + (honeyComb * allMatchedCard);
                 animateNumber(balance , getNum);
             };
         };
-        for (let i = 1; i <= clickItem.length; i++) {
-            countCard = i;
-            resultNum = countCard / 2;
-        }
-        
-        if (matchedCard == resultNum) {
-            console.log(matchedCard, resultNum)
-            if (shadowLevelUp.classList.contains('game-shadow')) {
-                shadowLevelUp.classList.remove('activeShadow');
 
-            }
-            setTimeout(() => {
-                shuffleCard();
-            }, 1000);
-        };
+        newGameCards.forEach(cardsElem => {
+            if (cardsElem.classList.contains('activeBoxCards')) {
+                for (let i = 1; i <= cardsElem.childNodes.length; i++) {
+                    countCard = i;
+                    resultNum = countCard / 2;
+                };
+                if (matchedCard == resultNum) {
+                    if (shadowLevelUp.classList.contains('game-shadow')) {
+                        shadowLevelUp.classList.remove('activeShadow');
+                    }
+                    setTimeout(() => {
+                        shuffleCard();
+                    }, 1000);
+                };
+            };
+        });
+
         cardOne.removeEventListener('click', clickCard);
         cardTwo.removeEventListener('click', clickCard);
 
@@ -228,34 +242,61 @@ let countLevel = document.querySelector('.count');
 nextBtn.addEventListener('click', levelUp);
 
 let level = 1;
+let clickIndex = 0;
 
-function levelUp () {
+
+newGameCards.forEach(cardsElem => {
+    cardsElem.classList.add('hidden');
+    if (cardsElem.dataset.cardsIndex == 'imgBack8') {
+        cardsElem.classList.add('activeBoxCards');
+        cardsElem.classList.remove('hidden');
+    };
+});
+
+function levelUp (e) {
     if (level < 5) {
-        countLevel.innerHTML =  ++level;
-        parentCard.innerHTML = '';
+        countLevel.innerHTML = ++level;
+        ++clickIndex;
         shadowLevelUp.classList.add('activeShadow');
-        if (level == 2 ) {
-            doubleCard(imgBackSechZehn);
-            // getBackground('img/bg/bgCardUp-2.jpg')
-        };
+        newGameCards.forEach((gameCardsElem, index) => { 
+            if (gameCardsElem.classList.contains('activeBoxCards')) {
 
-        if (level == 3 ) {
-            parentCard.style.cssText = 'grid-template-columns: repeat(6, 1fr)';
-            doubleCard(imgBackVierUndZwanZig);
-            getBackground('img/bg/bgCardUp-3.jpg')
-        };
+                gameCardsElem.classList.remove('activeBoxCards');
+                gameCardsElem.classList.add('hidden');
+            };
+            
+            if (gameCardsElem.dataset.cardsIndex == 'imgBack16' && clickIndex == index) {
 
-        if (level == 4 ) {
-            parentCard.style.cssText = 'grid-template-columns: repeat(8, 1fr)';
-            doubleCard(imgBackZweiUndDreiSig);
-            // getBackground('img/bg/bgCardUp-4.jpg')
-        };
+                gameCardsElem.classList.add('activeBoxCards');
+                gameCardsElem.classList.remove('hidden');
+                // getBackground('img/bg/bgCardUp-2.jpg')
 
-        if (level == 5 ) {
-            parentCard.style.cssText = 'grid-template-columns: repeat(10, 1fr)';
-            doubleCard(imgBackVierZig);
-            // getBackground('img/bg/bgCardUp-5.jpg')
-        };
+            } else if (gameCardsElem.dataset.cardsIndex == 'imgBack24' && clickIndex == index) {
+
+                gameCardsElem.classList.add('activeBoxCards');
+                gameCardsElem.classList.remove('hidden');
+                gameCardsElem.style.cssText = 'grid-template-columns: repeat(6, 1fr)';
+    
+                getBackground('img/bg/bgCardUp-3.jpg');
+
+            } else if (gameCardsElem.dataset.cardsIndex == 'imgBack32' && clickIndex == index) {
+
+                gameCardsElem.classList.add('activeBoxCards');
+                gameCardsElem.classList.remove('hidden');
+                gameCardsElem.style.cssText = 'grid-template-columns: repeat(8, 1fr)';
+    
+                // getBackground('img/bg/bgCardUp-4.jpg')
+
+            } else if (gameCardsElem.dataset.cardsIndex == 'imgBack40' && clickIndex == index) {
+
+                gameCardsElem.classList.add('activeBoxCards');
+                gameCardsElem.classList.remove('hidden');
+                gameCardsElem.style.cssText = 'grid-template-columns: repeat(10, 1fr)';
+    
+                // getBackground('img/bg/bgCardUp-5.jpg')
+
+            };
+        });
     };
 };
 
@@ -271,22 +312,25 @@ function hintCard(e) {
     let clickHint = e.target;
     let childClickHint = clickHint.getElementsByClassName('game-price');
     let img1, img2;
+    let shadowHint = document.createElement('div');
+    parentCard.append(shadowHint);
     getBalance(childClickHint[0], getNumberBalance(walletBalance));
     for (let item of clickItem) {
         if (item.classList.contains('visible') ) {
+            shadowHint.classList.add('shadowHint');
+
             let cardsImg = document.querySelectorAll('.card');
             for (let elem of cardsImg) {
                 img1 = item.querySelector('img').src;
                 img2 = elem.querySelector('img').src;
                 if (img1 == img2) {
                     if (!elem.classList.contains('visible')) {
-                        elem.childNodes[0].classList.add('activeCard');
-                        elem.childNodes[0].style.cssText = 'transition: all 0.5s';
+                        elem.style.zIndex = 10;
                     }
                     setTimeout (() => {
-                        elem.childNodes[0].classList.remove('activeCard');
-                        elem.childNodes[0].style.cssText = '';
-                    }, 2000)
+                        shadowHint.style.display = 'none';
+                        elem.style.zIndex = 'auto';
+                    }, 1000);
                 };
             };
         };   
@@ -400,108 +444,160 @@ function timerX2() {
 // album 
 
 let album = document.querySelector('.album-wrapper');
+let modalAlbum = document.querySelector('.modal-album');
+let modalPocket = document.querySelectorAll('.modal-pocket');
+let arrPocket = Array.from(modalPocket);
 album.addEventListener('click', openAlbum);
 
 function openAlbum() {
-    let catalogImg = document.querySelector('.album-catalog');
-    catalogImg.classList.add('activeCatalog');
-    let modalAlbum = document.querySelector('.modal-album');
     modalAlbum.classList.toggle('activeAlbum');
-}
+
+    // if (modalAlbum.classList.contains('activeAlbum')) {
+    //     window.addEventListener('click', () => {
+    //         modalAlbum.classList.remove('activeAlbum');
+    //     });
+    // };
+};
 
 
 // modal-album
+
+let previewDiv, modalTextLevel;
+
+let albumPocket = document.querySelectorAll('.modal-album__pocket');
+let pocketArr = Array.from(albumPocket);
+console.log(pocketArr)
+let shopLocalObj = JSON.parse(localStorage.getItem('shop-json'));
+
+function creatingPreviewCard(key, arr) {
+    let arrDataset = ['imgBack8', 'imgBack8V2', 'imgBack16', "imgBack16V2", 'imgBack24', "imgBack24V2", 'imgBack32',  "imgBack32V2", 'imgBack40', "imgBack40V2"];
+    let lengthArr, resDelete;
+    
+    pocketArr.find(elem => {
+        console.log(elem.firstElementChild)
+        if (!elem.firstElementChild.classList.contains('modal-pocket__preview')) {
+            previewDiv = document.createElement('div');
+            previewDiv.classList.add('modal-pocket__preview');
+            
+            for (let j = 0; j < arrDataset.length; j++) {
+                lengthArr = j;
+                resDelete = (lengthArr + 1) % 2;
+                if (key == arrDataset[j]) {
+                    modalTextLevel = document.createElement('p');
+                    modalTextLevel.classList.add('modal-pocket__text');
+                    modalTextLevel.textContent = `level${j}`;
+
+                    previewDiv.dataset.arrimgs = arrDataset[j];
+                };
+            };
+            
+            let imgPreview = document.createElement('img');
+            imgPreview.classList.add('modal-pocket__preview-img');
+            let imgEins = arr.find(elem => elem);
+            imgPreview.src = `img/${imgEins}`;
+            imgPreview.alt = 'preview img';
+
+            elem.firstElementChild.prepend(modalTextLevel);
+            previewDiv.append(imgPreview);
+            elem.prepend(previewDiv);
+            return true;
+        };
+    });
+};
+
+
+function objSort(obj) {
+    Object.entries(obj).forEach(([key, value]) => {
+        for(let arr of value) {
+            creatingPreviewCard(key, arr)
+        };
+    });
+};
+
+objSort(shopLocalObj);
+
 
 let modalPreview = document.querySelectorAll('.modal-pocket__preview');
 modalPreview.forEach(preview => {
     preview.addEventListener('click', previewImg);
 });
 
+
 let boxImg;
 function previewImg(e) {
     let clickImg = e.target;
-    console.log(clickImg.dataset.arrimgs);
+    let parent = clickImg.parentElement;
+    let cardId = parent.dataset.arrimgs;
+    let setImgs;
+
     let boxImgs = document.querySelector('.modal-box__imgs');
     boxImgs.classList.add('activeBoxImgs');
-    
-    let jsonVier = JSON.parse(localStorage.getItem('arrImgVier'));
-    let jsonAcht = JSON.parse(localStorage.getItem('arrImgAcht'));
-    // localStorage.clear()
-    let jsonZwolf = JSON.parse(localStorage.getItem('arrImgZwolf'));
-
-    let setImgs = new Set(jsonZwolf);
-
     boxImg = document.querySelector('.modal-box__img');
 
-    setImgs.forEach(imgs => {
-        let img = document.createElement('img');
-        img.src = `img/${imgs}`;
-        boxImg.append(img);
+    let shopLocalObj = JSON.parse(localStorage.getItem('shop-json'));
+    Object.entries(shopLocalObj).forEach(([key, value]) => {
+        for (let arr of value) {
+            if (cardId == key) {
+                setImgs = setDubl(arr)
+                setImgs.forEach(imgs => {
+                    let img = document.createElement('img');
+                    img.src = `img/${imgs}`;
+                    img.classList.add('preview-img')
+                    boxImg.append(img);
+                });
+            };
+        };
     });
 };
 
-// let jsonZwolf = JSON.parse(localStorage.getItem('arrImgZwolf'));
-    
-// let setImgs = new Set(jsonZwolf);
-
-// boxImg = document.querySelector('.modal-box__img');
-
-// setImgs.forEach(imgs => {
-//     let img = document.createElement('img');
-//     img.src = `img/${imgs}`;
-//     boxImg.append(img);
-// });
+function setDubl (str) {
+    return new Set(str);
+};
 
 
 // modal btn
 
 let previewBtns = document.querySelectorAll('.modal-pocket__btn');
 previewBtns.forEach(elemBtn => {
-    elemBtn.addEventListener('click', newImgCard) 
+    elemBtn.addEventListener('click', newImgCardBack) 
 })
 
-function newImgCard (e) {
+function newImgCardBack (e) {
     let getBtn = e.target;
-    getBtn.textContent = 'активно';
-    getBtn.classList.add('activeBtn')
-    let modalArrImg = document.querySelector('.modal-box__img');
-    let beforeCardImg = document.querySelectorAll('.card-img');
-    let newArr = Array.from(beforeCardImg)
-    getBtn.removeEventListener('click', newImgCard)
-    // levelUp(doubleCard(imgBackZweiUndDreiSig))
+    let parentBtn = getBtn.parentElement;
+    let previousElementBtn = parentBtn.previousElementSibling;
+    let datasetId = previousElementBtn.dataset.arrimgs;
+    let newArr = [];
+    
+    let shopLocalObj = JSON.parse(localStorage.getItem('shop-json'));
+    Object.entries(shopLocalObj).forEach(([key, value]) => {
+        for (let arr of value) {
+            if (datasetId == key) {{
+                newArr = arr;
+            }};
+        };
+    });
+
+    let randomImg = newArr.sort(() => (Math.random() > .5) ? 2 : -1);
+
+    newGameCards.forEach(cards => {
+        if (cards.dataset.cardsIndex == datasetId) {
+            cards.childNodes.forEach((elem, index) => {
+                elem.querySelector('img').src = `img/${randomImg[index]}`;
+            });
+        };
+    });
+
+    if (!getBtn.classList.contains('activeBtn')) {
+        getBtn.textContent = 'Активно';
+        getBtn.classList.add('activeBtn');
+    } else {
+        getBtn.textContent = 'Применить';
+        getBtn.classList.remove('activeBtn');
+    };
 }
 
-
-
-// let jsonVier = JSON.parse(localStorage.getItem('arrImgVier'));
-
-// let previews = document.querySelectorAll('.modal-pocket__preview');
-// let newArr = Array.prototype.slice.call(previews);
-// let arrElem = [];
-// for (let elem of previews) {
-//     arrElem.push(elem.firstElementChild);
-// };
-
-// let getEinsIndex = arrElem.findIndex(elem => elem == null);
-// let removed;
-// if (getEinsIndex >= 1) {
-//     removed = arrElem.splice(getEinsIndex, 1);
-// }
-// console.log(removed, getEinsIndex)
-
-// newArr.forEach((preview, index) => {
-//     let img = document.createElement('img');
-//     img.classList.add('modal-pocket__preview-img');
-//     img.alt = 'preview img';
-//     if (!preview.firstElementChild && getEinsIndex == index) {
-//         preview.append(img);
-//     }
-//     img.src = `img/${jsonVier[2]}`;
-// })
-
-
-
-// modal close
+// modal-album close
 
 let boxClose = document.querySelector('.modal-box__close');
 let modalImgs = document.querySelector('.modal-box__imgs');
@@ -510,11 +606,9 @@ boxClose.addEventListener('click', closeModal);
 function closeModal(e) {
     if (modalImgs.classList.contains('activeBoxImgs')) {
         modalImgs.classList.remove('activeBoxImgs');
-        // boxImg.innerHTML = '';
         while(boxImg.firstChild) {
             boxImg.removeChild(boxImg.firstChild);
-        }
+        };
     };
 };
-
 
