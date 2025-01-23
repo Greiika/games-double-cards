@@ -46,7 +46,8 @@ function addingApoint(numBalance) {
     });
 };
 
-let balance = JSON.parse(localStorage.getItem('balance'));
+let valueBalance = JSON.parse(localStorage.getItem('balance'));
+let balance = valueBalance === null ? 0 : valueBalance;
 addingApoint(balance);
 
 function getNumberBalance(str) {
