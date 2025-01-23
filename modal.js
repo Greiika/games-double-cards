@@ -26,6 +26,7 @@ function getBackground (img) {
 getBackground('img/bg/bgCardUp-1.jpg')
 
 // balance
+localStorage.clear();
 
 function addingApoint(numBalance) {
     let strNum = String(numBalance);
