@@ -44,7 +44,7 @@ function addingApoint(numBalance) {
             walletBalance.textContent = `${strNum[0]}.${strNum.slice(1, 4)}.${strNum.slice(1, 4)}`;
         };
         let b = String(getNumberBalance(walletBalance));
-        localStorage.setItem('return-balance', b);
+        localStorage.setItem('balance', b);
     });
 };
 
