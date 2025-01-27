@@ -43,7 +43,6 @@ function addingApoint(str) {
     localStorage.setItem('balance', b);
 };
 
-let returnBalance = JSON.parse(localStorage.getItem('return-balance'));
 let valueBalance = JSON.parse(localStorage.getItem('balance'));
 let balance = valueBalance === null ? 0 : valueBalance;
 addingApoint(balance);
