@@ -1027,7 +1027,7 @@ header {
     }
 
     .help-mobile {
-        display: flex;
+        display: none;
         flex-direction: row;
         justify-content: space-evenly;
         width: 300px;
