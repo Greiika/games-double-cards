@@ -1,35 +1,35 @@
 let bgImgBack = [
     {
-        photo: 'butterflies/1.jpg'
+        photo: 'img/butterflies/1.jpg'
     },
 
     {
-        photo: 'butterflies/2.jpg'
+        photo: 'img/butterflies/2.jpg'
     },
 
     {
-        photo: 'butterflies/3.jpg'
+        photo: 'img/butterflies/3.jpg'
     },
 
     {
-        photo: 'butterflies/4.jpg'
+        photo: 'img/butterflies/4.jpg'
     },
 
 
     {
-        photo: 'butterflies/1.jpg'
+        photo: 'img/butterflies/1.jpg'
     },
 
     {
-        photo: 'butterflies/2.jpg'
+        photo: 'img/butterflies/2.jpg'
     },
 
     {
-        photo: 'butterflies/3.jpg'
+        photo: 'img/butterflies/3.jpg'
     },
 
     {
-        photo: 'butterflies/4.jpg'
+        photo: 'img/butterflies/4.jpg'
     },
 ]
 

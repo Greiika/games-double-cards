@@ -143,7 +143,7 @@ header {
     flex-direction: row;
 }
 
-.help {
+.help, .help-mobile {
     background-color: burlywood;
     width: 100px;
     border-radius: 10px;
@@ -153,6 +153,11 @@ header {
     flex-direction: column;
     padding: 15px;
     cursor: pointer;
+}
+
+.help-mobile {
+    position: absolute;
+    display: none;
 }
 
 .activeCard {
@@ -359,7 +364,7 @@ header {
 
 .card-back {
     transform: rotateY(-180deg);
-    background-color: cornflowerblue;
+    background-color: #f1c030;
 }
 
 
@@ -524,7 +529,7 @@ header {
 
 
 
-/* test */
+/* grid box */
 /* .up-test {
     height: 200px;
     width: 1000px;
@@ -555,9 +560,6 @@ header {
 .test {
     border: 1px solid white;
 } */
-
-.game-schop {
-}
 
 .game-schop button{
     color: white;
@@ -662,9 +664,6 @@ header {
     transform: rotate(315deg) scale(1.15);
 }
 
-.modal-content {
-}
-
 .modal-catalog {
     display: grid;
     grid-template-areas: "filter filter filter" "games cards cards" "games cards cards";
@@ -675,6 +674,9 @@ header {
     overflow: scroll;
     height: 510px;
     overflow-x: hidden;
+}
+.modal-cards::-webkit-scrollbar {
+    display: none;
 }
 .modal-gameEins {
     flex-wrap: wrap;
@@ -830,7 +832,7 @@ header {
 
 /* album */
 
-.album {
+.album, .album-mobile {
     width: 100px;
     height: 100px;
     background-color: burlywood;
@@ -842,6 +844,7 @@ header {
     cursor: pointer;
     border-radius: 10px;
 }
+
 .album-wrapper {
     width: 100%;
     height: 70px;
@@ -1013,4 +1016,110 @@ header {
     width: 100%;
     height: 100%;
     border-radius: 10px;
+}
+
+
+
+@media (max-width: 378px) {
+
+    .help, .album {
+        display: none;
+    }
+
+    .help-mobile {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        width: 300px;
+        bottom: 0;
+        padding: 5px;
+    }
+
+    .help-mobile > .game-multiplierX2,
+    .help-mobile > .game-placeholder{
+        margin: 0;
+    }
+
+    .game-box {
+        width: 70px;
+    }
+
+    .album-mobile {
+        padding: 0;
+        width: 70px;
+        height: 70px;
+    }
+
+    .game-cards:last-child {
+        margin-bottom: 100px;
+        gap: 8px;
+    }
+
+    .game-cards:last-child > .card {
+        width: 45px;
+        height: 65px;
+    }
+
+    .game-cards:last-child > .card .card-img {
+        height: 63px;
+    }
+
+    /* Шапка */
+
+    .game-title {
+        display: none;
+    }
+
+    .game-home, .game-wallet {
+        max-width: 120px;
+        border-radius: 10px;
+    }
+
+    .game-home {
+        width: 60px;
+        justify-content: center;
+    }
+
+    .game-home h2{
+        display: none;
+        font-size: 14px;
+        width: 150px;
+        padding-left: 10px;
+    }
+    .game-home::before {
+        content: '⇐';
+        font-size: 24px;
+        vertical-align: middle;
+    }
+
+    /* Карточки */
+
+    .card {
+        width: 50px;
+        height: 75px;
+    }
+
+    .card-inner {
+        border-radius: 5px;
+    }
+
+    .card-front {
+        border-radius: 5px;
+        background: url('img/frontCard-img/bgSota-mobile.png');
+    }
+
+    .card-back {
+        border-radius: 5px;
+    }
+
+    .card-img {
+        height: 75px;
+        border-radius: 5px;
+    }
+
+    .game-arrow {
+        width: 180px;
+        font-size: 16px;
+        border-radius: 15px;
+    }
 }

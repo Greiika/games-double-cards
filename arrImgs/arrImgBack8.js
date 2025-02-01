@@ -1,36 +1,22 @@
 let bgImgBack = [
-    {
-        photo: 'butterflies/1.jpg'
-    },
-
-    {
-        photo: 'butterflies/2.jpg'
-    },
-
-    {
-        photo: 'butterflies/3.jpg'
-    },
-
-    {
-        photo: 'butterflies/4.jpg'
-    },
-
-
-    {
-        photo: 'butterflies/1.jpg'
-    },
-
-    {
-        photo: 'butterflies/2.jpg'
-    },
-
-    {
-        photo: 'butterflies/3.jpg'
-    },
-
-    {
-        photo: 'butterflies/4.jpg'
-    },
+    
+    'img/butterflies/1.jpg',
+    
+    'img/butterflies/2.jpg',
+    
+    'img/butterflies/3.jpg',
+    
+    'img/butterflies/4.jpg',
+ 
+    
+    'img/butterflies/1.jpg',
+    
+    'img/butterflies/2.jpg',
+    
+    'img/butterflies/3.jpg',
+    
+    'img/butterflies/4.jpg'
+    
 ]
 
 export default bgImgBack;

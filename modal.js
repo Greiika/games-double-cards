@@ -42,12 +42,14 @@ function addingApoint(numBalance) {
             walletBalance.textContent = `${strNum[0]}.${strNum.slice(1, 4)}.${strNum.slice(1, 4)}`;
         };
         let b = String(getNumberBalance(walletBalance));
-        localStorage.setItem('return-balance', b);
+        console.log(b)
+        localStorage.setItem('balance', b);
     });
 };
 
-let balance = JSON.parse(localStorage.getItem('balance'));
-addingApoint(balance);
+let valueBalance = JSON.parse(localStorage.getItem('balance'));
+let localBalance = valueBalance === null ? 0 : valueBalance;
+addingApoint(localBalance);
 
 function getNumberBalance(str) {
     let getBalance = str.innerHTML; // поолучем значения баланса 
@@ -244,7 +246,7 @@ function getArrImgs (e) {
         if (getIdArr == index) {
             Object.entries(localArrCard).forEach(([key, value]) =>  {
                 if (key == datasetCard) {
-                    value.push(getArrElem(arrImg));
+                    value.push(arrImg);
                 };
             });
         };
@@ -254,10 +256,8 @@ function getArrImgs (e) {
 function getArrElem(arr) {
     let arrImg = []
     console.log(arrImg,arr)
-    for (let obj of arr) {
-        for (let elem in obj) {
-            arrImg.push(obj[elem]);
-        };
+    for (let elem of arr) {
+        arrImg.push(elem);
     };
     return arrImg;
 };

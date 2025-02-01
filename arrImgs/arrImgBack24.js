@@ -1,100 +1,100 @@
 let bgImgBack = [
-    {
-        photo: 'auto/auto-1.jpg'
-    },
+    
+    'img/auto/auto-1.jpg',
+    
 
-    {
-        photo: 'auto/auto-2.jpg'
-    },
+    
+    'img/auto/auto-2.jpg',
+    
 
-    {
-        photo: 'auto/auto-3.jpg'
-    },
+    
+    'img/auto/auto-3.jpg',
+    
 
-    {
-        photo: 'auto/auto-4.jpg'
-    },
+    
+    'img/auto/auto-4.jpg',
+    
 
-    {
-        photo: 'auto/auto-5.jpg'
-    },
+    
+    'img/auto/auto-5.jpg',
+    
 
-    {
-        photo: 'auto/auto-6.jpg'
-    },
+    
+    'img/auto/auto-6.jpg',
+    
 
-    {
-        photo: 'auto/auto-7.jpg'
-    },
+    
+    'img/auto/auto-7.jpg',
+    
 
-    {
-        photo: 'auto/auto-8.jpg'
-    },
+    
+    'img/auto/auto-8.jpg',
+    
 
-    {
-        photo: 'auto/auto-9.jpg'
-    },
+    
+    'img/auto/auto-9.jpg',
+    
 
-    {
-        photo: 'auto/auto-10.jpg'
-    },
+    
+    'img/auto/auto-10.jpg',
+    
 
-    {
-        photo: 'auto/auto-11.jpg'
-    },
+    
+    'img/auto/auto-11.jpg',
+    
 
-    {
-        photo: 'auto/auto-12.jpg'
-    },
+    
+    'img/auto/auto-12.jpg',
+    
 
 
-    {
-        photo: 'auto/auto-1.jpg'
-    },
+    
+    'img/auto/auto-1.jpg',
+    
 
-    {
-        photo: 'auto/auto-2.jpg'
-    },
+    
+    'img/auto/auto-2.jpg',
+    
 
-    {
-        photo: 'auto/auto-3.jpg'
-    },
+    
+    'img/auto/auto-3.jpg',
+    
 
-    {
-        photo: 'auto/auto-4.jpg'
-    },
+    
+    'img/auto/auto-4.jpg',
+    
 
-    {
-        photo: 'auto/auto-5.jpg'
-    },
+    
+    'img/auto/auto-5.jpg',
+    
 
-    {
-        photo: 'auto/auto-6.jpg'
-    },
+    
+    'img/auto/auto-6.jpg',
+    
 
-    {
-        photo: 'auto/auto-7.jpg'
-    },
+    
+    'img/auto/auto-7.jpg',
+    
 
-    {
-        photo: 'auto/auto-8.jpg'
-    },
+    
+    'img/auto/auto-8.jpg',
+    
 
-    {
-        photo: 'auto/auto-9.jpg'
-    },
+    
+    'img/auto/auto-9.jpg',
+    
 
-    {
-        photo: 'auto/auto-10.jpg'
-    },
+    
+    'img/auto/auto-10.jpg',
+    
 
-    {
-        photo: 'auto/auto-11.jpg'
-    },
+    
+    'img/auto/auto-11.jpg',
+    
 
-    {
-        photo: 'auto/auto-12.jpg'
-    },
+    
+    'img/auto/auto-12.jpg'
+    
 
     
 ]
