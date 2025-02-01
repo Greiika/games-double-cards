@@ -52,6 +52,7 @@ let valueBalance = JSON.parse(localStorage.getItem('balance'));
 let localBalance = valueBalance === null ? 0 : valueBalance;
 addingApoint(localBalance);
 
+
 // animation balance
 
 function getNumberBalance(str) {

@@ -1,3 +1,5 @@
+"use strict"
+
 import imgBack8 from './arrImgs/arrImgBack8.js';
 import imgBack16 from './arrImgs/arrImgBack16.js';
 import imgBack24 from './arrImgs/arrImgBack24.js';
@@ -42,7 +44,6 @@ function addingApoint(numBalance) {
             walletBalance.textContent = `${strNum[0]}.${strNum.slice(1, 4)}.${strNum.slice(1, 4)}`;
         };
         let b = String(getNumberBalance(walletBalance));
-        console.log(b)
         localStorage.setItem('balance', b);
     });
 };
