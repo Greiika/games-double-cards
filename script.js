@@ -13,21 +13,21 @@ let walletBalance = document.querySelector('.balance');
 let walletHoneycomb = document.querySelector('.wallet-honeycomb');
 let shadowLevelUp = document.querySelector('.game-shadow');  
 
-if (JSON.parse(localStorage.getItem('flag')) !== true || JSON.parse(localStorage.getItem('flag')) !== null) {
+if (JSON.parse(localStorage.getItem('flag')) !== true || JSON.parse(localStorage.getItem('flag')) === null) {
     let localFlag = JSON.stringify(false);
     localStorage.setItem('flag', localFlag);
 }
 
 // background
 
-function getBackground (img) {
-    let bodyBg = document.querySelector('body');
-    bodyBg.style.backgroundImage = `url(${img})`;
-    bodyBg.style.backgroundRepeat = 'no-repeat';
-    bodyBg.style.backgroundSize = 'cover';
-}
+// function getBackground (img) {
+//     let bodyBg = document.querySelector('body');
+//     bodyBg.style.backgroundImage = `url(${img})`;
+//     bodyBg.style.backgroundRepeat = 'no-repeat';
+//     bodyBg.style.backgroundSize = 'cover';
+// }
 
-getBackground('img/bg/bgCardUp-1.jpg')
+// getBackground('img/bg/bgCardUp-1.jpg')
 
 // balance
 
@@ -81,23 +81,41 @@ function animateNumber(start, end, duration = 100) {
 let honeyComb = 10;
 
 
-function doubleCard(dataId, arr) {
-    let ArrImgBack = [];
+function doubleCard(dataId, arr, key) {
+    let arrImgBack = [];
+    let randomImg;
 
-    ArrImgBack.splice(0, ArrImgBack.length);
+    if (dataId == key ) {
+        console.log(true)
+    }
+    arrImgBack.splice(0, arrImgBack.length);
 
     for (let elem of arr) {
-        ArrImgBack.push(elem)
+        arrImgBack.push(elem)
     }
 
-    let randomImg = ArrImgBack.sort(() => (Math.random() > .5) ? 2 : -1);
+    // if (JSON.parse(localStorage.getItem('cards')) == false) {
+    // }
+    randomImg = arrImgBack.sort(() => (Math.random() > .5) ? 2 : -1);
 
     let cards = document.createElement('div');
     cards.classList.add('game-cards');
     cards.dataset.cardsIndex = `${dataId}`;
-    // cards.firstChild.classList.add('activeBoxCards');
+    if (dataId == key) {
+        cards.classList.add('activeBoxCards');
+    }
     
-    for (let i = 0; i < ArrImgBack.length; i++) {
+    renderElemenet(arrImgBack, randomImg, cards)
+    
+    clickItem = document.querySelectorAll('.card');
+
+    clickItem.forEach(elem => {
+        elem.addEventListener('click', clickCard);
+    });
+};
+
+function renderElemenet(arr, img, cards) {
+    for (let i = 0; i < arr.length; i++) {
         let card = document.createElement('div');
         card.classList.add('card');
 
@@ -112,8 +130,8 @@ function doubleCard(dataId, arr) {
         cardBack.classList.add('card-back');
         cardBackImg.classList.add('card-img');
 
-        cardBackImg.src = `${randomImg[i]}`;
-        cardBackImg.alt = `${randomImg[i]}`;
+        cardBackImg.src = `${img[i]}`;
+        cardBackImg.alt = `${img[i]}`;
         
         card.appendChild(cardInner);
         cardInner.appendChild(cardFront);
@@ -122,12 +140,6 @@ function doubleCard(dataId, arr) {
         cards.appendChild(card);
         parentCard.append(cards);
     };
-    
-    clickItem = document.querySelectorAll('.card');
-
-    clickItem.forEach(elem => {
-        elem.addEventListener('click', clickCard);
-    });
 };
 
 let objArrImg = {
@@ -143,36 +155,20 @@ if (JSON.parse(localStorage.getItem('flag')) === false) {
         doubleCard(key, value);
     })
 
-} else if (JSON.parse(localStorage.getItem('flag')) === true && JSON.parse(localStorage.getItem('flag')).length !== null) {
+} else if (JSON.parse(localStorage.getItem('flag')) === true && JSON.parse(localStorage.getItem('cards')).length !== null) {
     let lengthLocal = JSON.parse(localStorage.getItem('cards')).length;
-
+    let keySave;
     for (let key in objArrImg) {
         if (objArrImg[key].length == lengthLocal) {
+            keySave = key;
             objArrImg[key] = JSON.parse(localStorage.getItem('cards'));
         };
     };
-
+    console.log(objArrImg)
     Object.entries(objArrImg).forEach(([key, value]) => {
-        doubleCard(key, value);
+        doubleCard(key, value, keySave);
     })
 }
-
-// window.addEventListener('load', function () {
-//     if (JSON.parse(localStorage.getItem('flag')) === true) {
-//         Object.entries(objArrImg).forEach(([key, value]) => {
-//             let lengthLocal = JSON.parse(localStorage.getItem('cards')).length;
-//             if (value.length == lengthLocal) {
-//                 console.log(value)
-//                 value = JSON.parse(localStorage.getItem('cards'));
-//                 doubleCard(key, value);
-//                 console.log(value)
-
-//             }
-//         });
-//     } 
-// });
-
-
 
 let gameCards = document.querySelectorAll('.game-cards');
 let newGameCards = Array.from(gameCards);
@@ -193,7 +189,7 @@ function clickCard(e) {
         parentCardImg.classList.add('visible');
         let img = parentCardImg.querySelector('img').src;
         localArrImg.push(img);
-        console.log(localArrImg)
+        // console.log(localArrImg)
         if (!cardOne) {
             return (cardOne = parentCardImg);
         };
@@ -290,91 +286,98 @@ let nextBtn = document.querySelector('.arrow-next');
 let countLevel = document.querySelector('.count');
 
 nextBtn.addEventListener('click', levelUp);
+let level, clickIndex;
+if (JSON.parse(localStorage.getItem('level-count')) == null) {
+    level = 1;
+    clickIndex = 0;
+} else {
+    level = +JSON.parse(localStorage.getItem('level'));
+    clickIndex = +JSON.parse(localStorage.getItem('level-count'));
+    countLevel.innerHTML = +JSON.parse(localStorage.getItem('level'));
+    if (+JSON.parse(localStorage.getItem('level')) == 5) {
+        let btnNext = document.querySelector('.arrow-next');
+        btnNext.style.display = "none";
 
-let level = 1;
-let clickIndex = 0;
-let nodeListElem, newUrl, strCards;
+        let btn = document.querySelector('.game-arrows');
+        btn.style.justifyContent = "flex-start";
+    }
+}
+let nodeListElem, newUrl;
 let localImg = [];
+
+let objGrid = {
+    2: 6,
+    3: 8,
+    4: 10
+};
+
+let objBg = {
+    1: 2,
+    2: 3,
+    3: 4,
+    4: 5
+}
 
 
 newGameCards.forEach((cardsElem, index) => {
-    cardsElem.classList.add('hidden');
+    if (cardsElem.classList.contains('activeBoxCards')) {
+        cardsElem.classList.remove('hidden');
+        let oneCards = newGameCards.find(elem => elem.classList.contains('activeBoxCards'));
+        oneCards.classList.remove('activeBoxCards');
+        oneCards.classList.add('hidden');
+    } else  {
+        cardsElem.classList.add('hidden');
+    };
+
+    Object.entries(objGrid).forEach(([key,value]) => {
+        if (+JSON.parse(localStorage.getItem('level-count')) == key) {
+            cardsElem.style.cssText = `grid-template-columns: repeat(${value}, 1fr)`;
+            if (document.documentElement.clientWidth <= 378) {
+                cardsElem.style.cssText = `grid-template-columns: repeat(6, 1fr)`;
+            };
+        };
+    });
+
     if (clickIndex == index) {
         cardsElem.classList.add('activeBoxCards');
         cardsElem.classList.remove('hidden');
         nodeListElem = cardsElem.querySelectorAll('.card');
         nodeListElem.forEach(elem => {
             newUrl = new URL(elem.querySelector('img').src);
-            // localImg.push(newUrl.pathname)
-            // strCards = JSON.stringify(localImg);
-            // localStorage.setItem('cards', strCards);
-            // let flag = JSON.parse(localStorage.getItem('flag'));
-            // flag = true;
-            // let newValueFlag = JSON.stringify(flag);
-            // localStorage.setItem('flag', newValueFlag)
+            localImg.push(newUrl.pathname)
+            if (JSON.parse(localStorage.getItem('flag')) === false) {
+                localStorage.setItem('cards', JSON.stringify(localImg));   
+            } else {
+                JSON.parse(localStorage.getItem('cards'));
+            };
         });
+        if (JSON.parse(localStorage.getItem('flag')) === false) {
+            let flag = JSON.parse(localStorage.getItem('flag'));
+            flag = true;
+            localStorage.setItem('flag', JSON.stringify(flag));
+        };
     };
 });
 
-function getNewCards(dataId, arr) {    
-    let cards = document.createElement('div');
-    cards.classList.add('game-cards');
-    // cards.dataset.cardsIndex = `${dataId}`;
-    cards.classList.add('activeBoxCards');
-    
-    for (let i = 0; i < newCards.length; i++) {
-    
-        let card = document.createElement('div');
-        card.classList.add('card');
-    
-        let cardInner = document.createElement('div');
-        cardInner.classList.add('card-inner');
-    
-        let cardFront = document.createElement('div');
-        let cardBack = document.createElement('div');
-        let cardBackImg = document.createElement('img');
-    
-        cardFront.classList.add('card-front');
-        cardBack.classList.add('card-back');
-        cardBackImg.classList.add('card-img');
-    
-        cardBackImg.src = `${newCards[i]}`;
-        cardBackImg.alt = `${newCards[i]}`;
-        
-        card.appendChild(cardInner);
-        cardInner.appendChild(cardFront);
-        cardInner.appendChild(cardBack);
-        cardBack.append(cardBackImg);
-        cards.appendChild(card);
-        parentCard.append(cards);
-    };
 
-    clickItem = document.querySelectorAll('.card');
+function levelUp () {
+    let img = JSON.parse(localStorage.getItem('cards'));
+    img = [];
 
-    clickItem.forEach(elem => {
-        elem.addEventListener('click', clickCard);
-    });
-}
-
-function levelUp (e) {
-    let objGrid = {
-        2: 6,
-        3: 8,
-        4: 10
-    };
-    let objBg = {
-        1: 2,
-        2: 3,
-        3: 4,
-        4: 5
-    }
     if (level < 5) {
         countLevel.innerHTML = ++level;
+        localStorage.setItem('level', JSON.stringify(level))
         if (level == 5) {
+            let btnNext = document.querySelector('.arrow-next');
+            btnNext.style.display = "none";
+
             let btn = document.querySelector('.game-arrows');
-            btn.style.display = "none";
+            btn.style.justifyContent = 'flex-start'
+        } else {
+
         }
-        ++clickIndex;
+        clickIndex++;
+        localStorage.setItem('level-count', JSON.stringify(clickIndex))
         // shadowLevelUp.classList.add('activeShadow');
         newGameCards.forEach((gameCardsElem, index) => { 
             if (gameCardsElem.classList.contains('activeBoxCards')) {
@@ -388,16 +391,19 @@ function levelUp (e) {
                 nodeListElem = gameCardsElem.querySelectorAll('.card');
                 nodeListElem.forEach(elem => {
                     newUrl = new URL(elem.querySelector('img').src);
-                    localImg.push(newUrl.pathname)
-                    localStorage.setItem('cards', JSON.stringify(localImg));                    
-                    let flag = JSON.parse(localStorage.getItem('flag'));
-                    flag = true;
-                    let newValueFlag = JSON.stringify(flag);
-                    localStorage.setItem('flag', newValueFlag)
+                    img.push(newUrl.pathname);
+                    localStorage.setItem('cards', JSON.stringify(img));       
                 });
 
+
+                if (JSON.parse(localStorage.getItem('flag')) === false) {
+                    let flag = JSON.parse(localStorage.getItem('flag'));
+                    flag = true;
+                    localStorage.setItem('flag', JSON.stringify(flag));
+                }
+
                 Object.entries(objGrid).forEach(([key,value]) => {
-                    if (index == key) {
+                    if (+JSON.parse(localStorage.getItem('level-count')) == key) {
                         gameCardsElem.style.cssText = `grid-template-columns: repeat(${value}, 1fr)`;
                         if (document.documentElement.clientWidth <= 378) {
                             gameCardsElem.style.cssText = `grid-template-columns: repeat(6, 1fr)`;
@@ -405,14 +411,14 @@ function levelUp (e) {
                     };
                 });
 
-                Object.entries(objBg).forEach(([key, value]) => {
-                    if (index == key) {
-                        getBackground(`img/bg/bgCardUp-${value}.jpg`)
-                        if (document.documentElement.clientWidth <= 378) {
-                            getBackground(`img/bg/bgCardUp-mobile-${value}.jpg`);
-                        }
-                    };
-                });
+                // Object.entries(objBg).forEach(([key, value]) => {
+                //     if (index == key) {
+                //         getBackground(`img/bg/bgCardUp-${value}.jpg`)
+                //         if (document.documentElement.clientWidth <= 378) {
+                //             getBackground(`img/bg/bgCardUp-mobile-${value}.jpg`);
+                //         }
+                //     };
+                // });
             };
         });
     };
@@ -422,9 +428,10 @@ function levelUp (e) {
 // placecholder card
 
 
-let hint = document.querySelector('.placeholder');
-
-hint.addEventListener('click', hintCard);
+let hints = document.querySelectorAll('.placeholder');
+hints.forEach(hint => {
+    hint.addEventListener('click', hintCard);
+});
 
 let shadowHint = document.createElement('div');
 shadowHint.classList.add('shadowHint');
@@ -515,7 +522,7 @@ function getNumX2(num) {
 
 let gameMultiplierX2 = document.querySelector('.game-multiplierX2');
 
-let second = 30;
+let second = 59;
 let flagTimer = false;
 let div;
 
@@ -563,12 +570,13 @@ function timerX2() {
 
 let album = document.querySelector('.album-wrapper');
 let modalAlbum = document.querySelector('.modal-album');
+console.log(album)
 let modalPocket = document.querySelectorAll('.modal-pocket');
 album.addEventListener('click', openAlbum);
 
 function openAlbum() {
     modalAlbum.classList.toggle('activeAlbum');
-
+    console.log(1)
     // if (modalAlbum.classList.contains('activeAlbum')) {
     //     window.addEventListener('click', () => {
     //         modalAlbum.classList.remove('activeAlbum');
@@ -624,7 +632,7 @@ function creatingPreviewCard(key, arr) {
             let imgPreview = document.createElement('img');
             imgPreview.classList.add('modal-pocket__preview-img');
             let imgEins = arr.find(elem => elem);
-            imgPreview.src = `img/${imgEins}`;
+            imgPreview.src = `${imgEins}`;
             imgPreview.alt = 'preview img';
 
             elem.firstElementChild.prepend(modalTextLevel);
@@ -671,7 +679,7 @@ function previewImg(e) {
                 setImgs = setDubl(arr)
                 setImgs.forEach(imgs => {
                     let img = document.createElement('img');
-                    img.src = `img/${imgs}`;
+                    img.src = `${imgs}`;
                     img.classList.add('preview-img')
                     boxImg.append(img);
                 });
