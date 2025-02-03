@@ -621,8 +621,6 @@ header {
     border: none;
 }
 
-
-
 .close::after,
 .modal-box__close::after,
 .close::before,
