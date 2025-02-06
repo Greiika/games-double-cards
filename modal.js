@@ -287,3 +287,10 @@ function schop() {
         modal.classList.add('active');
     };
 };
+
+let gameNew = document.querySelector('.game-new');
+gameNew.addEventListener('click', clearLocal);
+
+function clearLocal() {
+    localStorage.clear()
+}

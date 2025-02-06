@@ -172,8 +172,36 @@ if (JSON.parse(localStorage.getItem('flag')) === false) {
 
 let gameCards = document.querySelectorAll('.game-cards');
 let newGameCards = Array.from(gameCards);
+let imgCardIndexLocal = JSON.parse(localStorage.getItem('imgCardIndex'));
+let imgCardLocal = JSON.parse(localStorage.getItem('imgCard'));
 
-let matchedCard = 0;
+let matchedCard;
+if (imgCardIndexLocal == null) {
+    matchedCard = 0;
+} else {
+    matchedCard = +JSON.parse(localStorage.getItem('imgCardIndex'));
+    console.log(matchedCard)
+}
+
+newGameCards.forEach(card => {
+    if (card.classList.contains('activeBoxCards') && JSON.parse(localStorage.getItem('imgCard')) !== null) {
+        imgCardLocal.forEach(img => {
+            for (let i = 0; i < card.childNodes.length; i++) {
+                let cardElem = card.childNodes[i];
+                let tagImg = cardElem.querySelector('img');
+                let imgElem = tagImg.src;
+                if (img == imgElem) {
+                    let parent = tagImg.closest('div.card-inner');
+                    let parentCardImg = parent.parentElement;
+                    parentCardImg.classList.add('visible');
+                };
+            };
+        });
+    };
+});
+
+
+
 let allMatchedCard = 0; 
 let cardOne, cardTwo, cardOneImg, cardTwoImg;
 let disableDeck = false;
@@ -183,35 +211,58 @@ let localArrImg = [];
 function clickCard(e) {
     let clickedCard = e.target;
     let parent = clickedCard.closest('div.card-inner');
-    
+    let img;
     let parentCardImg = parent.parentElement;
     if (parentCardImg != cardOne && !disableDeck) {
         parentCardImg.classList.add('visible');
-        let img = parentCardImg.querySelector('img').src;
-        localArrImg.push(img);
+        // if (parentCardImg.classList.contains('visible')) {
+        //     img = parentCardImg.querySelector('img').src;
+        //     localArrImg.push(img);
+        // }
+        // localArrImg.forEach(img => {
+        //     console.log(img)
+        // })
         // console.log(localArrImg)
         if (!cardOne) {
             return (cardOne = parentCardImg);
         };
+        console.log(parentCardImg)
         
         cardTwo = parentCardImg;
         disableDeck = true;
 
         cardOneImg = cardOne.querySelector('img').src,
         cardTwoImg = cardTwo.querySelector('img').src;
-        matchCards(cardOneImg, cardTwoImg, getNumberBalance(walletBalance));
+        matchCards(cardOneImg, cardTwoImg, getNumberBalance(walletBalance), parentCardImg);
     };
 };
 
 
-function matchCards(img1, img2, balance) {
+
+
+
+
+function matchCards(img1, img2, balance, parent) {
     let countCard = 0;
     let resultNum, getNum, setNum;
     let index = 0;
+    // console.log(parent)
+    // if (parent.classList.contains('visible')) {
+    //     localArrImg.push(img1, img2);
+    //     console.log(localArrImg)
+    // } else if (!parent.classList.contains('visible')) {
+    //     localArrImg.pop(img1, img2)
+    // }
+
     if (img1 == img2) {
+    //    localArrImg.push(img1, img2);
+    //    localStorage.setItem('imgCard', JSON.stringify(localArrImg));
+
         matchedCard++;
         allMatchedCard++;
         index = matchedCard;
+        console.log(index)
+        // localStorage.setItem('imgCardIndex', JSON.stringify(index));
         if (index) {
             if (walletHoneycomb.classList.contains('numX2')) {
                 setNum = honeyComb * allMatchedCard;
@@ -228,6 +279,7 @@ function matchCards(img1, img2, balance) {
                     countCard = i;
                     resultNum = countCard / 2;
                 };
+                console.log(matchedCard)
                 if (matchedCard == resultNum) {
                     if (shadowLevelUp.classList.contains('game-shadow')) {
                         shadowLevelUp.classList.remove('activeShadow');
@@ -239,10 +291,10 @@ function matchCards(img1, img2, balance) {
             };
         });
 
-        // setTimeout(() => {
-        //     cardOne.style.visibility = 'hidden';
-        //     cardTwo.style.visibility = 'hidden';
-        // }, 1000);
+        setTimeout(() => {
+            // cardOne.style.visibility = 'hidden';
+            // cardTwo.style.visibility = 'hidden';
+        }, 1000);
 
 
         cardOne.removeEventListener('click', clickCard);
@@ -282,10 +334,14 @@ function shuffleCard() {
 
 // levelUp
 
+let btns = document.querySelector('.game-arrows');
 let nextBtn = document.querySelector('.arrow-next');
+let prevBtn = document.querySelector('.arrow-prev');
 let countLevel = document.querySelector('.count');
 
+prevBtn.addEventListener('click', levelDown);
 nextBtn.addEventListener('click', levelUp);
+
 let level, clickIndex;
 if (JSON.parse(localStorage.getItem('level-count')) == null) {
     level = 1;
@@ -295,13 +351,16 @@ if (JSON.parse(localStorage.getItem('level-count')) == null) {
     clickIndex = +JSON.parse(localStorage.getItem('level-count'));
     countLevel.innerHTML = +JSON.parse(localStorage.getItem('level'));
     if (+JSON.parse(localStorage.getItem('level')) == 5) {
-        let btnNext = document.querySelector('.arrow-next');
-        btnNext.style.display = "none";
-
-        let btn = document.querySelector('.game-arrows');
-        btn.style.justifyContent = "flex-start";
-    }
+        nextBtn.style.display = "none";
+        btns.style.justifyContent = "flex-start";
+    } 
+    // else if (+JSON.parse(localStorage.getItem('level')) > 1) {
+    //     let btnPrev = document.querySelector('.arrow-prev');
+    //     btnPrev.style.display = "inline-block"; 
+    //     btns.style.justifyContent = 'flex-end';
+    // }
 }
+
 let nodeListElem, newUrl;
 let localImg = [];
 
@@ -342,9 +401,13 @@ newGameCards.forEach((cardsElem, index) => {
         cardsElem.classList.add('activeBoxCards');
         cardsElem.classList.remove('hidden');
         nodeListElem = cardsElem.querySelectorAll('.card');
+        if (clickIndex == 0) {
+            prevBtn.style.display = 'none';
+            btns.style.justifyContent = 'flex-end'
+        }
         nodeListElem.forEach(elem => {
             newUrl = new URL(elem.querySelector('img').src);
-            localImg.push(newUrl.pathname)
+            localImg.push(newUrl.pathname);
             if (JSON.parse(localStorage.getItem('flag')) === false) {
                 localStorage.setItem('cards', JSON.stringify(localImg));   
             } else {
@@ -356,73 +419,122 @@ newGameCards.forEach((cardsElem, index) => {
             flag = true;
             localStorage.setItem('flag', JSON.stringify(flag));
         };
-    };
+    } else {
+        prevBtn.style.display = 'inline-block';
+
+    }
 });
 
 
 function levelUp () {
-    let img = JSON.parse(localStorage.getItem('cards'));
-    img = [];
+    newGameCards.forEach(gameCardsElem => {
+        let cardVisible = gameCardsElem.querySelectorAll('.card');
+        cardVisible.forEach(card => {
+            if (card.classList.contains('visible')) {
+                card.classList.remove('visible');
+            };
+        });
+    });
+
+    let arrImg = JSON.parse(localStorage.getItem('cards'));
+    arrImg = [];
 
     if (level < 5) {
         countLevel.innerHTML = ++level;
         localStorage.setItem('level', JSON.stringify(level))
+        prevBtn.style.display = 'inline-block'
         if (level == 5) {
-            let btnNext = document.querySelector('.arrow-next');
-            btnNext.style.display = "none";
-
-            let btn = document.querySelector('.game-arrows');
-            btn.style.justifyContent = 'flex-start'
-        } else {
-
+            nextBtn.style.display = "none";
+            btns.style.justifyContent = 'flex-start';
         }
         clickIndex++;
         localStorage.setItem('level-count', JSON.stringify(clickIndex))
         // shadowLevelUp.classList.add('activeShadow');
-        newGameCards.forEach((gameCardsElem, index) => { 
-            if (gameCardsElem.classList.contains('activeBoxCards')) {
-                gameCardsElem.classList.remove('activeBoxCards');
-                gameCardsElem.classList.add('hidden');
-            };
-
-            if (clickIndex == index) {
-                gameCardsElem.classList.add('activeBoxCards');
-                gameCardsElem.classList.remove('hidden');
-                nodeListElem = gameCardsElem.querySelectorAll('.card');
-                nodeListElem.forEach(elem => {
-                    newUrl = new URL(elem.querySelector('img').src);
-                    img.push(newUrl.pathname);
-                    localStorage.setItem('cards', JSON.stringify(img));       
-                });
-
-
-                if (JSON.parse(localStorage.getItem('flag')) === false) {
-                    let flag = JSON.parse(localStorage.getItem('flag'));
-                    flag = true;
-                    localStorage.setItem('flag', JSON.stringify(flag));
-                }
-
-                Object.entries(objGrid).forEach(([key,value]) => {
-                    if (+JSON.parse(localStorage.getItem('level-count')) == key) {
-                        gameCardsElem.style.cssText = `grid-template-columns: repeat(${value}, 1fr)`;
-                        if (document.documentElement.clientWidth <= 378) {
-                            gameCardsElem.style.cssText = `grid-template-columns: repeat(6, 1fr)`;
-                        }
-                    };
-                });
-
-                // Object.entries(objBg).forEach(([key, value]) => {
-                //     if (index == key) {
-                //         getBackground(`img/bg/bgCardUp-${value}.jpg`)
-                //         if (document.documentElement.clientWidth <= 378) {
-                //             getBackground(`img/bg/bgCardUp-mobile-${value}.jpg`);
-                //         }
-                //     };
-                // });
-            };
-        });
+        saveElement(arrImg);
     };
 };
+
+
+function levelDown() {
+    newGameCards.forEach(gameCardsElem => {
+        let cardVisible = gameCardsElem.querySelectorAll('.card');
+        cardVisible.forEach(card => {
+            if (card.classList.contains('visible')) {
+                card.classList.remove('visible');
+            };
+        });
+    });
+
+    let arrImg = JSON.parse(localStorage.getItem('cards'));
+    arrImg = [];
+
+
+    if (level > 1 ) {
+        countLevel.innerHTML = --level;
+        localStorage.setItem('level', JSON.stringify(level));
+
+        if (level < 5) {
+            nextBtn.style.display = "inline-block";
+            btns.style.justifyContent = 'space-evenly';
+
+            if (level == 1) {
+                prevBtn.style.display = "none"; 
+                btns.style.justifyContent = 'flex-end';
+            };
+        };
+        
+        clickIndex--;
+        localStorage.setItem('level-count', JSON.stringify(clickIndex));
+        // shadowLevelUp.classList.add('activeShadow');
+        saveElement(arrImg);
+    }
+}
+
+
+function saveElement(img) {
+    newGameCards.forEach((gameCardsElem, index) => {
+        if (gameCardsElem.classList.contains('activeBoxCards')) {
+            gameCardsElem.classList.remove('activeBoxCards');
+            gameCardsElem.classList.add('hidden');
+        };
+
+        if (clickIndex == index) {
+            gameCardsElem.classList.add('activeBoxCards');
+            gameCardsElem.classList.remove('hidden');
+            nodeListElem = gameCardsElem.querySelectorAll('.card');
+            nodeListElem.forEach(elem => {
+                newUrl = new URL(elem.querySelector('img').src);
+                img.push(newUrl.pathname);
+                localStorage.setItem('cards', JSON.stringify(img));       
+            });
+
+
+            if (JSON.parse(localStorage.getItem('flag')) === false) {
+                let flag = JSON.parse(localStorage.getItem('flag'));
+                flag = true;
+                localStorage.setItem('flag', JSON.stringify(flag));
+            }
+
+            Object.entries(objGrid).forEach(([key,value]) => {
+                if (+JSON.parse(localStorage.getItem('level-count')) == key) {
+                    gameCardsElem.style.cssText = `grid-template-columns: repeat(${value}, 1fr)`;
+                    if (document.documentElement.clientWidth <= 378) {
+                        gameCardsElem.style.cssText = `grid-template-columns: repeat(6, 1fr)`;
+                    }
+                };
+            });
+
+            // Object.entries(objBg).forEach(([key, value]) => {
+            //     if (index == key) {
+            //         getBackground(`img/bg/bgCardUp-${value}.jpg`)
+            //         if (document.documentElement.clientWidth <= 378) {
+            //             getBackground(`img/bg/bgCardUp-mobile-${value}.jpg`);
+            //         }
+            //     };
+            // });
+        };
+    });
+}
 
 
 // placecholder card
@@ -434,7 +546,7 @@ hints.forEach(hint => {
 });
 
 let shadowHint = document.createElement('div');
-shadowHint.classList.add('shadowHint');
+parentCard.append(shadowHint);
 
 function hintCard(e) {
     let clickHint = e.target;
@@ -449,12 +561,12 @@ function hintCard(e) {
                 img2 = elem.querySelector('img').src;
                 if (img1 == img2) {
                     if (!elem.classList.contains('visible')) {
-                        parentCard.append(shadowHint);
+                        shadowHint.classList.add('shadowHint');
                         elem.style.zIndex = 10;
                     }
                     setTimeout (() => {
-                        parentCard.removeChild(shadowHint);
-                        elem.style.zIndex = 0;
+                        shadowHint.classList.remove('shadowHint');
+                        elem.removeAttribute('style');
                     }, 1000);
                 };
             };
@@ -481,13 +593,13 @@ function getBalance(price, balance) {
             walletBalance.style.color = 'red', 
             walletBalance.innerHTML = '0';
             setTimeout (() => {
-                walletBalance.style.color = 'black';
+                walletBalance.style.color = 'white';
             }, 1000)
         } else if (balance < numPrice && balance > 0) {
             price.classList.remove('visible');
             walletBalance.style.color = 'red';
             setTimeout (() => {
-                walletBalance.style.color = 'black';
+                walletBalance.style.color = 'white';
             }, 200)
         };
     };  
@@ -531,32 +643,20 @@ function timerX2() {
         div  = document.createElement('div');
         div.classList.add('timer');
         gameMultiplierX2.append(div);
-        div.style.backgroundColor = 'rgba(0, 0, 0, 0.6)';
-        div.style.width = '100%';
-        div.style.height = '100%';
-        div.style.position = 'absolute';
-        div.style.zIndex = '20';
-        div.style.top = '0';
-        div.style.borderRadius = '10px';
-        div.style.display = 'flex';
-        div.style.alignItems = 'center';
-        div.style.justifyContent = 'center';
-        div.style.fontSize = '20px';
-        div.style.color = 'white';
         flagTimer = true;
     };
     
     
     setTimeout(() => {
-        div.innerHTML = `0:${second--}`
+        div.innerHTML = `0:${second--}`;
         if (second == 10) {
-            div.innerHTML = `0:${second}`
+            div.innerHTML = `0:${second}`;
         };
         if (second < 10) {
-            div.innerHTML = `0:0${second}`
+            div.innerHTML = `0:0${second}`;
         }
         if (second > 0) {
-            timerX2()
+            timerX2();
         } else if (second == 0) {
             div.style.display = 'none';
             walletHoneycomb.childNodes[1].classList.remove('activeX2');
@@ -570,7 +670,6 @@ function timerX2() {
 
 let album = document.querySelector('.album-wrapper');
 let modalAlbum = document.querySelector('.modal-album');
-console.log(album)
 let modalPocket = document.querySelectorAll('.modal-pocket');
 album.addEventListener('click', openAlbum);
 
@@ -645,11 +744,13 @@ function creatingPreviewCard(key, arr) {
 
 
 function objSort(obj) {
-    Object.entries(obj).forEach(([key, value]) => {
-        for(let arr of value) {
-            creatingPreviewCard(key, arr)
-        };
-    });
+    if (obj !== null) {
+        Object.entries(obj).forEach(([key, value]) => {
+            for(let arr of value) {
+                creatingPreviewCard(key, arr)
+            };
+        });
+    }
 };
 
 objSort(shopLocalObj);
