@@ -1061,7 +1061,7 @@ header {
     }
 
     .help-mobile {
-        display: none;
+        display: flex;
         flex-direction: row;
         justify-content: space-evenly;
         width: 300px;
@@ -1102,6 +1102,25 @@ header {
         height: 63px;
     }
 
+    .game-cards:first-child > .card {
+        width: 65px;
+        height: 85px;
+    }
+
+    .game-cards:first-child > .card .card-img{
+        height: 83px;
+    }
+
+    .game-cards:nth-child(2) > .card {
+        width: 55px;
+        height: 75px;
+    }
+
+    .game-cards:nth-child(2) > .card .card-img{
+        height: 73px;
+    }
+    
+
     /* Шапка */
 
     .game-title {
@@ -1132,11 +1151,6 @@ header {
 
     /* Карточки */
 
-    .card {
-        width: 50px;
-        height: 75px;
-    }
-
     .card-inner {
         border-radius: 5px;
     }
@@ -1161,9 +1175,23 @@ header {
     .modal-album.activeAlbum,
     .modal-box__imgs.activeBoxImgs {
         overflow: scroll;
-        height: 530px;
+        height: 345px;
         left: calc(50% - 150px);
-        top: calc(50% - 250px);
+        top: calc(50% - 170px);
         max-width: 300px;
+        min-height: initial;
+    }
+
+    .modal-album__wrapper {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .modal-box__header {
+        padding: 3px;
+    }
+
+    .modal-box__close {
+        width: 30px;
+        height: 30px;
     }
 }

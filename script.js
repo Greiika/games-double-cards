@@ -200,8 +200,6 @@ newGameCards.forEach(card => {
     };
 });
 
-
-
 let allMatchedCard = 0; 
 let cardOne, cardTwo, cardOneImg, cardTwoImg;
 let disableDeck = false;
@@ -346,7 +344,7 @@ function cardVisibity(card1, card2) {
     setTimeout(() => {
         card1.style.visibility = 'hidden';
         card2.style.visibility = 'hidden';
-    }, 1000);
+    }, 600);
 }
 
 // levelUp
@@ -625,9 +623,10 @@ function getBalance(price, balance) {
 
 // multiplierX2
 
-let multiplierX2 = document.querySelector('.multiplierX2');
-
-multiplierX2.addEventListener('click', numX2Card);
+let multipliersX2 = document.querySelectorAll('.multiplierX2');
+multipliersX2.forEach(multiplierX2 => {
+    multiplierX2.addEventListener('click', numX2Card);
+})
 
 function numX2Card(e) {
     walletHoneycomb.classList.add('numX2');
@@ -649,7 +648,7 @@ function getNumX2(num) {
 
 // timer
 
-let gameMultiplierX2 = document.querySelector('.game-multiplierX2');
+let gameMultipliersX2 = document.querySelectorAll('.game-multiplierX2');
 
 let second = 59;
 let flagTimer = false;
@@ -657,9 +656,11 @@ let div;
 
 function timerX2() {
     if (!flagTimer) {
-        div  = document.createElement('div');
+        div = document.createElement('div');
         div.classList.add('timer');
-        gameMultiplierX2.append(div);
+        gameMultipliersX2.forEach(gameMultiplierX2 => {
+            gameMultiplierX2.append(div);
+        }) 
         flagTimer = true;
     };
     
