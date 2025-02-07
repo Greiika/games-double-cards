@@ -205,8 +205,16 @@ newGameCards.forEach(card => {
 let allMatchedCard = 0; 
 let cardOne, cardTwo, cardOneImg, cardTwoImg;
 let disableDeck = false;
-
-let localArrImg = [];
+let localArrImg;
+if (JSON.parse(localStorage.getItem('imgCard')) == null) {
+    localArrImg = [];
+} else if (JSON.parse(localStorage.getItem('imgCardIndex')) == 0) {
+    localArrImg = JSON.parse(localStorage.getItem('imgCard'));
+    localArrImg = [];
+    localStorage.setItem('imgCard', JSON.stringify(localArrImg));
+} else {
+    localArrImg = JSON.parse(localStorage.getItem('imgCard'));
+}
 
 function clickCard(e) {
     let clickedCard = e.target;
@@ -237,14 +245,9 @@ function clickCard(e) {
     };
 };
 
-
-
-
-
-
 function matchCards(img1, img2, balance, parent) {
     let countCard = 0;
-    let resultNum, getNum, setNum;
+    let resultNum, getNum, setNum, resetArr;
     let index = 0;
     // console.log(parent)
     // if (parent.classList.contains('visible')) {
@@ -255,14 +258,13 @@ function matchCards(img1, img2, balance, parent) {
     // }
 
     if (img1 == img2) {
-    //    localArrImg.push(img1, img2);
-    //    localStorage.setItem('imgCard', JSON.stringify(localArrImg));
+        localArrImg.push(img1, img2);
+        localStorage.setItem('imgCard', JSON.stringify(localArrImg));
 
         matchedCard++;
         allMatchedCard++;
         index = matchedCard;
-        console.log(index)
-        // localStorage.setItem('imgCardIndex', JSON.stringify(index));
+        localStorage.setItem('imgCardIndex', JSON.stringify(matchedCard));
         if (index) {
             if (walletHoneycomb.classList.contains('numX2')) {
                 setNum = honeyComb * allMatchedCard;
@@ -273,29 +275,36 @@ function matchCards(img1, img2, balance, parent) {
             };
         };
 
+        
+        console.log(cardOne)
+        
+        cardVisibity(cardOne, cardTwo)
+
         newGameCards.forEach(cardsElem => {
             if (cardsElem.classList.contains('activeBoxCards')) {
                 for (let i = 1; i <= cardsElem.childNodes.length; i++) {
                     countCard = i;
                     resultNum = countCard / 2;
                 };
-                console.log(matchedCard)
+
                 if (matchedCard == resultNum) {
+                    localArrImg = JSON.parse(localStorage.getItem('imgCard'));
+                    localArrImg = [];
+                    localStorage.setItem('imgCard', JSON.stringify(localArrImg));
                     if (shadowLevelUp.classList.contains('game-shadow')) {
                         shadowLevelUp.classList.remove('activeShadow');
                     }
                     setTimeout(() => {
                         shuffleCard();
+                        for (let i = 0; i < cardsElem.childNodes.length; i++) {
+                            console.log(cardsElem.childNodes[i])
+                            cardsElem.childNodes[i].removeAttribute('style')
+                        }
                     }, 1000);
+                    
                 };
             };
         });
-
-        setTimeout(() => {
-            // cardOne.style.visibility = 'hidden';
-            // cardTwo.style.visibility = 'hidden';
-        }, 1000);
-
 
         cardOne.removeEventListener('click', clickCard);
         cardTwo.removeEventListener('click', clickCard);
@@ -321,6 +330,7 @@ function matchCards(img1, img2, balance, parent) {
 
 function shuffleCard() {
     matchedCard = 0;
+    localStorage.setItem('imgCardIndex', JSON.stringify(matchedCard))
     cardOne = cardTwo = '';
     disableDeck = false;
 
@@ -331,6 +341,13 @@ function shuffleCard() {
     });
 };
 
+function cardVisibity(card1, card2) {
+    console.log(card1, card2)
+    setTimeout(() => {
+        card1.style.visibility = 'hidden';
+        card2.style.visibility = 'hidden';
+    }, 1000);
+}
 
 // levelUp
 
@@ -401,6 +418,7 @@ newGameCards.forEach((cardsElem, index) => {
         cardsElem.classList.add('activeBoxCards');
         cardsElem.classList.remove('hidden');
         nodeListElem = cardsElem.querySelectorAll('.card');
+        prevBtn.style.display = 'inline-block';
         if (clickIndex == 0) {
             prevBtn.style.display = 'none';
             btns.style.justifyContent = 'flex-end'
@@ -420,8 +438,7 @@ newGameCards.forEach((cardsElem, index) => {
             localStorage.setItem('flag', JSON.stringify(flag));
         };
     } else {
-        prevBtn.style.display = 'inline-block';
-
+        cardsElem.removeAttribute('style');
     }
 });
 

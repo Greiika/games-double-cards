@@ -90,8 +90,15 @@ header {
     color: #424245;
 }
 
+.game-home {
+    border: 1px solid rgb(255, 255, 255, 0.6);
+
+}
+
 .game-home:hover {
-    background-color: burlywood;
+    background-color: rgb(255, 255, 255);
+    color: black;
+    border: 1px solid #39280f;
     transition: all 0.3s ease-in;
 }
 
@@ -273,6 +280,10 @@ header {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
+
+    border: 1px solid #f1c030;
+    border-radius: 15px;
+    padding: 10px;
 }
 
 .game-cards.activeBoxCards {
