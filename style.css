@@ -893,7 +893,7 @@ header {
     position: absolute;
     top: calc(50% - 300px);
     left: calc(50% - 300px);
-    border: 2px groove white;
+    border: 2px groove #f1c030;
     border-radius: 15px;
     padding: 20px;
     z-index: 3;
@@ -1052,10 +1052,6 @@ header {
     .game-header {
     }
 
-    .game-text {
-        margin-bottom: 20px;
-    }
-
     .game-wrapper {
         margin: 0px 0px 25px 0;
     }
@@ -1157,5 +1153,17 @@ header {
     .card-img {
         height: 75px;
         border-radius: 5px;
+    }
+
+
+    /* Альбом */
+
+    .modal-album.activeAlbum,
+    .modal-box__imgs.activeBoxImgs {
+        overflow: scroll;
+        height: 530px;
+        left: calc(50% - 150px);
+        top: calc(50% - 250px);
+        max-width: 300px;
     }
 }
