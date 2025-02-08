@@ -1084,7 +1084,11 @@ header {
         height: 70px;
     }
 
-    .game-cards {
+    .game-cards.activeBoxCards {
+        display: flex;
+        width: 332px;
+        justify-content: center;
+        flex-wrap: wrap;
         gap: 8px;
     }
 
@@ -1145,7 +1149,7 @@ header {
     }
     .game-home::before {
         content: '⇐';
-        font-size: 24px;
+        font-size: 20px;
         vertical-align: middle;
     }
 

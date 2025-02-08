@@ -11,7 +11,7 @@ let parentCard = document.querySelector('.game-wrapper');
 let clickItem = document.querySelectorAll('.card');
 let walletBalance = document.querySelector('.balance');
 let walletHoneycomb = document.querySelector('.wallet-honeycomb');
-let shadowLevelUp = document.querySelector('.game-shadow');  
+let shadowLevelBtn = document.querySelector('.game-shadow');  
 
 if (JSON.parse(localStorage.getItem('flag')) !== true || JSON.parse(localStorage.getItem('flag')) === null) {
     let localFlag = JSON.stringify(false);
@@ -221,38 +221,35 @@ function clickCard(e) {
     let parentCardImg = parent.parentElement;
     if (parentCardImg != cardOne && !disableDeck) {
         parentCardImg.classList.add('visible');
-        // if (parentCardImg.classList.contains('visible')) {
-        //     img = parentCardImg.querySelector('img').src;
-        //     localArrImg.push(img);
-        // }
-        // localArrImg.forEach(img => {
-        //     console.log(img)
-        // })
+        // console.log(parentCardImg.querySelector('img').src)
+        // img = parentCardImg.querySelector('img').src;
+        // localArrImg.push(img);
+        // localStorage.setItem('imgCard', JSON.stringify(localArrImg));
         // console.log(localArrImg)
+
         if (!cardOne) {
             return (cardOne = parentCardImg);
         };
-        console.log(parentCardImg)
         
         cardTwo = parentCardImg;
         disableDeck = true;
 
         cardOneImg = cardOne.querySelector('img').src,
         cardTwoImg = cardTwo.querySelector('img').src;
-        matchCards(cardOneImg, cardTwoImg, getNumberBalance(walletBalance), parentCardImg);
+        matchCards(cardOneImg, cardTwoImg, getNumberBalance(walletBalance));
     };
 };
 
-function matchCards(img1, img2, balance, parent) {
+function matchCards(img1, img2, balance) {
     let countCard = 0;
-    let resultNum, getNum, setNum, resetArr;
+    let resultNum, getNum, setNum;
     let index = 0;
-    // console.log(parent)
-    // if (parent.classList.contains('visible')) {
-    //     localArrImg.push(img1, img2);
-    //     console.log(localArrImg)
-    // } else if (!parent.classList.contains('visible')) {
-    //     localArrImg.pop(img1, img2)
+    // localArrImg = JSON.parse(localStorage.getItem('imgCard'));
+    // console.log(localArrImg)
+    // localStorage.setItem('imgCard', JSON.stringify(localArrImg));
+    // if (img1 !== img2) {
+    //     localArrImg.pop(img1);
+    //     localStorage.setItem('imgCard', JSON.stringify(localArrImg));
     // }
 
     if (img1 == img2) {
@@ -289,8 +286,8 @@ function matchCards(img1, img2, balance, parent) {
                     localArrImg = JSON.parse(localStorage.getItem('imgCard'));
                     localArrImg = [];
                     localStorage.setItem('imgCard', JSON.stringify(localArrImg));
-                    if (shadowLevelUp.classList.contains('game-shadow')) {
-                        shadowLevelUp.classList.remove('activeShadow');
+                    if (shadowLevelBtn.classList.contains('game-shadow')) {
+                        shadowLevelBtn.classList.remove('activeShadow');
                     }
                     setTimeout(() => {
                         shuffleCard();
@@ -368,13 +365,8 @@ if (JSON.parse(localStorage.getItem('level-count')) == null) {
     if (+JSON.parse(localStorage.getItem('level')) == 5) {
         nextBtn.style.display = "none";
         btns.style.justifyContent = "flex-start";
-    } 
-    // else if (+JSON.parse(localStorage.getItem('level')) > 1) {
-    //     let btnPrev = document.querySelector('.arrow-prev');
-    //     btnPrev.style.display = "inline-block"; 
-    //     btns.style.justifyContent = 'flex-end';
-    // }
-}
+    };
+};
 
 let nodeListElem, newUrl;
 let localImg = [];
@@ -417,9 +409,12 @@ newGameCards.forEach((cardsElem, index) => {
         cardsElem.classList.remove('hidden');
         nodeListElem = cardsElem.querySelectorAll('.card');
         prevBtn.style.display = 'inline-block';
+        shadowLevelBtn.classList.add('activeShadow');
         if (clickIndex == 0) {
             prevBtn.style.display = 'none';
-            btns.style.justifyContent = 'flex-end'
+            btns.style.justifyContent = 'flex-end';
+        } else {
+            btns.style.justifyContent = 'space-evenly';
         }
         nodeListElem.forEach(elem => {
             newUrl = new URL(elem.querySelector('img').src);
@@ -462,9 +457,14 @@ function levelUp () {
             nextBtn.style.display = "none";
             btns.style.justifyContent = 'flex-start';
         }
+
+        if (level > 1 && level < 5) {
+            btns.style.justifyContent = 'space-evenly';
+
+        }
         clickIndex++;
         localStorage.setItem('level-count', JSON.stringify(clickIndex))
-        // shadowLevelUp.classList.add('activeShadow');
+        shadowLevelBtn.classList.add('activeShadow');
         saveElement(arrImg);
     };
 };
@@ -495,12 +495,14 @@ function levelDown() {
             if (level == 1) {
                 prevBtn.style.display = "none"; 
                 btns.style.justifyContent = 'flex-end';
+            } else {
+                btns.style.justifyContent = 'space-evenly';
             };
         };
         
         clickIndex--;
         localStorage.setItem('level-count', JSON.stringify(clickIndex));
-        // shadowLevelUp.classList.add('activeShadow');
+        shadowLevelBtn.classList.add('activeShadow');
         saveElement(arrImg);
     }
 }
