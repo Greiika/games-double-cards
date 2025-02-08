@@ -413,7 +413,7 @@ newGameCards.forEach((cardsElem, index) => {
         if (clickIndex == 0) {
             prevBtn.style.display = 'none';
             btns.style.justifyContent = 'flex-end';
-        } else {
+        } else if (clickIndex < 4) {
             btns.style.justifyContent = 'space-evenly';
         }
         nodeListElem.forEach(elem => {
