@@ -212,7 +212,7 @@ if (JSON.parse(localStorage.getItem('imgCard')) == null) {
     localStorage.setItem('imgCard', JSON.stringify(localArrImg));
 } else {
     localArrImg = JSON.parse(localStorage.getItem('imgCard'));
-    cardVisibity()
+    // cardVisibity()
 }
 
 function clickCard(e) {
