@@ -1084,7 +1084,8 @@ header {
         height: 70px;
     }
 
-    .game-cards.activeBoxCards {
+    .game-cards:nth-last-child(2).activeBoxCards,
+    .game-cards:last-child.activeBoxCards {
         display: flex;
         width: 332px;
         justify-content: center;
@@ -1106,21 +1107,14 @@ header {
         height: 63px;
     }
 
+    .game-cards:nth-child(2) > .card,
     .game-cards:first-child > .card {
-        width: 65px;
-        height: 85px;
-    }
-
-    .game-cards:first-child > .card .card-img{
-        height: 83px;
-    }
-
-    .game-cards:nth-child(2) > .card {
         width: 55px;
         height: 75px;
     }
 
-    .game-cards:nth-child(2) > .card .card-img{
+    .game-cards:nth-child(2) > .card .card-img,
+    .game-cards:first-child > .card .card-img{
         height: 73px;
     }
     
