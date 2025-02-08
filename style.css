@@ -1045,6 +1045,14 @@ header {
 
 @media (max-width: 378px) {
 
+    .help-menu {
+        width: 50px;
+        height: 50px;
+        border: 1px solid #f1c030;
+        position: absolute;
+        bottom: 0;
+    }
+
     body {
         display: block;
     }
@@ -1084,8 +1092,7 @@ header {
         height: 70px;
     }
 
-    .game-cards:nth-last-child(2).activeBoxCards,
-    .game-cards:last-child.activeBoxCards {
+    .game-cards:nth-of-type(4).activeBoxCards {
         display: flex;
         width: 332px;
         justify-content: center;
@@ -1093,9 +1100,12 @@ header {
         gap: 8px;
     }
 
-    .game-cards::after:last-child {
-        content: '';
-        grid-column: 1 / -1;
+    .game-cards:last-child.activeBoxCards {
+        display: flex;
+        width: 332px;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px;
     }
 
     .game-cards > .card {

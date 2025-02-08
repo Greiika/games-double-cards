@@ -212,6 +212,7 @@ if (JSON.parse(localStorage.getItem('imgCard')) == null) {
     localStorage.setItem('imgCard', JSON.stringify(localArrImg));
 } else {
     localArrImg = JSON.parse(localStorage.getItem('imgCard'));
+    cardVisibity()
 }
 
 function clickCard(e) {
@@ -269,9 +270,6 @@ function matchCards(img1, img2, balance) {
                 animateNumber(balance , getNum);
             };
         };
-
-        
-        console.log(cardOne)
         
         cardVisibity(cardOne, cardTwo)
 
@@ -337,7 +335,6 @@ function shuffleCard() {
 };
 
 function cardVisibity(card1, card2) {
-    console.log(card1, card2)
     setTimeout(() => {
         card1.style.visibility = 'hidden';
         card2.style.visibility = 'hidden';
