@@ -1127,7 +1127,8 @@ header {
         height: 50px;
         border: 1px solid #f1c030;
         position: absolute;
-        bottom: 0;
+        bottom: 10px;
+        background-color: #39280f;
     }
 
     body {
@@ -1141,17 +1142,21 @@ header {
         margin: 0px 0px 25px 0;
     }
 
+    /* help */
+
     .help, .album {
         display: none;
     }
 
     .help-mobile {
         display: flex;
+        position: absolute;
         flex-direction: row;
         justify-content: space-evenly;
         width: 300px;
-        bottom: 0;
+        bottom: 0px;
         padding: 5px;
+        z-index: 10;
     }
 
     .help-mobile > .game-multiplierX2,
@@ -1159,14 +1164,24 @@ header {
         margin: 0;
     }
 
+    .game-multiplierX2-text {
+        align-items: flex-start;
+        justify-content: center;
+    }
+
     .game-box {
-        width: 70px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .game-img {
+        width: 50px;
     }
 
     .album-mobile {
         padding: 0;
-        width: 70px;
-        height: 70px;
+        width: 50px;
+        height: 50px;
     }
 
     .game-cards {
@@ -1222,20 +1237,12 @@ header {
     }
 
     .game-home {
-        width: 60px;
         justify-content: center;
     }
 
     .game-home h2{
-        display: none;
+        display: block;
         font-size: 14px;
-        width: 150px;
-        padding-left: 10px;
-    }
-    .game-home::before {
-        content: '⇐';
-        font-size: 20px;
-        vertical-align: middle;
     }
 
     /* Карточки */
@@ -1283,4 +1290,6 @@ header {
         width: 30px;
         height: 30px;
     }
+
+    
 }
