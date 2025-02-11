@@ -289,8 +289,22 @@ function schop() {
 };
 
 let gameNew = document.querySelector('.game-new');
-gameNew.addEventListener('click', clearLocal);
+let modalNewGame = document.querySelector('.modal-newGame');
+let yesClickBtn = document.querySelector('.button-yes');
+let noClickBtn = document.querySelector('.button-no');
 
-function clearLocal() {
-    localStorage.clear()
+yesClickBtn.addEventListener('click', newGame);
+noClickBtn.addEventListener('click', closeModalQuestion);
+gameNew.addEventListener('click', activeModalQuestionGame);
+
+function newGame() {
+    localStorage.clear();
+}
+
+function activeModalQuestionGame() {
+    modalNewGame.classList.add('openModalQuestion');
+}
+
+function closeModalQuestion() {
+    modalNewGame.classList.remove('openModalQuestion');
 }

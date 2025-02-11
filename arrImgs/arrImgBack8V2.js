@@ -1,5 +1,6 @@
 let bgImgBack = [
     {
+        
         photo: 'img/butterflies/1.jpg'
     },
 

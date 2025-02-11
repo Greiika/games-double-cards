@@ -20,14 +20,14 @@ if (JSON.parse(localStorage.getItem('flag')) !== true || JSON.parse(localStorage
 
 // background
 
-// function getBackground (img) {
-//     let bodyBg = document.querySelector('body');
-//     bodyBg.style.backgroundImage = `url(${img})`;
-//     bodyBg.style.backgroundRepeat = 'no-repeat';
-//     bodyBg.style.backgroundSize = 'cover';
-// }
+function getBackground (img) {
+    let bodyBg = document.querySelector('body');
+    bodyBg.style.backgroundImage = `url(${img})`;
+    bodyBg.style.backgroundRepeat = 'no-repeat';
+    bodyBg.style.backgroundSize = 'cover';
+}
 
-// getBackground('img/bg/bgCardUp-1.jpg')
+getBackground('img/bg/bgCardUp-1.jpg')
 
 // balance
 
@@ -96,7 +96,9 @@ function doubleCard(dataId, arr, key) {
 
     // if (JSON.parse(localStorage.getItem('cards')) == false) {
     // }
-    randomImg = arrImgBack.sort(() => (Math.random() > .5) ? 2 : -1);
+    if (dataId !== key) {
+        randomImg = arrImgBack.sort(() => (Math.random() > .5) ? 2 : -1);
+    }
 
     let cards = document.createElement('div');
     cards.classList.add('game-cards');
@@ -105,7 +107,7 @@ function doubleCard(dataId, arr, key) {
         cards.classList.add('activeBoxCards');
     }
     
-    renderElemenet(arrImgBack, randomImg, cards)
+    renderElemenet(arrImgBack, randomImg = arrImgBack, cards)
     
     clickItem = document.querySelectorAll('.card');
 
@@ -118,6 +120,7 @@ function renderElemenet(arr, img, cards) {
     for (let i = 0; i < arr.length; i++) {
         let card = document.createElement('div');
         card.classList.add('card');
+        // card.addEventListener('click', clickCard)
 
         let cardInner = document.createElement('div');
         cardInner.classList.add('card-inner');
@@ -224,6 +227,7 @@ function clickCard(e) {
         parentCardImg.classList.add('visible');
         // console.log(parentCardImg.querySelector('img').src)
         // img = parentCardImg.querySelector('img').src;
+        // localArrImg = JSON.parse(localStorage.getItem('imgCard'));
         // localArrImg.push(img);
         // localStorage.setItem('imgCard', JSON.stringify(localArrImg));
         // console.log(localArrImg)
@@ -241,9 +245,13 @@ function clickCard(e) {
     };
 };
 
+let divPlusOrMinus = document.createElement('div');
+divPlusOrMinus.classList.add('plusOrMinusBalance');
+walletHoneycomb.append(divPlusOrMinus);
+
 function matchCards(img1, img2, balance) {
     let countCard = 0;
-    let resultNum, getNum, setNum;
+    let resultNum, getNum, getNumPlus;
     let index = 0;
     // localArrImg = JSON.parse(localStorage.getItem('imgCard'));
     // console.log(localArrImg)
@@ -263,15 +271,25 @@ function matchCards(img1, img2, balance) {
         localStorage.setItem('imgCardIndex', JSON.stringify(matchedCard));
         if (index) {
             if (walletHoneycomb.classList.contains('numX2')) {
-                setNum = honeyComb * allMatchedCard;
-                getNumX2(setNum);
+                getNumPlus = honeyComb * allMatchedCard;
+                getNumX2(getNumPlus);
             } else {
-                getNum = balance + (honeyComb * allMatchedCard);
+                getNumPlus = honeyComb * allMatchedCard;
+                // getNum(divPlusOrMinus, getNumPlus);
+                divPlusOrMinus.textContent = `+${getNumPlus}`;
+                divPlusOrMinus.style.color = 'green';
+                walletBalance.style.display = 'none';
+                divPlusOrMinus.style.display = 'contents';
+                setTimeout(() => {
+                    divPlusOrMinus.style.display = 'none';
+                    walletBalance.style.display = 'block';
+                }, 500);
+                getNum = balance + getNumPlus;
                 animateNumber(balance , getNum);
             };
         };
         
-        cardVisibity(cardOne, cardTwo)
+        // cardVisibity(cardOne, cardTwo);
 
         newGameCards.forEach(cardsElem => {
             if (cardsElem.classList.contains('activeBoxCards')) {
@@ -284,15 +302,18 @@ function matchCards(img1, img2, balance) {
                     localArrImg = JSON.parse(localStorage.getItem('imgCard'));
                     localArrImg = [];
                     localStorage.setItem('imgCard', JSON.stringify(localArrImg));
-                    if (shadowLevelBtn.classList.contains('game-shadow')) {
-                        shadowLevelBtn.classList.remove('activeShadow');
+                    if (nextBtn.hasAttribute('disabled')) {
+                        nextBtn.removeAttribute('disabled');
                     }
+                    // if (shadowLevelBtn.classList.contains('game-shadow')) {
+                    //     shadowLevelBtn.classList.remove('activeShadow');
+                    // }
                     setTimeout(() => {
                         shuffleCard();
-                        for (let i = 0; i < cardsElem.childNodes.length; i++) {
-                            console.log(cardsElem.childNodes[i])
-                            cardsElem.childNodes[i].removeAttribute('style')
-                        }
+                        // for (let i = 0; i < cardsElem.childNodes.length; i++) {
+                        //     console.log(cardsElem.childNodes[i])
+                        //     cardsElem.childNodes[i].removeAttribute('style');
+                        // }
                     }, 1000);
                     
                 };
@@ -321,6 +342,22 @@ function matchCards(img1, img2, balance) {
     }, 600);
 };
 
+function getNum(plusOrMinus, card, price) {
+    if (plus) {
+        plusOrMinus.textContent = `+${card}`;
+        divPlusOrMinus.style.color = 'green';
+    } else if (munis) {
+        plusOrMinus.textContent = `-${price}`;
+        divPlusOrMinus.style.color = 'red';
+    }
+    walletBalance.style.display = 'none';
+    plusOrMinus.style.display = 'contents';
+    setTimeout(() => {
+        plusOrMinus.style.display = 'none';
+        walletBalance.style.display = 'block';
+    }, 500);
+}
+
 function shuffleCard() {
     matchedCard = 0;
     localStorage.setItem('imgCardIndex', JSON.stringify(matchedCard))
@@ -334,12 +371,12 @@ function shuffleCard() {
     });
 };
 
-function cardVisibity(card1, card2) {
-    setTimeout(() => {
-        card1.style.visibility = 'hidden';
-        card2.style.visibility = 'hidden';
-    }, 600);
-}
+// function cardVisibity(card1, card2) {
+//     setTimeout(() => {
+//         card1.style.visibility = 'hidden';
+//         card2.style.visibility = 'hidden';
+//     }, 600);
+// }
 
 // levelUp
 
@@ -406,7 +443,8 @@ newGameCards.forEach((cardsElem, index) => {
         cardsElem.classList.remove('hidden');
         nodeListElem = cardsElem.querySelectorAll('.card');
         prevBtn.style.display = 'inline-block';
-        shadowLevelBtn.classList.add('activeShadow');
+        // shadowLevelBtn.classList.add('activeShadow');
+        nextBtn.setAttribute('disabled', '');
         if (clickIndex == 0) {
             prevBtn.style.display = 'none';
             btns.style.justifyContent = 'flex-end';
@@ -449,7 +487,7 @@ function levelUp () {
     if (level < 5) {
         countLevel.innerHTML = ++level;
         localStorage.setItem('level', JSON.stringify(level))
-        prevBtn.style.display = 'inline-block'
+        prevBtn.style.display = 'inline-block';
         if (level == 5) {
             nextBtn.style.display = "none";
             btns.style.justifyContent = 'flex-start';
@@ -461,7 +499,8 @@ function levelUp () {
         }
         clickIndex++;
         localStorage.setItem('level-count', JSON.stringify(clickIndex))
-        shadowLevelBtn.classList.add('activeShadow');
+        nextBtn.setAttribute('disabled', '');
+        // shadowLevelBtn.classList.add('activeShadow');
         saveElement(arrImg);
     };
 };
@@ -499,7 +538,8 @@ function levelDown() {
         
         clickIndex--;
         localStorage.setItem('level-count', JSON.stringify(clickIndex));
-        shadowLevelBtn.classList.add('activeShadow');
+        nextBtn.setAttribute('disabled', '');
+        // shadowLevelBtn.classList.add('activeShadow');
         saveElement(arrImg);
     }
 }
@@ -532,9 +572,6 @@ function saveElement(img) {
             Object.entries(objGrid).forEach(([key,value]) => {
                 if (+JSON.parse(localStorage.getItem('level-count')) == key) {
                     gameCardsElem.style.cssText = `grid-template-columns: repeat(${value}, 1fr)`;
-                    if (document.documentElement.clientWidth <= 378) {
-                        gameCardsElem.style.cssText = `grid-template-columns: repeat(6, 1fr)`;
-                    }
                 };
             });
 
@@ -591,18 +628,36 @@ function hintCard(e) {
 
 // start price 
 
-let numPrice, getNumPrice;
+let numPrice, getNumMinus;
 
 function getBalance(price, balance) {
     numPrice = Number(price.innerHTML); // преобразуем стоимость буста из строки в число
     let parent = price.parentElement; // получаем родительский элемент для нахождения класса
     for (let item of clickItem) {
         if (item.classList.contains('visible') && balance >= numPrice ) { // проверяем есть ли данный класс у карточки и соотвествует ли баланс стоимости буста
-            getNumPrice = balance - numPrice; // вычитаем стоимость буста из баланса
-            animateNumber(balance, getNumPrice);
+            getNumMinus = balance - numPrice; // вычитаем стоимость буста из баланса
+            // getNum(divPlusOrMinus, getNumPlus, numPrice);
+            divPlusOrMinus.textContent = `-${numPrice}`;
+            divPlusOrMinus.style.color = 'red';
+            walletBalance.style.display = 'none';
+            divPlusOrMinus.style.display = 'contents';
+            setTimeout(() => {
+                divPlusOrMinus.style.display = 'none';
+                walletBalance.style.display = 'block';
+            }, 500);
+            animateNumber(balance, getNumMinus);
         } else if (parent.classList.contains('multiplierX2') && balance >= numPrice ) {
-            getNumPrice = balance - numPrice;
-            animateNumber(balance, getNumPrice);
+            getNumMinus = balance - numPrice;
+            // getNum(divPlusOrMinus, getNumPlus, numPrice);
+            divPlusOrMinus.textContent = `-${numPrice}`;
+            divPlusOrMinus.style.color = 'red';
+            walletBalance.style.display = 'none';
+            divPlusOrMinus.style.display = 'contents';
+            setTimeout(() => {
+                divPlusOrMinus.style.display = 'none';
+                walletBalance.style.display = 'block';
+            }, 500);
+            animateNumber(balance, getNumMinus);
         } else if (balance <= 0) {
             walletBalance.style.color = 'red', 
             walletBalance.innerHTML = '0';
@@ -629,17 +684,27 @@ multipliersX2.forEach(multiplierX2 => {
 
 function numX2Card(e) {
     walletHoneycomb.classList.add('numX2');
-    if (walletHoneycomb.childNodes[1].classList.contains('x2')) {
-        walletHoneycomb.childNodes[1].classList.add('activeX2');
+    if (walletHoneycomb.childNodes[0].classList.contains('x2')) {
+        walletHoneycomb.childNodes[0].classList.add('activeX2');
     }
     let clickNumX2 = e.target;
     let childclickNumX2 = clickNumX2.getElementsByClassName('game-price');
+    console.log(childclickNumX2)
     getBalance(childclickNumX2[0], getNumberBalance(walletBalance));
     timerX2();
 };
 
 function getNumX2(num) {
     let sumHoneyComb = num * 2;
+    // getNum(divPlusOrMinus, sumHoneyComb);
+    divPlusOrMinus.textContent = `+${sumHoneyComb}`;
+    divPlusOrMinus.style.color = 'green';
+    walletBalance.style.display = 'none';
+    divPlusOrMinus.style.display = 'contents';
+    setTimeout(() => {
+        divPlusOrMinus.style.display = 'none';
+        walletBalance.style.display = 'block';
+    }, 500);
     let summaX2 = getNumberBalance(walletBalance) + sumHoneyComb;
     animateNumber(getNumberBalance(walletBalance), summaX2);
 };
@@ -655,12 +720,13 @@ let div;
 
 function timerX2() {
     if (!flagTimer) {
-        div = document.createElement('div');
-        div.classList.add('timer');
         gameMultipliersX2.forEach(gameMultiplierX2 => {
+            console.log(gameMultiplierX2)
+            div = document.createElement('div');
+            div.classList.add('timer');
             gameMultiplierX2.append(div);
-        }) 
-        flagTimer = true;
+            flagTimer = true;
+        });
     };
     
     
@@ -676,7 +742,7 @@ function timerX2() {
             timerX2();
         } else if (second == 0) {
             div.style.display = 'none';
-            walletHoneycomb.childNodes[1].classList.remove('activeX2');
+            walletHoneycomb.childNodes[0].classList.remove('activeX2');
             walletHoneycomb.classList.remove('numX2');
         };
     }, 1000);   
@@ -685,10 +751,12 @@ function timerX2() {
 
 // album 
 
-let album = document.querySelector('.album-wrapper');
+let albums = document.querySelectorAll('.album-wrapper');
 let modalAlbum = document.querySelector('.modal-album');
 let modalPocket = document.querySelectorAll('.modal-pocket');
-album.addEventListener('click', openAlbum);
+albums.forEach(album => {
+    album.addEventListener('click', openAlbum);
+})
 
 function openAlbum() {
     modalAlbum.classList.toggle('activeAlbum');
@@ -875,3 +943,4 @@ window.addEventListener('click', (e)=> {
         modalAlbum.classList.remove('activeAlbum');
     }
 })
+ 
