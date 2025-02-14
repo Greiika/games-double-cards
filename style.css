@@ -1150,7 +1150,7 @@ header {
 
     .help-mobile {
         display: flex;
-        position: absolute;
+        position: fixed;
         flex-direction: row;
         justify-content: space-evenly;
         width: 300px;
@@ -1188,7 +1188,8 @@ header {
         gap: 5px;
     }
 
-    .game-cards:nth-of-type(4).activeBoxCards {
+    .game-cards:nth-of-type(4).activeBoxCards,
+    .game-cards:nth-of-type(5).activeBoxCards {
         display: flex;
         width: 332px;
         justify-content: center;
@@ -1196,13 +1197,13 @@ header {
         gap: 8px;
     }
 
-    .game-cards:last-child.activeBoxCards {
+    /* .game-cards:last-child.activeBoxCards {
         display: flex;
         width: 332px;
         justify-content: center;
         flex-wrap: wrap;
         gap: 8px;
-    }
+    } */
 
     .game-cards > .card {
         width: 45px;

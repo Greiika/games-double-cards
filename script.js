@@ -345,10 +345,10 @@ function matchCards(img1, img2, balance) {
 function getNum(plusOrMinus, card, price) {
     if (plus) {
         plusOrMinus.textContent = `+${card}`;
-        divPlusOrMinus.style.color = 'green';
+        divPlusOrMinus.dataset.positiveNumber = 'green';
     } else if (munis) {
         plusOrMinus.textContent = `-${price}`;
-        divPlusOrMinus.style.color = 'red';
+        divPlusOrMinus.dataset.negativeNumber = 'red';
     }
     walletBalance.style.display = 'none';
     plusOrMinus.style.display = 'contents';
@@ -731,6 +731,8 @@ function timerX2() {
     
     
     setTimeout(() => {
+        let timers = document.querySelectorAll('timer')
+        console.log(timers)
         div.innerHTML = `0:${second--}`;
         if (second == 10) {
             div.innerHTML = `0:${second}`;
