@@ -982,6 +982,14 @@ header {
     align-items: center;
 }
 
+[data-type='positiveNumber'] {
+    color: green;
+}
+
+[data-type='negativeNumber'] {
+    color: red;
+}
+
 /* #575757 #39280f */
 
 .modal-pocket__btn {

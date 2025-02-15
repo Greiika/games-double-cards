@@ -275,15 +275,7 @@ function matchCards(img1, img2, balance) {
                 getNumX2(getNumPlus);
             } else {
                 getNumPlus = honeyComb * allMatchedCard;
-                // getNum(divPlusOrMinus, getNumPlus);
-                divPlusOrMinus.textContent = `+${getNumPlus}`;
-                divPlusOrMinus.style.color = 'green';
-                walletBalance.style.display = 'none';
-                divPlusOrMinus.style.display = 'contents';
-                setTimeout(() => {
-                    divPlusOrMinus.style.display = 'none';
-                    walletBalance.style.display = 'block';
-                }, 500);
+                getNumber(divPlusOrMinus, getNumPlus);
                 getNum = balance + getNumPlus;
                 animateNumber(balance , getNum);
             };
@@ -342,22 +334,6 @@ function matchCards(img1, img2, balance) {
     }, 600);
 };
 
-function getNum(plusOrMinus, card, price) {
-    if (plus) {
-        plusOrMinus.textContent = `+${card}`;
-        divPlusOrMinus.dataset.positiveNumber = 'green';
-    } else if (munis) {
-        plusOrMinus.textContent = `-${price}`;
-        divPlusOrMinus.dataset.negativeNumber = 'red';
-    }
-    walletBalance.style.display = 'none';
-    plusOrMinus.style.display = 'contents';
-    setTimeout(() => {
-        plusOrMinus.style.display = 'none';
-        walletBalance.style.display = 'block';
-    }, 500);
-}
-
 function shuffleCard() {
     matchedCard = 0;
     localStorage.setItem('imgCardIndex', JSON.stringify(matchedCard))
@@ -370,6 +346,22 @@ function shuffleCard() {
         elem.addEventListener('click', clickCard);
     });
 };
+
+function getNumber(plusOrMinus, card, price = 100) {
+    if (card) {
+        plusOrMinus.textContent = `+${card}`;
+        divPlusOrMinus.dataset.type = 'positiveNumber';
+    } else if (price) {
+        plusOrMinus.textContent = `-${price}`;
+        divPlusOrMinus.dataset.type = 'negativeNumber';
+    }
+    walletBalance.style.display = 'none';
+    plusOrMinus.style.display = 'contents';
+    setTimeout(() => {
+        plusOrMinus.style.display = '';
+        walletBalance.style.display = '';
+    }, 500);
+}
 
 // function cardVisibity(card1, card2) {
 //     setTimeout(() => {
@@ -636,27 +628,11 @@ function getBalance(price, balance) {
     for (let item of clickItem) {
         if (item.classList.contains('visible') && balance >= numPrice ) { // проверяем есть ли данный класс у карточки и соотвествует ли баланс стоимости буста
             getNumMinus = balance - numPrice; // вычитаем стоимость буста из баланса
-            // getNum(divPlusOrMinus, getNumPlus, numPrice);
-            divPlusOrMinus.textContent = `-${numPrice}`;
-            divPlusOrMinus.style.color = 'red';
-            walletBalance.style.display = 'none';
-            divPlusOrMinus.style.display = 'contents';
-            setTimeout(() => {
-                divPlusOrMinus.style.display = 'none';
-                walletBalance.style.display = 'block';
-            }, 500);
+            getNumber(divPlusOrMinus, undefined, numPrice);
             animateNumber(balance, getNumMinus);
         } else if (parent.classList.contains('multiplierX2') && balance >= numPrice ) {
             getNumMinus = balance - numPrice;
-            // getNum(divPlusOrMinus, getNumPlus, numPrice);
-            divPlusOrMinus.textContent = `-${numPrice}`;
-            divPlusOrMinus.style.color = 'red';
-            walletBalance.style.display = 'none';
-            divPlusOrMinus.style.display = 'contents';
-            setTimeout(() => {
-                divPlusOrMinus.style.display = 'none';
-                walletBalance.style.display = 'block';
-            }, 500);
+            getNumber(divPlusOrMinus, undefined, numPrice);
             animateNumber(balance, getNumMinus);
         } else if (balance <= 0) {
             walletBalance.style.color = 'red', 
@@ -696,15 +672,7 @@ function numX2Card(e) {
 
 function getNumX2(num) {
     let sumHoneyComb = num * 2;
-    // getNum(divPlusOrMinus, sumHoneyComb);
-    divPlusOrMinus.textContent = `+${sumHoneyComb}`;
-    divPlusOrMinus.style.color = 'green';
-    walletBalance.style.display = 'none';
-    divPlusOrMinus.style.display = 'contents';
-    setTimeout(() => {
-        divPlusOrMinus.style.display = 'none';
-        walletBalance.style.display = 'block';
-    }, 500);
+    getNumber(divPlusOrMinus, sumHoneyComb);
     let summaX2 = getNumberBalance(walletBalance) + sumHoneyComb;
     animateNumber(getNumberBalance(walletBalance), summaX2);
 };
