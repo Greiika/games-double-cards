@@ -1076,7 +1076,7 @@ header {
 .modal-newGame {
     display: none;
     position: absolute;
-    top: calc(50% - 100px);
+    top: calc(50% - 50px);
     left: calc(50% - 150px);
     max-width: 300px;
     width: 100%;
