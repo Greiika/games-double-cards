@@ -82,6 +82,7 @@ function getBalance(price, balance) {
     numPrice = Number(price.innerHTML); // преобразуем стоимость буста из строки в число
     walletBalances.forEach(walletBalance => {
         if (price.classList.contains('buyPriceImg') && balance >= numPrice ) {
+            boolean(true)
             getNumPrice = balance - numPrice;
             animateNumber(balance, getNumPrice);
         } else if (balance <= 0) {
@@ -113,7 +114,6 @@ function clickBuy(e) {
     
     walletBalances.forEach(walletBalance => {
         getBalance(buyPrice, getNumberBalance(walletBalance));
-
         if (getNumberBalance(walletBalance) < numPrice && getNumberBalance(walletBalance) > 0) {
             walletBalance.style.color = 'red';
             setTimeout (() => {
@@ -220,6 +220,7 @@ function gameItem(item, thisElem ) {
 // localStorage
 
 let imgPrices = document.querySelectorAll('.modal-price');
+
 imgPrices.forEach(imgPrice => {
     imgPrice.addEventListener('click', getArrImgs);
 });
@@ -236,6 +237,14 @@ let localArrCard = {
     imgBack32V2: [],
     imgBack40V2: [],
 };
+
+function boolean(boolean) {
+    
+    console.log(boolean)
+    // if (boolean) {
+    // }
+
+}
 
 function getArrImgs (e) {
     let buyCard = e.target.closest('.modal-card');
@@ -254,15 +263,6 @@ function getArrImgs (e) {
     });
 };
 
-function getArrElem(arr) {
-    let arrImg = []
-    console.log(arrImg,arr)
-    for (let elem of arr) {
-        arrImg.push(elem);
-    };
-    return arrImg;
-};
-
 
 // modal close
 
@@ -274,6 +274,7 @@ function closeModal(e) {
     if (modal.classList.contains('active')) {
         modal.classList.remove('active');
     };
+    console.log(JSON.parse(localStorage.getItem('shop-json')));
     let arrBuyImgCard = JSON.stringify(localArrCard);
     console.log(arrBuyImgCard)
     localStorage.setItem("shop-json", arrBuyImgCard)

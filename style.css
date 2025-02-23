@@ -606,7 +606,8 @@ header {
 .modal-schop.active {
     display: block;
     background-color: white;
-    width: 700px;
+    max-width: 700px;
+    width: 100%;
     max-height: 720px;
     min-height: 530px;
     position: absolute;
@@ -824,6 +825,9 @@ header {
     grid-area: games;
     height: 220px;
 }
+
+
+
 .modal-items {
     min-height: 100%;
     display: flex;
@@ -962,7 +966,7 @@ header {
 .modal-pocket__preview-img {
     max-width: inherit;
     width: 100%;
-    height: auto;
+    height: 147px;
     object-fit: cover;
     border-radius: 10px;
 }
@@ -1041,6 +1045,12 @@ header {
     justify-items: center;
     overflow: auto;
     margin: 0 15px 15px;
+    max-height: 530px;
+}
+
+.modal-box__img > .preview-img {
+    width: 100px;
+    height: 150px;
 }
 
 .shadowHint {
@@ -1277,6 +1287,12 @@ header {
 
     /* Альбом */
 
+    .modal-schop.active {
+        left: calc(50% - 190px);
+        top: calc(50% - 255px);
+        height: 510px;
+    }
+
     .modal-album.activeAlbum,
     .modal-box__imgs.activeBoxImgs {
         overflow: scroll;
@@ -1300,5 +1316,49 @@ header {
         height: 30px;
     }
 
-    
+    .modal-catalog{
+        grid-template-areas: 
+            'filter filter filter'
+            'games games games'
+            'cards cards cards';
+        font-size: 14px;
+    }
+
+    .modal-game {
+        text-align: center;
+    }
+
+    .modal-games {
+        height: auto;
+        display: inherit;
+    }
+
+    .modal-items {
+        grid-template-columns: 2fr repeat(4, 1fr);
+        gap: 5px;
+        align-items: center;
+        display: grid;
+    }
+
+    .modal-card {
+        max-width: 110px;
+        height: 150px;
+    }
+
+    .modal-preview-img img {
+        width: 90px;
+        height: 60px;
+    }
+
+    .modal-cards {
+        border: none;
+    }
+
+    .modal-gameEins {
+        grid-template-columns: repeat(3, 1fr);
+        margin: 5px 5px;
+        gap: 5px;
+        justify-content: center;
+        justify-items: center;
+    }
 }
