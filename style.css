@@ -1288,7 +1288,7 @@ header {
     /* Альбом */
 
     .modal-schop.active {
-        left: calc(50% - 190px);
+        left: calc(50% - 180px);
         top: calc(50% - 255px);
         height: 510px;
     }
