@@ -82,7 +82,7 @@ function getBalance(price, balance) {
     numPrice = Number(price.innerHTML); // преобразуем стоимость буста из строки в число
     walletBalances.forEach(walletBalance => {
         if (price.classList.contains('buyPriceImg') && balance >= numPrice ) {
-            boolean(true)
+            // getBoolean(true);
             getNumPrice = balance - numPrice;
             animateNumber(balance, getNumPrice);
         } else if (balance <= 0) {
@@ -225,26 +225,27 @@ imgPrices.forEach(imgPrice => {
     imgPrice.addEventListener('click', getArrImgs);
 });
 
-let localArrCard = {
-    imgBack8: [],
-    imgBack16: [],
-    imgBack24: [],
-    imgBack32: [],
-    imgBack40: [],
-    imgBack8V2: [],
-    imgBack16V2: [],
-    imgBack24V2: [],
-    imgBack32V2: [],
-    imgBack40V2: [],
-};
+let localArrCard
 
-function boolean(boolean) {
-    
-    console.log(boolean)
-    // if (boolean) {
-    // }
-
+if (JSON.parse(localStorage.getItem('shop-json')) == null) {
+    localArrCard = {
+        imgBack8: [],
+        imgBack16: [],
+        imgBack24: [],
+        imgBack32: [],
+        imgBack40: [],
+        imgBack8V2: [],
+        imgBack16V2: [],
+        imgBack24V2: [],
+        imgBack32V2: [],
+        imgBack40V2: [],
+    };
+} else {
+    localArrCard = JSON.parse(localStorage.getItem('shop-json'));
 }
+
+
+
 
 function getArrImgs (e) {
     let buyCard = e.target.closest('.modal-card');
@@ -261,7 +262,17 @@ function getArrImgs (e) {
             });
         };
     });
+    // getBoolean(undefined, arrArrsImg, getIdArr)
 };
+
+// function getBoolean(boolean, arr, id) {
+    
+//     console.log(boolean)
+//     if (boolean) {
+        
+//     }
+
+// }
 
 
 // modal close

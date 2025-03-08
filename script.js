@@ -94,8 +94,6 @@ function doubleCard(dataId, arr, key) {
         arrImgBack.push(elem)
     }
 
-    // if (JSON.parse(localStorage.getItem('cards')) == false) {
-    // }
     if (dataId !== key) {
         randomImg = arrImgBack.sort(() => (Math.random() > .5) ? 2 : -1);
     }
@@ -218,6 +216,8 @@ if (JSON.parse(localStorage.getItem('imgCard')) == null) {
     // cardVisibity()
 }
 
+let hints = document.querySelectorAll('.placeholder');
+
 function clickCard(e) {
     let clickedCard = e.target;
     let parent = clickedCard.closest('div.card-inner');
@@ -231,6 +231,10 @@ function clickCard(e) {
         // localArrImg.push(img);
         // localStorage.setItem('imgCard', JSON.stringify(localArrImg));
         // console.log(localArrImg)
+
+        hints.forEach(hint => {
+            hint.addEventListener('click', hintCard);
+        });
 
         if (!cardOne) {
             return (cardOne = parentCardImg);
@@ -583,15 +587,14 @@ function saveElement(img) {
 // placecholder card
 
 
-let hints = document.querySelectorAll('.placeholder');
-hints.forEach(hint => {
-    hint.addEventListener('click', hintCard);
-});
 
 let shadowHint = document.createElement('div');
 parentCard.append(shadowHint);
 
 function hintCard(e) {
+    hints.forEach(hint => {
+        hint.removeEventListener('click', hintCard);
+    });
     let clickHint = e.target;
     let childClickHint = clickHint.getElementsByClassName('game-price');
     let img1, img2;
@@ -615,6 +618,7 @@ function hintCard(e) {
             };
         };   
     };
+    
 };
 
 
