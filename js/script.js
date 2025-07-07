@@ -436,7 +436,7 @@ if (JSON.parse(localStorage.getItem('level-count')) == null) {
     });
     level = 1;
     clickIndex = 0;
-    getBackground('img/bg/bgCardUp-1.jpg');
+    getBackground('../img/bg/bgCardUp-1.jpg');
 } else {
     level = +JSON.parse(localStorage.getItem('level'));
     clickIndex = +JSON.parse(localStorage.getItem('level-count')); 
