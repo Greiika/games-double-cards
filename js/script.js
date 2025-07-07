@@ -1,33 +1,35 @@
 "use strict"
 
-import imgBack8 from './arrImgs/arrImgBack8.js';
-import imgBack16 from './arrImgs/arrImgBack16.js';
-import imgBack24 from './arrImgs/arrImgBack24.js';
-import imgBack32 from './arrImgs/arrImgBack32.js';
-import imgBack40 from './arrImgs/arrImgBack40.js';
+import imgBack8 from '../arrImgs/arrImgBack8.js';
+import imgBack16 from '../arrImgs/arrImgBack16.js';
+import imgBack24 from '../arrImgs/arrImgBack24.js';
+import imgBack32 from '../arrImgs/arrImgBack32.js';
+import imgBack40 from '../arrImgs/arrImgBack40.js';
 
 
 let parentCard = document.querySelector('.game-wrapper');
 let clickItem = document.querySelectorAll('.card');
 let walletBalance = document.querySelector('.balance');
 let walletHoneycomb = document.querySelector('.wallet-honeycomb');
-let shadowLevelBtn = document.querySelector('.game-shadow');  
+let resultGame = document.querySelector('.result-game');
 
 if (JSON.parse(localStorage.getItem('flag')) !== true || JSON.parse(localStorage.getItem('flag')) === null) {
     let localFlag = JSON.stringify(false);
     localStorage.setItem('flag', localFlag);
-}
+};
 
 // background
 
 function getBackground (img) {
+    localStorage.setItem('imgBgLevel', JSON.stringify(img));
     let bodyBg = document.querySelector('body');
     bodyBg.style.backgroundImage = `url(${img})`;
     bodyBg.style.backgroundRepeat = 'no-repeat';
     bodyBg.style.backgroundSize = 'cover';
-}
+    bodyBg.style.backgroundAttachment = 'fixed';
+};
 
-getBackground('img/bg/bgCardUp-1.jpg')
+
 
 // balance
 
@@ -77,21 +79,22 @@ function animateNumber(start, end, duration = 100) {
     }, stepTime);
 };
 
+let btnShuffle = document.querySelector('.result-game__shuffle');
 
 let honeyComb = 10;
-
 
 function doubleCard(dataId, arr, key) {
     let arrImgBack = [];
     let randomImg;
-
+    
     if (dataId == key ) {
-        console.log(true)
+        
     }
+
     arrImgBack.splice(0, arrImgBack.length);
 
     for (let elem of arr) {
-        arrImgBack.push(elem)
+        arrImgBack.push(elem);
     }
 
     if (dataId !== key) {
@@ -104,21 +107,52 @@ function doubleCard(dataId, arr, key) {
     if (dataId == key) {
         cards.classList.add('activeBoxCards');
     }
+
+    btnShuffle.addEventListener('touchstart', shuffle);
+
     
-    renderElemenet(arrImgBack, randomImg = arrImgBack, cards)
+    
+    renderElemenet(arrImgBack, randomImg = arrImgBack, cards);
+    
     
     clickItem = document.querySelectorAll('.card');
+    
+    function shuffle() {
+        let arrImg = [];
+        let arrRandomImgs;
+        for (let img of arr) {
+            arrImg.push(img);
+        }
+    
+        if (dataId == key) {
+            arrRandomImgs = arrImg.sort(() => (Math.random() > .5) ? 2 : -1);
+            console.log(arrRandomImgs)
+            localStorage.setItem('cards', JSON.stringify(arrRandomImgs));
+        }
+        location.reload();
+        resultGame.classList.remove('active');
+        clickItem.forEach(arr => {
+            setTimeout(() => {
+                setTimeout(() => {
+                    arr.classList.add('visible');
+                });
+                setTimeout(() => {
+                    arr.classList.remove('visible');
+                }, 2000);
+            }, 500)
+        });
+    };
 
     clickItem.forEach(elem => {
         elem.addEventListener('click', clickCard);
     });
 };
 
+
 function renderElemenet(arr, img, cards) {
     for (let i = 0; i < arr.length; i++) {
         let card = document.createElement('div');
         card.classList.add('card');
-        // card.addEventListener('click', clickCard)
 
         let cardInner = document.createElement('div');
         cardInner.classList.add('card-inner');
@@ -158,14 +192,15 @@ if (JSON.parse(localStorage.getItem('flag')) === false) {
 
 } else if (JSON.parse(localStorage.getItem('flag')) === true && JSON.parse(localStorage.getItem('cards')).length !== null) {
     let lengthLocal = JSON.parse(localStorage.getItem('cards')).length;
+    console.log(lengthLocal)
     let keySave;
     for (let key in objArrImg) {
         if (objArrImg[key].length == lengthLocal) {
             keySave = key;
             objArrImg[key] = JSON.parse(localStorage.getItem('cards'));
+            console.log(objArrImg[key])
         };
     };
-    console.log(objArrImg)
     Object.entries(objArrImg).forEach(([key, value]) => {
         doubleCard(key, value, keySave);
     })
@@ -181,7 +216,6 @@ if (imgCardIndexLocal == null) {
     matchedCard = 0;
 } else {
     matchedCard = +JSON.parse(localStorage.getItem('imgCardIndex'));
-    console.log(matchedCard)
 }
 
 newGameCards.forEach(card => {
@@ -205,6 +239,7 @@ let allMatchedCard = 0;
 let cardOne, cardTwo, cardOneImg, cardTwoImg;
 let disableDeck = false;
 let localArrImg;
+
 if (JSON.parse(localStorage.getItem('imgCard')) == null) {
     localArrImg = [];
 } else if (JSON.parse(localStorage.getItem('imgCardIndex')) == 0) {
@@ -213,10 +248,30 @@ if (JSON.parse(localStorage.getItem('imgCard')) == null) {
     localStorage.setItem('imgCard', JSON.stringify(localArrImg));
 } else {
     localArrImg = JSON.parse(localStorage.getItem('imgCard'));
-    // cardVisibity()
 }
 
+let helpMobile = document.querySelector('.help-mobile');
+let helpMenu = document.querySelector('.help-menu');
 let hints = document.querySelectorAll('.placeholder');
+let hintsClose = document.querySelector('.help-mobile__close');
+
+
+if (helpMobile) {
+    helpMenu.addEventListener('touchstart', openHelpMobile);
+
+    function openHelpMobile() {
+        helpMobile.classList.add('activeHelp');
+        helpMenu.dataset.type = 'none'
+    }
+
+    hintsClose.addEventListener('touchstart', closeHelpMobile);
+
+    function closeHelpMobile() {
+        helpMobile.classList.remove('activeHelp');
+        helpMenu.removeAttribute('data-type');
+    }
+}
+
 
 function clickCard(e) {
     let clickedCard = e.target;
@@ -251,6 +306,7 @@ function clickCard(e) {
 
 let divPlusOrMinus = document.createElement('div');
 divPlusOrMinus.classList.add('plusOrMinusBalance');
+
 walletHoneycomb.append(divPlusOrMinus);
 
 function matchCards(img1, img2, balance) {
@@ -285,8 +341,7 @@ function matchCards(img1, img2, balance) {
             };
         };
         
-        // cardVisibity(cardOne, cardTwo);
-
+        
         newGameCards.forEach(cardsElem => {
             if (cardsElem.classList.contains('activeBoxCards')) {
                 for (let i = 1; i <= cardsElem.childNodes.length; i++) {
@@ -295,15 +350,10 @@ function matchCards(img1, img2, balance) {
                 };
 
                 if (matchedCard == resultNum) {
+                    resultGame.classList.add('active');
                     localArrImg = JSON.parse(localStorage.getItem('imgCard'));
                     localArrImg = [];
                     localStorage.setItem('imgCard', JSON.stringify(localArrImg));
-                    if (nextBtn.hasAttribute('disabled')) {
-                        nextBtn.removeAttribute('disabled');
-                    }
-                    // if (shadowLevelBtn.classList.contains('game-shadow')) {
-                    //     shadowLevelBtn.classList.remove('activeShadow');
-                    // }
                     setTimeout(() => {
                         shuffleCard();
                         // for (let i = 0; i < cardsElem.childNodes.length; i++) {
@@ -366,36 +416,35 @@ function getNumber(plusOrMinus, card, price = 100) {
         walletBalance.style.display = '';
     }, 500);
 }
-
-// function cardVisibity(card1, card2) {
-//     setTimeout(() => {
-//         card1.style.visibility = 'hidden';
-//         card2.style.visibility = 'hidden';
-//     }, 600);
-// }
-
 // levelUp
 
-let btns = document.querySelector('.game-arrows');
 let nextBtn = document.querySelector('.arrow-next');
-let prevBtn = document.querySelector('.arrow-prev');
 let countLevel = document.querySelector('.count');
+let arraysCard = document.querySelectorAll('.card');
 
-prevBtn.addEventListener('click', levelDown);
 nextBtn.addEventListener('click', levelUp);
 
 let level, clickIndex;
 if (JSON.parse(localStorage.getItem('level-count')) == null) {
+    arraysCard.forEach(arr => {
+        setTimeout(() => {
+            arr.classList.add('visible');
+        });
+        setTimeout(() => {
+            arr.classList.remove('visible');
+        }, 2000);
+    });
     level = 1;
     clickIndex = 0;
+    getBackground('img/bg/bgCardUp-1.jpg');
 } else {
     level = +JSON.parse(localStorage.getItem('level'));
-    clickIndex = +JSON.parse(localStorage.getItem('level-count'));
+    clickIndex = +JSON.parse(localStorage.getItem('level-count')); 
     countLevel.innerHTML = +JSON.parse(localStorage.getItem('level'));
     if (+JSON.parse(localStorage.getItem('level')) == 5) {
-        nextBtn.style.display = "none";
-        btns.style.justifyContent = "flex-start";
+        nextBtn.disabled = true;
     };
+    getBackground(JSON.parse(localStorage.getItem('imgBgLevel')));
 };
 
 let nodeListElem, newUrl;
@@ -438,15 +487,6 @@ newGameCards.forEach((cardsElem, index) => {
         cardsElem.classList.add('activeBoxCards');
         cardsElem.classList.remove('hidden');
         nodeListElem = cardsElem.querySelectorAll('.card');
-        prevBtn.style.display = 'inline-block';
-        // shadowLevelBtn.classList.add('activeShadow');
-        nextBtn.setAttribute('disabled', '');
-        if (clickIndex == 0) {
-            prevBtn.style.display = 'none';
-            btns.style.justifyContent = 'flex-end';
-        } else if (clickIndex < 4) {
-            btns.style.justifyContent = 'space-evenly';
-        }
         nodeListElem.forEach(elem => {
             newUrl = new URL(elem.querySelector('img').src);
             localImg.push(newUrl.pathname);
@@ -483,62 +523,22 @@ function levelUp () {
     if (level < 5) {
         countLevel.innerHTML = ++level;
         localStorage.setItem('level', JSON.stringify(level))
-        prevBtn.style.display = 'inline-block';
-        if (level == 5) {
-            nextBtn.style.display = "none";
-            btns.style.justifyContent = 'flex-start';
-        }
-
-        if (level > 1 && level < 5) {
-            btns.style.justifyContent = 'space-evenly';
-
-        }
         clickIndex++;
-        localStorage.setItem('level-count', JSON.stringify(clickIndex))
-        nextBtn.setAttribute('disabled', '');
-        // shadowLevelBtn.classList.add('activeShadow');
+        localStorage.setItem('level-count', JSON.stringify(clickIndex));
+        resultGame.classList.remove('active');
         saveElement(arrImg);
+        arraysCard.forEach(arr => {
+            setTimeout(() => {
+                setTimeout(() => {
+                    arr.classList.add('visible');
+                });
+                setTimeout(() => {
+                    arr.classList.remove('visible');
+                }, 2000);
+            }, 500)
+        });
     };
 };
-
-
-function levelDown() {
-    newGameCards.forEach(gameCardsElem => {
-        let cardVisible = gameCardsElem.querySelectorAll('.card');
-        cardVisible.forEach(card => {
-            if (card.classList.contains('visible')) {
-                card.classList.remove('visible');
-            };
-        });
-    });
-
-    let arrImg = JSON.parse(localStorage.getItem('cards'));
-    arrImg = [];
-
-
-    if (level > 1 ) {
-        countLevel.innerHTML = --level;
-        localStorage.setItem('level', JSON.stringify(level));
-
-        if (level < 5) {
-            nextBtn.style.display = "inline-block";
-            btns.style.justifyContent = 'space-evenly';
-
-            if (level == 1) {
-                prevBtn.style.display = "none"; 
-                btns.style.justifyContent = 'flex-end';
-            } else {
-                btns.style.justifyContent = 'space-evenly';
-            };
-        };
-        
-        clickIndex--;
-        localStorage.setItem('level-count', JSON.stringify(clickIndex));
-        nextBtn.setAttribute('disabled', '');
-        // shadowLevelBtn.classList.add('activeShadow');
-        saveElement(arrImg);
-    }
-}
 
 
 function saveElement(img) {
@@ -571,14 +571,12 @@ function saveElement(img) {
                 };
             });
 
-            // Object.entries(objBg).forEach(([key, value]) => {
-            //     if (index == key) {
-            //         getBackground(`img/bg/bgCardUp-${value}.jpg`)
-            //         if (document.documentElement.clientWidth <= 378) {
-            //             getBackground(`img/bg/bgCardUp-mobile-${value}.jpg`);
-            //         }
-            //     };
-            // });
+            Object.entries(objBg).forEach(([key, value]) => {
+                console.log(index, key)
+                if (index == key) {
+                    getBackground(`img/bg/bgCardUp-${value}.jpg`);
+                };
+            });
         };
     });
 }
@@ -917,4 +915,5 @@ window.addEventListener('click', (e)=> {
         modalAlbum.classList.remove('activeAlbum');
     }
 })
- 
+
+

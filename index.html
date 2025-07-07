@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>игра: "Найдите пару для карты" v2.0</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Найдите пару для карты</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
@@ -25,7 +25,6 @@
                     <div class="wallet-logo"><img src="img/wallet/logo-balance-2.svg" alt=""></div>
                     <div class="wallet-honeycomb"><p class="x2">x2</p><p class="balance">0</p></div>
                 </div>
-                <!-- <div class="test">0</div> -->
             </div>
         </div>
     </header>
@@ -45,11 +44,10 @@
                         <p class="game-price">500</p>
                     </div>
 
-                    <!-- <div class="game-text game-box"></div> -->
                 </div>
 
                 <div class="help-mobile">
-
+                    <div class="help-mobile__close"></div>
                     <div class="game-placeholder placeholder game-box" >
                         <img class="game-img" src="img/help/placeholderImg.jpg" alt="">
                         <p class="game-price">100</p>
@@ -66,18 +64,13 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="help-menu">
-                    <span></span>
-                </div> -->
+                <div class="help-menu">
+                    <span>↓</span>
+                </div>
                 <div class="wrapper">
                     <div class="game-text"><span class="count">1</span> Уровень</div>
     
                     <div class="game-wrapper">
-                    </div>
-                    <div class="game-arrows">
-                        <!-- <div class="game-shadow "></div> -->
-                        <button class="game-arrow arrow-prev"></button>
-                        <button class="game-arrow arrow-next"></button>
                     </div>
                 </div>
 
@@ -167,7 +160,23 @@
         <div class="modal-box__img">
         </div>
     </div>
-    <script type="module" src="script.js"></script>
+
+    <div class="result-game">
+        <div class="result-game__wrapper">
+            <div class="result-game__header"></div>
+            <div class="result-game__content">
+                <div class="result-game__info">
+                    <h2 class="result-game__title">Итог:</h2>
+                </div>
+                <div class="result-game__buttoms">
+                    <button class="result-game__button result-game__shuffle">⟳</button>
+                    <button class="result-game__button"><img src="" alt=""></button>
+                    <button class="result-game__button arrow-next"><img src="" alt=""></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module" src="js/script.js"></script>
 </body>
 
 </html>

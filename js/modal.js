@@ -1,16 +1,16 @@
 "use strict"
 
-import imgBack8 from './arrImgs/arrImgBack8.js';
-import imgBack16 from './arrImgs/arrImgBack16.js';
-import imgBack24 from './arrImgs/arrImgBack24.js';
-import imgBack32 from './arrImgs/arrImgBack32.js';
-import imgBack40 from './arrImgs/arrImgBack40.js';
+import imgBack8 from '../arrImgs/arrImgBack8.js';
+import imgBack16 from '../arrImgs/arrImgBack16.js';
+import imgBack24 from '../arrImgs/arrImgBack24.js';
+import imgBack32 from '../arrImgs/arrImgBack32.js';
+import imgBack40 from '../arrImgs/arrImgBack40.js';
 
-import imgBack8V2 from './arrImgs/arrImgBack8V2.js';
-import imgBack16V2 from './arrImgs/arrImgBack16V2.js';
-import imgBack24V2 from './arrImgs/arrImgBack24V2.js';
-import imgBack32v2 from './arrImgs/arrImgBack32V2.js';
-import imgBack40v2 from './arrImgs/arrImgBack40V2.js';
+import imgBack8V2 from '../arrImgs/arrImgBack8V2.js';
+import imgBack16V2 from '../arrImgs/arrImgBack16V2.js';
+import imgBack24V2 from '../arrImgs/arrImgBack24V2.js';
+import imgBack32v2 from '../arrImgs/arrImgBack32V2.js';
+import imgBack40v2 from '../arrImgs/arrImgBack40V2.js';
 
 
 

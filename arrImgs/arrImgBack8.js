@@ -1,21 +1,21 @@
 let bgImgBack = [
     
-    'img/butterflies/1.jpg',
+    'img/flowers/img-1.jpg',
     
-    'img/butterflies/2.jpg',
+    'img/flowers/img-2.jpg',
     
-    'img/butterflies/3.jpg',
+    'img/flowers/img-3.jpg',
     
-    'img/butterflies/4.jpg',
+    'img/flowers/img-4.jpg',
  
     
-    'img/butterflies/1.jpg',
+    'img/flowers/img-1.jpg',
     
-    'img/butterflies/2.jpg',
+    'img/flowers/img-2.jpg',
     
-    'img/butterflies/3.jpg',
+    'img/flowers/img-3.jpg',
     
-    'img/butterflies/4.jpg'
+    'img/flowers/img-4.jpg'
     
 ]
 

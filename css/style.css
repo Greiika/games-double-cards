@@ -60,10 +60,11 @@ body {
 /* header */
 
 header {
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid #f1c030;
 }
 
 .game-header {
+    backdrop-filter: blur(10px);
     padding: 15px 25px;
     margin-top: 25px;
     margin: 0 auto;
@@ -171,7 +172,7 @@ header {
 }
 
 .help, .help-mobile {
-    background-color: burlywood;
+    backdrop-filter: blur(10px);
     width: 100px;
     border-radius: 10px;
     display: flex;
@@ -185,6 +186,40 @@ header {
 .help-mobile {
     position: absolute;
     display: none;
+}
+
+.help-menu {
+    display: none;
+}
+
+.help-mobile__close {
+    width: 30px;
+    height: 30px;
+    background-color: #f1c030;
+    border-radius: 50px;
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    z-index: 1;
+}
+
+.help-mobile__close::after,
+.help-mobile__close::before {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 2px;
+    background-color: black;
+    left: calc(50% - 7.5px);
+    top: calc(50% - 1px);
+}
+
+.help-mobile__close::after {
+    transform: rotate(135deg);
+}
+
+.help-mobile__close::before {
+    transform: rotate(45deg);
 }
 
 .activeCard {
@@ -377,7 +412,7 @@ header {
 
 .card-front {
     transition: background-color .6s ease;
-    background: url('img/frontCard-img/bgSota-2.png');
+    background: url('/img/frontCard-img/bgSota-2.png');
 }
 
 .card-front > img {
@@ -401,10 +436,13 @@ header {
 /* text  */
 
 .game-text {
-    color: aliceblue;
+    color: cornflowerblue;
     font-size: 22px;
     margin-top: 25px;
     margin-bottom: 15px;
+    backdrop-filter: blur(10px);
+    padding: 5px 15px;
+    border-radius: 50px;
 }
 .count.null {
     color: red;
@@ -412,14 +450,6 @@ header {
 
 
 /* arrows */
-
-.game-arrows {
-    display: flex;
-    justify-content: space-evenly;
-    gap: 10px;
-    position: relative;
-    width: 100%;
-}
 
 .game-shadow.activeShadow{
     display: block;
@@ -437,30 +467,16 @@ header {
     display: none;
 }
 
-.game-arrow {
-    transition: all 0.5s ease;
-    border: 2px outset white;
-    background-color: blanchedalmond;
-    border-radius: 50px;
-    font-size: 20px;
-    cursor: pointer;
-    width: 100px;
-}
-
 .arrow-next:hover  {
-    background-color: burlywood;
+    background-color: rgba(209, 155, 17, 0.26);
+
 }
 
 .arrow-next::after {
-    content: '→';
-    font-size: 24px;
+    content: 'ᐅ';
+    font-size: 32px;
     vertical-align: middle;
-}
-
-.arrow-prev::after {
-    content: '←';
-    font-size: 24px;
-    vertical-align: middle;
+    margin-left: 7px;
 }
 
 
@@ -556,41 +572,6 @@ header {
     align-content: center;
     text-align: center;
 }
-
-
-
-
-/* grid box */
-/* .up-test {
-    height: 200px;
-    width: 1000px;
-    grid-area: up;
-}
-.left-test {
-    height: 600px;
-    grid-area: left;
-
-}
-.content-test {
-    grid-area: content;
-    height: 600px;
-
-}  
-.container-test {
-    max-width: 1440px;
-    width: 100%;
-    margin: 0 auto;
-    display: grid;
-    grid-template-areas: "up up up" "left content content" "left content content";
-    align-items: center;
-    justify-content: center;
-
-}
- 
-
-.test {
-    border: 1px solid white;
-} */
 
 .game-schop button{
     color: white;
@@ -855,13 +836,92 @@ header {
     color: white;
 }
 
-.modal-gameEins,
-.modal-gameZwei,
-.modal-gameDrei,
-.modal-gameVier,
-.modal-gameFunf {
+/* result-game */
+
+.result-game{
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(66, 66, 69, 0.6);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
 }
 
+.result-game.active {
+    display: flex;
+}
+
+.result-game__wrapper {
+    max-width: 468px;
+    width: 100%;
+    height: 390px;
+    border: 1px solid #f1c030;
+    background-color: #f1c030;
+    border-left: 4px groove;
+    border-bottom: 4px groove;
+    border-right: 4px groove;
+    border-radius: 0 0 15px 15px;
+    position: relative;
+}
+
+.result-game__wrapper::after {
+    content: '';
+    width: 100%;
+    height: 60px;
+    background-color: #968f2e7e;
+    position: absolute;
+    top: -64px;
+    left: -4px;
+    border: 4px groove;
+    border-bottom: 0;
+    border-radius: 50px 50px 0 0;
+}
+
+.result-game__content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.result-game__info {
+    flex: 1 0 auto;
+}
+
+.result-game__buttoms {
+    width: 100%;
+    height: 100px;
+    border-top: 4px groove;
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0px -1px 10px 1px gray;
+}
+
+.result-game__button {
+    width: 80px;
+    height: 60px;
+    border-radius: 50px;
+    border: 2px groove;
+    cursor: pointer;
+    background: linear-gradient(135deg, goldenrod, transparent);
+    box-shadow: 4px 4px 0px 3px darkgoldenrod;
+    transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+}
+
+.result-game__button:active {
+    box-shadow: 2px 2px 0 1px darkgoldenrod;
+    transform: translate(2px, 2px);
+}
+
+.result-game__shuffle {
+    font-size: 32px;
+}
 
 /* album */
 
@@ -1140,14 +1200,26 @@ header {
 
 @media (max-width: 378px) {
 
+    .game-text {
+        margin-top: 15px;
+    }
+
     .help-menu {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border: 1px solid #f1c030;
         position: absolute;
         bottom: 10px;
-        background-color: #39280f;
+        left: 20px;
+        background-color: wheat;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 1;
     }
+    
 
     body {
         display: block;
@@ -1172,9 +1244,10 @@ header {
         flex-direction: row;
         justify-content: space-evenly;
         width: 300px;
-        bottom: 0px;
+        bottom: -100px;
         padding: 5px;
         z-index: 10;
+        transition: bottom 0.5s ease;
     }
 
     .help-mobile > .game-multiplierX2,
@@ -1185,6 +1258,15 @@ header {
     .game-multiplierX2-text {
         align-items: flex-start;
         justify-content: center;
+    }
+
+    .help-mobile.activeHelp {
+        bottom: 12px;
+        cursor: pointer;
+    }
+
+    [data-type='none'] {
+        display: none;
     }
 
     .game-box {
@@ -1209,7 +1291,7 @@ header {
     .game-cards:nth-of-type(4).activeBoxCards,
     .game-cards:nth-of-type(5).activeBoxCards {
         display: flex;
-        width: 332px;
+        max-width: 340px;
         justify-content: center;
         flex-wrap: wrap;
         gap: 8px;
@@ -1272,7 +1354,7 @@ header {
 
     .card-front {
         border-radius: 5px;
-        background: url('img/frontCard-img/bgSota-mobile.png');
+        background: url('../img/frontCard-img/bgSota-mobile.png');
     }
 
     .card-back {
@@ -1360,5 +1442,12 @@ header {
         gap: 5px;
         justify-content: center;
         justify-items: center;
+    }
+
+
+    /* результат уровня */
+
+    .result-game__wrapper {
+        max-width: 300px;
     }
 }
