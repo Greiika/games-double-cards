@@ -300,6 +300,8 @@ function schop() {
     };
 };
 
+// new game
+
 let gameNew = document.querySelector('.game-new');
 let modalNewGame = document.querySelector('.modal-newGame');
 let yesClickBtn = document.querySelector('.button-yes');
@@ -308,15 +310,113 @@ let noClickBtn = document.querySelector('.button-no');
 yesClickBtn.addEventListener('click', newGame);
 noClickBtn.addEventListener('click', closeModalQuestion);
 gameNew.addEventListener('click', activeModalQuestionGame);
+let flagNewGame;
+if (JSON.parse(localStorage.getItem('flagNewGame')) == null) {
+    flagNewGame = false;
+    localStorage.setItem('flagNewGame', JSON.stringify(flagNewGame));
+};
 
 function newGame() {
     localStorage.clear();
-}
+    flagNewGame = JSON.parse(localStorage.getItem('flagNewGame'));
+    flagNewGame = true;
+    localStorage.setItem('flagNewGame', JSON.stringify(flagNewGame));
+};
 
 function activeModalQuestionGame() {
     modalNewGame.classList.add('openModalQuestion');
-}
+};
 
 function closeModalQuestion() {
     modalNewGame.classList.remove('openModalQuestion');
+};
+
+
+// loading game 
+
+let loadingGame = document.querySelector('.game-continue');
+let loadingLink = loadingGame.querySelector('.link');
+
+loadingLink.addEventListener('click', (event) => {
+    if (JSON.parse(localStorage.getItem('flagNewGame')) == false) {
+        event.preventDefault();
+        let errorLoading = document.createElement('div');
+        errorLoading.classList.add('error');
+        errorLoading.textContent = 'У вас нет начатой игры';
+        loadingGame.append(errorLoading);
+    };
+});
+
+
+// game mode 
+
+let gameMode = document.querySelector('.game-mode');
+let gameModeNormal = gameMode.querySelector('.game-mode__normal');
+let gameModeTime = gameMode.querySelector('.game-mode__time');
+let gameModeTitle = gameMode.querySelector('.game-mode__title');
+let gameModeItems = gameMode.querySelectorAll('.game-mode__item');
+
+if (gameMode) {
+    gameMode.addEventListener('click', getModeList);
+    let dataset, textTitle, classActive;
+    
+    if (JSON.parse(localStorage.getItem('gameModeTitle')) == null) {
+       textTitle = gameModeTitle.textContent;
+       localStorage.setItem('gameModeTitle', JSON.stringify(textTitle));
+    } else {
+        gameModeTitle.textContent = JSON.parse(localStorage.getItem('gameModeTitle'));
+        gameModeTitle.dataset.type = JSON.parse(localStorage.getItem('gameModeData'));
+        if (gameModeTitle.hasAttribute('normal')) {
+            console.log(1)
+            gameModeItems.forEach(item => {
+
+            })
+        }
+            
+        classActive = 'active';
+        localStorage.setItem('class-active', JSON.stringify(classActive));
+    }
+    
+    function getModeList() {
+        gameMode.classList.toggle('active');
+    }
+
+    gameModeNormal.addEventListener('click', (event) => {
+        gameModeItems.forEach(item => {
+            if (item.classList.contains('active')) {
+                item.classList.remove('active');
+            } else {
+
+                event.target.classList.add('active');
+            };
+        });
+        
+        textTitle = gameModeNormal.textContent;
+        localStorage.setItem('gameModeTitle', JSON.stringify(textTitle));
+        
+        gameModeTitle.textContent = JSON.parse(localStorage.getItem('gameModeTitle'));
+        gameModeTitle.dataset.type = 'normal';
+        dataset = JSON.parse(localStorage.getItem('gameModeData'));
+        dataset = gameModeTitle.dataset.type;
+        localStorage.setItem('gameModeData', JSON.stringify(dataset));
+    });
+
+    gameModeTime.addEventListener('click', (event) => {
+        gameModeItems.forEach(item => {
+            if (item.classList.contains('active')) {
+                item.classList.remove('active');
+            } else {
+                event.target.classList.add('active');
+            };
+        });
+
+        textTitle = gameModeTime.textContent;
+        localStorage.setItem('gameModeTitle', JSON.stringify(textTitle));
+
+        gameModeTitle.textContent = JSON.parse(localStorage.getItem('gameModeTitle'));
+        gameModeTitle.dataset.type = 'time';
+        dataset = JSON.parse(localStorage.getItem('gameModeData'));
+        dataset = gameModeTitle.dataset.type;
+        localStorage.setItem('gameModeData', JSON.stringify(dataset));
+    });
 }

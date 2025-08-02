@@ -12,6 +12,7 @@ let clickItem = document.querySelectorAll('.card');
 let walletBalance = document.querySelector('.balance');
 let walletHoneycomb = document.querySelector('.wallet-honeycomb');
 let resultGame = document.querySelector('.result-game');
+let menu = document.querySelector('.menu');
 
 if (JSON.parse(localStorage.getItem('flag')) !== true || JSON.parse(localStorage.getItem('flag')) === null) {
     let localFlag = JSON.stringify(false);
@@ -108,14 +109,29 @@ function doubleCard(dataId, arr, key) {
         cards.classList.add('activeBoxCards');
     }
 
-    btnShuffle.addEventListener('touchstart', shuffle);
-
-    
+    btnShuffle.addEventListener('click', shuffle);
     
     renderElemenet(arrImgBack, randomImg = arrImgBack, cards);
     
     
     clickItem = document.querySelectorAll('.card');
+
+    let flagShowCard; // обьявляем переменную для флага
+
+    if (JSON.parse(localStorage.getItem('showCardFlag')) == true) { // проверяем значение переменной флаг на условие: true или false
+        clickItem.forEach(arr => { 
+            setTimeout(() => {
+                setTimeout(() => {
+                    arr.classList.add('visible');
+                });
+                setTimeout(() => {
+                    arr.classList.remove('visible');
+                }, 2000);
+            }, 500)
+        });
+        flagShowCard = false;
+        localStorage.setItem('showCardFlag', JSON.stringify(flagShowCard));
+    }
     
     function shuffle() {
         let arrImg = [];
@@ -126,21 +142,12 @@ function doubleCard(dataId, arr, key) {
     
         if (dataId == key) {
             arrRandomImgs = arrImg.sort(() => (Math.random() > .5) ? 2 : -1);
-            console.log(arrRandomImgs)
             localStorage.setItem('cards', JSON.stringify(arrRandomImgs));
         }
-        location.reload();
         resultGame.classList.remove('active');
-        clickItem.forEach(arr => {
-            setTimeout(() => {
-                setTimeout(() => {
-                    arr.classList.add('visible');
-                });
-                setTimeout(() => {
-                    arr.classList.remove('visible');
-                }, 2000);
-            }, 500)
-        });
+        flagShowCard = true;
+        localStorage.setItem('showCardFlag', JSON.stringify(flagShowCard));
+        location.reload(); 
     };
 
     clickItem.forEach(elem => {
@@ -257,18 +264,20 @@ let hintsClose = document.querySelector('.help-mobile__close');
 
 
 if (helpMobile) {
-    helpMenu.addEventListener('touchstart', openHelpMobile);
+    helpMenu.addEventListener('click', openHelpMobile);
 
     function openHelpMobile() {
         helpMobile.classList.add('activeHelp');
-        helpMenu.dataset.type = 'none'
+        helpMenu.dataset.type = 'none';
     }
 
-    hintsClose.addEventListener('touchstart', closeHelpMobile);
+    hintsClose.addEventListener('click', closeHelpMobile);
 
     function closeHelpMobile() {
         helpMobile.classList.remove('activeHelp');
-        helpMenu.removeAttribute('data-type');
+        setTimeout(() => {
+            helpMenu.removeAttribute('data-type');
+        }, 500)
     }
 }
 
@@ -387,6 +396,10 @@ function matchCards(img1, img2, balance) {
         disableDeck = false;
     }, 600);
 };
+
+function matcheCard() {
+    
+}
 
 function shuffleCard() {
     matchedCard = 0;
@@ -526,6 +539,10 @@ function levelUp () {
         clickIndex++;
         localStorage.setItem('level-count', JSON.stringify(clickIndex));
         resultGame.classList.remove('active');
+        if (helpMobile.classList.contains('activeHelp')) {
+            helpMobile.classList.remove('activeHelp');
+            helpMenu.removeAttribute('data-type');
+        }
         saveElement(arrImg);
         arraysCard.forEach(arr => {
             setTimeout(() => {
@@ -572,7 +589,6 @@ function saveElement(img) {
             });
 
             Object.entries(objBg).forEach(([key, value]) => {
-                console.log(index, key)
                 if (index == key) {
                     getBackground(`img/bg/bgCardUp-${value}.jpg`);
                 };
@@ -691,7 +707,6 @@ let div;
 function timerX2() {
     if (!flagTimer) {
         gameMultipliersX2.forEach(gameMultiplierX2 => {
-            console.log(gameMultiplierX2)
             div = document.createElement('div');
             div.classList.add('timer');
             gameMultiplierX2.append(div);
@@ -702,7 +717,6 @@ function timerX2() {
     
     setTimeout(() => {
         let timers = document.querySelectorAll('timer')
-        console.log(timers)
         div.innerHTML = `0:${second--}`;
         if (second == 10) {
             div.innerHTML = `0:${second}`;
@@ -720,6 +734,75 @@ function timerX2() {
     }, 1000);   
 };
 
+let timeMinute = document.querySelector('.time-minut');
+let timeSecond = document.querySelector('.time-second');
+
+let times = 120;
+let minuts, seconds;
+if (times > 60) {
+    if (JSON.parse(localStorage.getItem('minuts') == null)) {
+        minuts = times / 60;
+        localStorage.setItem('minuts', JSON.stringify(minuts));
+    } else {
+        minuts = JSON.parse(localStorage.getItem('minuts'));
+    }
+} else {
+    minuts = 0;
+}
+
+if (minuts != 0) {
+    seconds = times / minuts;
+} else if (times <= 60) {
+    seconds = times;
+}
+
+timeMinute.textContent = '00';
+timeSecond.textContent = '00';
+
+function timer() {
+    timeMinute.innerHTML = `0${JSON.parse(localStorage.getItem('minuts'))}`;
+    timeSecond.innerHTML = `${JSON.parse(localStorage.getItem('seconds'))}`;
+    
+    if (seconds < 10) {
+        timeSecond.innerHTML = `0${JSON.parse(localStorage.getItem('seconds'))}`;
+    }
+    
+    if (JSON.parse(localStorage.getItem('seconds')) == 0) {
+        seconds = JSON.parse(localStorage.getItem('seconds'));
+        seconds = 60;
+        localStorage.setItem('seconds', JSON.stringify(seconds));
+        minuts = JSON.parse(localStorage.getItem('minuts'));
+        minuts--;
+        localStorage.setItem('minuts', JSON.stringify(minuts));
+    } 
+
+    setTimeout(() => {
+        seconds--;
+        localStorage.setItem('seconds', JSON.stringify(seconds));
+        
+        if (seconds > 0) {
+            timer();
+        } else if (seconds == 0 && minuts == 0) {
+            timeMinute.innerHTML = '00';
+            timeSecond.innerHTML = '00';
+            // resultGame.classList.add('active');
+        };
+    }, 1000);
+};
+
+let gameTime = document.querySelector('.game-time');
+let gameWallet = document.querySelector('.game-wallet');
+let gameModeData = JSON.parse(localStorage.getItem('gameModeData'));
+if (gameModeData == 'time') {
+    gameTime.classList.add('active');
+    gameWallet.classList.add('none');
+    // timer();
+} else {
+    gameTime.classList.remove('active');
+    gameWallet.classList.remove('none');
+}
+
+// timer();
 
 // album 
 
@@ -917,3 +1000,54 @@ window.addEventListener('click', (e)=> {
 })
 
 
+let menuBurger = document.querySelector('.game-menu__burger');
+let menuLinks = menu.querySelectorAll('.menu__link');
+
+let objLevel = {
+    1: 'one',
+    2: 'two',
+    3: 'three',
+    4: 'four',
+    5: 'five'
+}
+
+if (menuBurger) {
+    menuBurger.addEventListener('click', openMenu);
+
+    function openMenu() {
+        menu.classList.add('active');
+    };
+
+    menuLinks.forEach(link => {
+        link.addEventListener('click', clicked);
+
+        function clicked(e) {
+            let clickedItem = e.target;
+            let datasetLevel = clickedItem.dataset.level;
+            if (datasetLevel == 'play') {
+                menu.classList.remove('active');
+            } else {
+                Object.entries(objLevel).forEach(([key, value]) => {
+
+                    if (datasetLevel == value) {
+                        let getLevel = JSON.parse(localStorage.getItem('level'));
+                        let getCount = JSON.parse(localStorage.getItem('level-count'));
+                        let getBgImg = JSON.parse(localStorage.getItem('imgBgLevel'));
+
+                        getLevel = Number(key);
+                        localStorage.setItem('level', JSON.stringify(getLevel));
+
+                        getCount = getLevel - 1;
+                        localStorage.setItem('level-count', JSON.stringify(getCount));
+
+                        getBgImg = `img/bg/bgCardUp-${key}.jpg`;
+                        localStorage.setItem('imgBgLevel', JSON.stringify(getBgImg));
+
+                        location.reload();
+                    };
+
+                });
+            };
+        };
+    });
+};

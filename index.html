@@ -10,20 +10,22 @@
     <header>
         <div class="container">
             <div class="game-header">
-                <a class="game-link" href="home.html" >
-                    <div class="game-home">
-                        <span>⇐</span>
-                        <h2>Выход</h2>
-                    </div>
-                </a>
+                <div class="game-menu__burger">
+                    <span></span>
+                </div>
     
                 <div class="game-title">
                     <h1>Найдите пару для карты</h1>
                 </div>
     
                 <div class="game-wallet wallet">
-                    <div class="wallet-logo"><img src="img/wallet/logo-balance-2.svg" alt=""></div>
+                    <div class="wallet-logo"><img src="img/wallet/logo2.svg" alt=""></div>
                     <div class="wallet-honeycomb"><p class="x2">x2</p><p class="balance">0</p></div>
+                </div>
+
+                <div class="game-time time">
+                    <h6 class="time-title">Время:</h6>
+                    <span class="time-minut"></span>:<span class="time-second"></span>
                 </div>
             </div>
         </div>
@@ -161,6 +163,22 @@
         </div>
     </div>
 
+    <div class="menu">
+        <div class="menu__shadow"></div>
+        <div class="menu__link menu__play" data-level="play">Продолжить</div>
+        <div class="menu__link" data-level="one">1 Уровень</div>
+        <div class="menu__link" data-level="two">  2 Уровень</div>
+        <div class="menu__link" data-level="three">3 Уровень</div>
+        <div class="menu__link" data-level="four">4 Уровень</div>
+        <div class="menu__link" data-level="five">5 Уровень</div>
+        <a class="menu__link" href="home.html" >
+            <div class="menu__home">
+                <span>⇐</span>
+                <h2>Выход</h2>
+            </div>
+        </a>
+    </div>
+
     <div class="result-game">
         <div class="result-game__wrapper">
             <div class="result-game__header"></div>
@@ -170,7 +188,7 @@
                 </div>
                 <div class="result-game__buttoms">
                     <button class="result-game__button result-game__shuffle">⟳</button>
-                    <button class="result-game__button"><img src="" alt=""></button>
+                    <button class="result-game__button result-game__home"><span></span></button>
                     <button class="result-game__button arrow-next"><img src="" alt=""></button>
                 </div>
             </div>
