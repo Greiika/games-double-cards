@@ -70,7 +70,7 @@ header {
     margin: 0 auto;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-evenly;
     max-width: 1078px;
     width: 100%;
 }
@@ -124,7 +124,7 @@ header {
     left: 0;
     height: 100vh;
     transition: top 0.5s ease-in-out;
-    z-index: 1;
+    z-index: 20;
 }
 
 .menu.active {
@@ -1098,7 +1098,7 @@ header {
     font-size: 32px;
 }
 
-.result-game__home {
+.result-game__menu {
     position: relative;
 }
 
@@ -1112,8 +1112,8 @@ header {
     border-radius: 50px;
 }
 
-.result-game__home::after,
-.result-game__home::before {
+.result-game__menu::after,
+.result-game__menu::before {
     content: '';
     position: absolute;
     height: 3px;
@@ -1123,11 +1123,11 @@ header {
     border-radius: 50px;
 }
 
-.result-game__home::after {
+.result-game__menu::after {
     top: calc(30% - 1px);
 }
 
-.result-game__home::before {
+.result-game__menu::before {
     bottom: calc(30% - 1px);
 }
 

@@ -81,6 +81,11 @@ function animateNumber(start, end, duration = 100) {
 };
 
 let btnShuffle = document.querySelector('.result-game__shuffle');
+let btnResultGameMenu = resultGame.querySelector('.result-game__menu');
+
+btnResultGameMenu.addEventListener('click', () => {
+    openMenu();
+});
 
 let honeyComb = 10;
 
@@ -311,6 +316,10 @@ function clickCard(e) {
         cardTwoImg = cardTwo.querySelector('img').src;
         matchCards(cardOneImg, cardTwoImg, getNumberBalance(walletBalance));
     };
+    
+    hints.forEach(hint => {
+        hint.removeEventListener('click', hintCard);
+    });
 };
 
 let divPlusOrMinus = document.createElement('div');
@@ -448,6 +457,7 @@ if (JSON.parse(localStorage.getItem('level-count')) == null) {
         }, 2000);
     });
     level = 1;
+    localStorage.setItem('level', JSON.stringify(level));
     clickIndex = 0;
     getBackground('../img/bg/bgCardUp-1.jpg');
 } else {
@@ -606,33 +616,31 @@ let shadowHint = document.createElement('div');
 parentCard.append(shadowHint);
 
 function hintCard(e) {
-    hints.forEach(hint => {
-        hint.removeEventListener('click', hintCard);
-    });
     let clickHint = e.target;
     let childClickHint = clickHint.getElementsByClassName('game-price');
     let img1, img2;
     getBalance(childClickHint[0], getNumberBalance(walletBalance));
-    for (let item of clickItem) {
-        if (item.classList.contains('visible') ) {
-            let cardsImg = document.querySelectorAll('.card');
-            for (let elem of cardsImg) {
-                img1 = item.querySelector('img').src;
-                img2 = elem.querySelector('img').src;
-                if (img1 == img2) {
-                    if (!elem.classList.contains('visible')) {
-                        shadowHint.classList.add('shadowHint');
-                        elem.style.zIndex = 10;
-                    }
-                    setTimeout (() => {
-                        shadowHint.classList.remove('shadowHint');
-                        elem.removeAttribute('style');
-                    }, 1000);
+    if (getNumberBalance(walletBalance) >= childClickHint[0].textContent) {
+        for (let item of clickItem) {
+            if (item.classList.contains('visible') ) {
+                let cardsImg = document.querySelectorAll('.card');
+                for (let elem of cardsImg) {
+                    img1 = item.querySelector('img').src;
+                    img2 = elem.querySelector('img').src;
+                    if (img1 == img2) {
+                        if (!elem.classList.contains('visible')) {
+                            shadowHint.classList.add('shadowHint');
+                            elem.style.zIndex = 10;
+                        }
+                        setTimeout (() => {
+                            shadowHint.classList.remove('shadowHint');
+                            elem.removeAttribute('style');
+                        }, 1000);
+                    };
                 };
-            };
-        };   
+            };   
+        };
     };
-    
 };
 
 
@@ -1011,12 +1019,15 @@ let objLevel = {
     5: 'five'
 }
 
-if (menuBurger) {
-    menuBurger.addEventListener('click', openMenu);
+menuBurger.addEventListener('click', () => {
+    openMenu();
+});
 
-    function openMenu() {
-        menu.classList.add('active');
-    };
+function openMenu() {
+    menu.classList.add('active');
+};
+
+if (menuBurger) {
 
     menuLinks.forEach(link => {
         link.addEventListener('click', clicked);
@@ -1051,3 +1062,4 @@ if (menuBurger) {
         };
     });
 };
+
