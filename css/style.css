@@ -486,7 +486,7 @@ header {
 
 .card-front {
     transition: background-color .6s ease;
-    background: url('/img/frontCard-img/bgSota-2.png');
+    background: url(',,/img/frontCard-img/bgSota-2.png');
 }
 
 .card-front > img {
